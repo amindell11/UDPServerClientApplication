@@ -5,6 +5,8 @@ import java.net.InetAddress;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import net.communication.ServerComm;
+
 
 public class DiscoveryThread implements Runnable {
 
@@ -39,6 +41,13 @@ public class DiscoveryThread implements Runnable {
 	          socket.send(sendPacket);
 
 	          System.out.println(getClass().getName() + ">>>Sent packet to: " + sendPacket.getAddress().getHostAddress());
+	        }
+	        else {
+	        	ServerComm.simpleExchange.Builder builder=ServerComm.simpleExchange.newBuilder();
+	        	builder.mergeFrom(packet.getData());
+	        	if(builder.hasRequest()){
+	        		System.out.println(builder.getRequest().getRequestType().name());
+	        	}
 	        }
 	      }
 	    } catch (IOException ex) {

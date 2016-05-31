@@ -6,6 +6,11 @@ import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 import java.util.Enumeration;
 
+import net.communication.ServerComm;
+import net.communication.ServerComm.simpleExchange;
+import net.communication.ServerComm.simpleExchange.simpleExchangeRequest;
+import net.communication.ServerComm.simpleExchange.simpleExchangeRequest.RequestHeader;
+
 
 public class Client {
 	public static void main(String[] args){
@@ -65,7 +70,12 @@ public class Client {
 		  String message = new String(receivePacket.getData()).trim();
 		  if (message.equals("DISCOVER_FUIFSERVER_RESPONSE")) {
 		    //DO SOMETHING WITH THE SERVER'S IP (for example, store it in your controller)
-			  System.out.println(receivePacket.getAddress());
+			  ServerComm.simpleExchange.Builder builder = ServerComm.simpleExchange.newBuilder();
+			  
+			  builder.setRequest(simpleExchangeRequest.newBuilder().setRequestType(RequestHeader.SERVER_NAME));
+			  byte[] req=builder.build().toByteArray();
+			  DatagramPacket sendPacket = new DatagramPacket(req, req.length, receivePacket.getAddress(), 8888);
+			  c.send(sendPacket);
 		  }
 
 		  //Close the port!
