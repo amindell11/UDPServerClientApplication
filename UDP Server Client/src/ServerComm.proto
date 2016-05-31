@@ -1,1 +1,31 @@
 package net.msg;
+option java_package = "net.msg";
+option java_outer_classname = "ServerComm";
+
+message simpleExchange{
+	optional long sequence=1;
+	optional int timeStamp=2;
+	optional SimpleExchangeRequest req=3;
+	optional SimpleExchangeResponse rsp=4;
+	enum ExchangeRequestHeader{
+		PROBE=0;
+		SERVER_NAME=1;
+		SERVER_INFO=2;
+		CLUSTER_MEMBERSHIP=3;
+	}
+	enum ExchangeResponseHeader{
+		PROBE=0;
+		SERVER_NAME=1;
+		SERVER_INFO=2;
+		CLUSTER_MEMBERSHIP_ACCEPT=3;
+		CLUSTER_MEMBERSHIP_DENIED=4;
+	}
+	message SimpleExchangeRequest{
+		required ExchangeRequestHeader header=1;
+		optional string message=2;
+	}
+	message SimpleExchangeResponse{
+		required ExchangeResponseHeader header=1;
+		optional string message=2;
+	}
+}
