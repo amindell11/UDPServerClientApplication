@@ -1,5 +1,3 @@
-@echo off
-command.com
-::set /p UserInputPath=Input Source Location
-::cd %UserInputPath%
-::pause
+set /p src=Input file: 
+protoc --java_out=comp %src%
+pause

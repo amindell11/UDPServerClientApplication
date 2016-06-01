@@ -1,3 +1,4 @@
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -6,10 +7,9 @@ import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 import java.util.Enumeration;
 
-import net.communication.ServerComm;
-import net.communication.ServerComm.simpleExchange;
-import net.communication.ServerComm.simpleExchange.simpleExchangeRequest;
-import net.communication.ServerComm.simpleExchange.simpleExchangeRequest.RequestHeader;
+import net.communication.SimpleExchangeComm;
+import net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeRequest;
+import net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeRequest.RequestType;
 
 
 public class Client {
@@ -70,11 +70,14 @@ public class Client {
 		  String message = new String(receivePacket.getData()).trim();
 		  if (message.equals("DISCOVER_FUIFSERVER_RESPONSE")) {
 		    //DO SOMETHING WITH THE SERVER'S IP (for example, store it in your controller)
-			  ServerComm.simpleExchange.Builder builder = ServerComm.simpleExchange.newBuilder();
+			  SimpleExchangeComm.simpleExchange.Builder builder = SimpleExchangeComm.simpleExchange.newBuilder();
 			  
-			  builder.setRequest(simpleExchangeRequest.newBuilder().setRequestType(RequestHeader.SERVER_NAME));
-			  byte[] req=builder.build().toByteArray();
+			  builder.setRequest(simpleExchangeRequest.newBuilder().setRequestType(RequestType.SERVER_INFO));
+			  ByteArrayOutputStream aOutput = new ByteArrayOutputStream(15000);
+			  builder.build().writeDelimitedTo(aOutput);
+			  byte[] req=aOutput.toByteArray();
 			  DatagramPacket sendPacket = new DatagramPacket(req, req.length, receivePacket.getAddress(), 8888);
+			  System.out.println(sendPacket.getData());
 			  c.send(sendPacket);
 		  }
 

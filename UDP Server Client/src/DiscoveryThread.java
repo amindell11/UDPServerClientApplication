@@ -1,3 +1,4 @@
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -5,7 +6,7 @@ import java.net.InetAddress;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.communication.ServerComm;
+import net.communication.SimpleExchangeComm;
 
 
 public class DiscoveryThread implements Runnable {
@@ -26,9 +27,8 @@ public class DiscoveryThread implements Runnable {
 	        byte[] recvBuf = new byte[15000];
 	        DatagramPacket packet = new DatagramPacket(recvBuf, recvBuf.length);
 	        socket.receive(packet);
-
 	        //Packet received
-	        System.out.println(getClass().getName() + ">>>Discovery packet received from: " + packet.getAddress().getHostAddress());
+	        System.out.println(getClass().getName() + ">>>Packet received from: " + packet.getAddress().getHostAddress());
 	        System.out.println(getClass().getName() + ">>>Packet received; data: " + new String(packet.getData()));
 
 	        //See if the packet holds the right command (message)
@@ -43,10 +43,10 @@ public class DiscoveryThread implements Runnable {
 	          System.out.println(getClass().getName() + ">>>Sent packet to: " + sendPacket.getAddress().getHostAddress());
 	        }
 	        else {
-	        	ServerComm.simpleExchange.Builder builder=ServerComm.simpleExchange.newBuilder();
-	        	builder.mergeFrom(packet.getData());
-	        	if(builder.hasRequest()){
-	        		System.out.println(builder.getRequest().getRequestType().name());
+	        	ByteArrayInputStream aInput = new ByteArrayInputStream(packet.getData());
+	        	SimpleExchangeComm.simpleExchange comm = SimpleExchangeComm.simpleExchange.parseDelimitedFrom(aInput);
+	        	if(comm.hasRequest()){
+	        		System.out.println(comm.getRequest().getRequestType().name());
 	        	}
 	        }
 	      }
