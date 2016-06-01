@@ -1,0 +1,29 @@
+package communication;
+
+option java_package = "net.communication";
+option java_outer_classname = "SimpleExchangeComm";
+message simpleExchange{
+optional simpleExchangeRequest request;
+optional simpleEx
+message simpleExchangeRequest{
+RequestType request_type=1;
+string request_note=2;
+enum RequestType{
+	PROBE=0;
+	CLUSTER_MEMBERSHIP_REQUEST=1;
+	SERVER_NAME=2;
+	SERVER_INFO=3;
+}
+}
+message simpleExchangeResponse{
+ResponseType response_type=1;
+string response_note=2;
+enum ResponseType{
+	PROBE=0;
+	CLUSTER_MEMBERSHIP_ACCEPT=1;
+	CLUSTER_MEMBERSHIP_DENIED=2;
+	SERVER_NAME=3;
+	SERVER_INFO=4;
+}
+}
+}
