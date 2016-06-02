@@ -30,20 +30,22 @@ public class ServerSelectPanel extends javax.swing.JPanel {
     	selectSubPanel=new ServerSelectSubPanel(this);
     	setPreferredSize(selectSubPanel.getPreferredSize());
     	setMinimumSize(selectSubPanel.getPreferredSize());
+    	this.listener=listener;
         initComponents();
     }
     public void updateServerList(){
-    	this.add(loadingSubPanel);
+    	add(loadingSubPanel);
     	new java.util.Timer().schedule( 
     	        new java.util.TimerTask() {
     	            @Override
     	            public void run() {
     	            	removeAll();
     	            	add(selectSubPanel);
+    	            	revalidate();
     	            	repaint();
     	            }
     	        }, 
-    	        5000 
+    	        500 
     	);
     }
     /**
