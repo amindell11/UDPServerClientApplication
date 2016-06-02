@@ -72,7 +72,7 @@ public class Client {
 			DatagramPacket receivePacket = new DatagramPacket(recvBuf,
 					recvBuf.length);
 			c.receive(receivePacket);
-
+			
 			// We have a response
 			System.out.println(">>> Broadcast response from server: "
 					+ receivePacket.getAddress().getHostAddress());
@@ -98,6 +98,7 @@ public class Client {
 			// Close the port!
 			c.close();
 		} catch (IOException ex) {
+			System.out.println(true);
 		}
 	}
 }
