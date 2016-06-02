@@ -21,7 +21,7 @@ public class ServerSelectPanel extends javax.swing.JPanel {
 	FlowLayout layout;
 	private JPanel selectSubPanel;
 	private JPanel loadingSubPanel;
-	private ProgressListener listener;
+	protected ProgressListener listener;
     /**
      * Creates new form ServerSelectPanel
      */
