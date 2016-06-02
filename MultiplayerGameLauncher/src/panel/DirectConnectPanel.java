@@ -6,8 +6,13 @@
 
 package panel;
 
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import multiplayergamelauncher.AppState;
 import multiplayergamelauncher.ProgressListener;
+import net.connectionutil.ServerDiscoveryUtil;
 
 /**
  *
@@ -168,7 +173,7 @@ public class DirectConnectPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void checkAddressButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkAddressButtonActionPerformed
-        // TODO add your handling code here:
+		checkAddress(jTextField1.getText());
     }//GEN-LAST:event_checkAddressButtonActionPerformed
 
     private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
@@ -179,7 +184,25 @@ public class DirectConnectPanel extends javax.swing.JPanel {
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         listener.progressTo(AppState.HOME);
     }//GEN-LAST:event_backButtonActionPerformed
-
+	public void checkAddress(String ip){
+		InetAddress address;
+		try {
+			address = InetAddress.getByName(ip);
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+			address=null;
+			jLabel3.setText("No server at requested address");
+		}
+		serverAddressLabel.setText(ip);
+		jLabel3.setText("Checking...");
+		if(ServerDiscoveryUtil.checkAddressForServer(address,1000)){
+			//updateInfoArea(ConnectionUtil.getServerInfo(address,Config.PORT,1000,1000));
+			jLabel3.setText("Server available");
+		}else{
+		//	updateInfoArea(new ServerInfo("","",0,0));
+		jLabel3.setText("No server at requested address");
+		}
+	}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;

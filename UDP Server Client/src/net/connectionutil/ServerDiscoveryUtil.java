@@ -20,22 +20,12 @@ import net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeRequest
 import net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeResponse.ResponseType;
 
 public class ServerDiscoveryUtil extends ConnectionUtil{
-	public ServerDiscoveryUtil(DatagramSocket socket) {
-		super(socket);
-	}
 
-
-	public static void main(String[] args) throws SocketException {
-		ServerDiscoveryUtil runner = new ServerDiscoveryUtil(new DatagramSocket());
-		System.out.println(runner.getAvailableServers(1000));
-	}
-
-
-	public Map<String, InetAddress> getAvailableServers(int timeout) throws SocketException {
+	public static Map<String, InetAddress> getAvailableServers(int timeout) throws SocketException {
 		return getServerNames(getAvailableServerIPs(1000));
 	}
 
-	public List<InetAddress> getAvailableServerIPs(int timeout) {
+	public static List<InetAddress> getAvailableServerIPs(int timeout) {
 		List<InetAddress> availableServerIPs = new ArrayList<>();
 		try {
 			sendProbePacket(getBroadcastAddresses());
@@ -46,7 +36,7 @@ public class ServerDiscoveryUtil extends ConnectionUtil{
 		return availableServerIPs;
 	}
 
-	private Map<String, InetAddress> getServerNames(List<InetAddress> ipsToCheck) {
+	public static Map<String, InetAddress> getServerNames(List<InetAddress> ipsToCheck) {
 		Map<String, InetAddress> serverList = new HashMap<>();
 		for (InetAddress serverAddress : ipsToCheck) {
 			try {
@@ -58,21 +48,21 @@ public class ServerDiscoveryUtil extends ConnectionUtil{
 		return serverList;
 	}
 
-	private String getServerName(InetAddress serverAddress) throws IOException {
-		socket.send(new SimpleExchangePacket(RequestType.SERVER_NAME, "").getPacket(serverAddress, 8888));
+	public static String getServerName(InetAddress serverAddress) throws IOException {
+		getUtilSocket().send(new SimpleExchangePacket(RequestType.SERVER_NAME, "").getPacket(serverAddress, 8888));
 		DatagramPacket response = receivePacket();
 		return new SimpleExchangePacket(response.getData()).getResponse().getResponseNote();
 	}
 
-	private List<InetAddress> waitForServerResponses(int timeout) throws SocketException {
+	public static List<InetAddress> waitForServerResponses(int timeout) throws SocketException {
 		Set<InetAddress> servers = new HashSet<>();
 		DatagramPacket recievePacket;
-		socket.setSoTimeout(timeout);
+		getUtilSocket().setSoTimeout(timeout);
 		byte[] recvBuf = new byte[15000];
 		while (true) {
 			try {
 				recievePacket = new DatagramPacket(recvBuf, recvBuf.length);
-				socket.receive(recievePacket);
+				getUtilSocket().receive(recievePacket);
 				System.out.println("packet recieved!");
 				if(new SimpleExchangePacket(recievePacket.getData()).getResponse().getResponseType().equals(ResponseType.PROBE)){
 					servers.add(recievePacket.getAddress());
@@ -83,26 +73,26 @@ public class ServerDiscoveryUtil extends ConnectionUtil{
 				break;
 			}
 		}
-		socket.setSoTimeout(0);
+		getUtilSocket().setSoTimeout(0);
 		return new ArrayList<>(servers);
 	}
 
-	private void sendProbePacket(InetAddress address) {
+	public static void sendProbePacket(InetAddress address) {
 		DatagramPacket packet = new SimpleExchangePacket(RequestType.PROBE, "").getPacket(address, 8888);
 		try {
-			socket.send(packet);
+			getUtilSocket().send(packet);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void sendProbePacket(List<InetAddress> broadcastAddresses) {
+	public static void sendProbePacket(List<InetAddress> broadcastAddresses) {
 		for (InetAddress address : broadcastAddresses) {
 			sendProbePacket(address);
 		}
 	}
 
-	private List<InetAddress> getBroadcastAddresses() throws SocketException {
+	public static List<InetAddress> getBroadcastAddresses() throws SocketException {
 		List<InetAddress> addresses = new ArrayList<>();
 		try {
 			addresses.add(InetAddress.getByName("255.255.255.255"));
@@ -128,5 +118,14 @@ public class ServerDiscoveryUtil extends ConnectionUtil{
 		}
 		return addresses;
 
+	}
+	public static boolean checkAddressForServer(InetAddress address,int timeout){
+		sendProbePacket(address);
+		try {
+			return new SimpleExchangePacket(receivePacket(timeout).getData()).getResponse().getResponseType().equals(ResponseType.PROBE);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 }

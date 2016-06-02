@@ -6,6 +6,8 @@
 
 package panel.serverselect;
 
+import java.util.ArrayList;
+
 import multiplayergamelauncher.AppState;
 
 /**
@@ -14,7 +16,7 @@ import multiplayergamelauncher.AppState;
  */
 public class ServerSelectSubPanel extends javax.swing.JPanel {
     ServerSelectPanel parent;
-
+   
     /**
      * Creates new form ServerSelectSubPanel
      */
@@ -22,7 +24,21 @@ public class ServerSelectSubPanel extends javax.swing.JPanel {
         initComponents();
         this.parent=parent;
     }
+    protected void enter(){
+		final ArrayList<String> strings = new ArrayList<>();
+		strings.addAll(parent.servers.keySet());
+		System.out.println(strings);
+		jList1.setModel(new javax.swing.AbstractListModel<String>() {
 
+			public int getSize() {
+				return strings.size();
+			}
+
+			public String getElementAt(int i) {
+				return strings.get(i);
+			}
+		});
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

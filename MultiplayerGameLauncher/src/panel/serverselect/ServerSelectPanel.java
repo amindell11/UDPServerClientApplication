@@ -7,17 +7,23 @@
 package panel.serverselect;
 
 import java.awt.FlowLayout;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.util.Map;
 import java.util.Timer;
 
 import javax.swing.JPanel;
 
 import multiplayergamelauncher.ProgressListener;
+import net.connectionutil.ServerDiscoveryUtil;
 
 /**
  *
  * @author amind_000
  */
 public class ServerSelectPanel extends javax.swing.JPanel {
+	protected Map<String,InetAddress> servers;
 	FlowLayout layout;
 	private JPanel selectSubPanel;
 	private JPanel loadingSubPanel;
@@ -35,18 +41,33 @@ public class ServerSelectPanel extends javax.swing.JPanel {
     }
     public void updateServerList(){
     	add(loadingSubPanel);
+    	revalidate();
+    	repaint();
     	new java.util.Timer().schedule( 
     	        new java.util.TimerTask() {
     	            @Override
     	            public void run() {
     	            	removeAll();
+    	            	((ServerSelectSubPanel) selectSubPanel).enter();
     	            	add(selectSubPanel);
     	            	revalidate();
     	            	repaint();
     	            }
     	        }, 
-    	        500 
+    	        5000
     	);
+    	new Thread(new Runnable(){
+			@Override
+			public void run() {
+		    	try {
+					servers=ServerDiscoveryUtil.getAvailableServers(1000);
+				} catch (SocketException e) {
+					e.printStackTrace();
+				}				
+			}
+    	
+    	}).start();
+
     }
     /**
      * This method is called from within the constructor to initialize the form.
