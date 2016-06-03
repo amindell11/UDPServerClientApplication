@@ -15,10 +15,8 @@ public class ConnectionUtil {
 		return receivePacket;
 	}
 	protected static DatagramPacket receivePacket(int timeout) throws IOException {
-		byte[] recvBuf = new byte[15000];
 		getUtilSocket().setSoTimeout(timeout);
-		DatagramPacket receivePacket = new DatagramPacket(recvBuf, recvBuf.length);
-		getUtilSocket().receive(receivePacket);
+		DatagramPacket receivePacket = receivePacket();
 		getUtilSocket().setSoTimeout(0);
 		return receivePacket;
 	}
