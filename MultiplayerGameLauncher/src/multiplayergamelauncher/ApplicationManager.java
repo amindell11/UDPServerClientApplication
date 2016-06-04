@@ -43,11 +43,6 @@ public class ApplicationManager implements Runnable, ProgressListener {
 	public void run() {
 		// These should handle their own component initialization.
 		// They should, at least, receive a reference to the listener.
-		try { 
-		    UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel"); 
-		} catch (Exception ex) { 
-		    ex.printStackTrace(); 
-		}
 		frame = new JFrame("Launcher");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setContentPane(homePanel);
