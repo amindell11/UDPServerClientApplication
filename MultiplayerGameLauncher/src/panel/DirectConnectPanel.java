@@ -195,14 +195,7 @@ public class DirectConnectPanel extends javax.swing.JPanel {
 		SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
 			@Override
 			public Boolean doInBackground() {
-				InetAddress address;
-				try {
-					address = InetAddress.getByName(ip);
-				} catch (UnknownHostException e) {
-					e.printStackTrace();
-					address = null;
-				}
-				return (address != null && ServerDiscoveryUtil.checkAddressForServer(address, 1000));
+				return (address != null && ServerDiscoveryUtil.checkAddressForServer(address,Config.PORT, 1000));
 			}
 
 			@Override
@@ -217,7 +210,7 @@ public class DirectConnectPanel extends javax.swing.JPanel {
 				if ("state".equals(evt.getPropertyName()) && SwingWorker.StateValue.DONE == evt.getNewValue()) {
 					try {
 						if (worker.get()) {
-							updateInfoArea(ServerDiscoveryUtil.getServerInfo(InetAddress.getByName(address),Config.PORT));
+							updateInfoArea(ServerDiscoveryUtil.getServerInfo(address,Config.PORT));
 							jLabel3.setText("Server available");
 						} else {
 							updateInfoArea(new ServerInfo("",0,"",0,0));
@@ -226,8 +219,6 @@ public class DirectConnectPanel extends javax.swing.JPanel {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					} catch (ExecutionException e) {
-						e.printStackTrace();
-					} catch (UnknownHostException e) {
 						e.printStackTrace();
 					} catch (IOException e) {
 						e.printStackTrace();

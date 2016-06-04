@@ -7,14 +7,10 @@
 package panel.serverselect;
 
 import java.awt.FlowLayout;
-import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
 import multiplayergamelauncher.ProgressListener;
@@ -25,7 +21,7 @@ import net.connectionutil.ServerDiscoveryUtil;
  * @author amind_000
  */
 public class ServerSelectPanel extends javax.swing.JPanel {
-	protected Map<String, InetAddress> servers;
+	protected Map<String, String> servers;
 	FlowLayout layout;
 	private JPanel selectSubPanel;
 	private JPanel loadingSubPanel;

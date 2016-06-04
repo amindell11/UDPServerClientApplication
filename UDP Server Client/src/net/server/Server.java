@@ -63,19 +63,20 @@ public class Server implements Runnable {
 		System.out.println(getClass().getName() + ">>>Packet received; data: " + new String(packet.getData()));
 		simpleExchangeRequest req = new SimpleExchangePacket(packet.getData()).getRequest();
 		// See if the packet holds the right command (message)
+		InetAddress address=packet.getAddress();
 		if (req.getRequestType().equals(RequestType.PROBE)) {
 
 			// Send a response
 			socket.send(
-					new SimpleExchangePacket(ResponseType.PROBE, "").getPacket(packet.getAddress(), packet.getPort()));
+					new SimpleExchangePacket(ResponseType.PROBE, "").getPacket(address, packet.getPort()));
 
 			System.out.println(getClass().getName() + ">>>Sent packet to: " + packet.getAddress().getHostAddress());
 		} else if (req.getRequestType().equals(RequestType.SERVER_NAME)) {
-			socket.send(new SimpleExchangePacket(ResponseType.SERVER_NAME, info.name).getPacket(packet.getAddress(),
+			socket.send(new SimpleExchangePacket(ResponseType.SERVER_NAME, info.name).getPacket(address,
 					packet.getPort()));
 		} else if (req.getRequestType().equals(RequestType.SERVER_INFO)) {
 			String msg = new Gson().toJson(info);
-			socket.send(new SimpleExchangePacket(ResponseType.SERVER_INFO, msg).getPacket(packet.getAddress(),
+			socket.send(new SimpleExchangePacket(ResponseType.SERVER_INFO, msg).getPacket(address,
 					packet.getPort()));
 
 		}
