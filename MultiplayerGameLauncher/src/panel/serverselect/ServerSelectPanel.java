@@ -57,8 +57,8 @@ public class ServerSelectPanel extends javax.swing.JPanel {
 			@Override
 			public void done() {
 				removeAll();
-				((ServerSelectSubPanel) selectSubPanel).enter();
 				add(selectSubPanel);
+				((ServerSelectSubPanel) selectSubPanel).onEnter();
 				revalidate();
 				repaint();
 			}

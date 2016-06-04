@@ -23,7 +23,6 @@ public class ClientConsolePanel extends javax.swing.JPanel {
         this.listener=listener;
     }
     public void onEnter(){
-    	CustomOutputStream.reallocatePrint(textArea1);
     }
     /**
      * This method is called from within the constructor to initialize the form.

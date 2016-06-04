@@ -22,7 +22,7 @@ public class ApplicationManager implements Runnable, ProgressListener {
 	User loggedInUser;
 	ClientConsolePanel clientConsolePanel;
 	DirectConnectPanel directConnectPanel;
-	ServerConsolePanel serverConsolePanel;
+	public ServerConsolePanel serverConsolePanel;
     ServerSelectPanel serverSelectPanel;
 	ServerCreationPanel serverCreationPanel;
 	EditProfilePanel editProfilePanel;
@@ -78,7 +78,6 @@ public class ApplicationManager implements Runnable, ProgressListener {
 			break;
 		case SERVER_CONSOLE:
 			setPanel(serverConsolePanel);
-			//serverConsolePanel.onEnter();
 			break;
 		case SERVER_SELECT:
             setPanel(serverSelectPanel);

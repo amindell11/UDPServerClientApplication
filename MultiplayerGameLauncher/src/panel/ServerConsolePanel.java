@@ -8,6 +8,7 @@ package panel;
 
 import multiplayergamelauncher.AppState;
 import multiplayergamelauncher.ProgressListener;
+import net.server.Server;
 
 /**
  *
@@ -15,6 +16,7 @@ import multiplayergamelauncher.ProgressListener;
  */
 public class ServerConsolePanel extends javax.swing.JPanel {
 	private ProgressListener listener;
+	Server server;
     /**
      * Creates new form ClientConsole
      */
@@ -22,8 +24,8 @@ public class ServerConsolePanel extends javax.swing.JPanel {
         initComponents();
         this.listener=listener;
     }
-    public void onEnter(){
-    	CustomOutputStream.reallocatePrint(textArea1);
+    public void onEnter(Server server){
+    	this.server=server;
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -129,7 +131,7 @@ public class ServerConsolePanel extends javax.swing.JPanel {
     }//GEN-LAST:event_ClearButtonActionPerformed
 
     private void CloseServerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CloseServerButtonActionPerformed
-    	//TODO add server close code
+    	server.close();
     	listener.progressTo(AppState.HOME);
     }//GEN-LAST:event_CloseServerButtonActionPerformed
 

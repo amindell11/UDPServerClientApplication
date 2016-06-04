@@ -25,7 +25,7 @@ import net.server.ServerInfo;
 public class ServerDiscoveryUtil extends ConnectionUtil {
 
 	public static Map<String, String> getAvailableServers(int timeout) throws SocketException {
-		return getServerNames(getAvailableServerIPs(1000,Config.PORT),Config.PORT);
+		return getServerNames(getAvailableServerIPs(timeout,Config.PORT),Config.PORT);
 	}
 
 	public static List<String> getAvailableServerIPs(int timeout, int port) {

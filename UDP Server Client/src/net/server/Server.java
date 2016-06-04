@@ -22,6 +22,7 @@ public class Server implements Runnable {
 	DatagramSocket socket;
 	int maxClients;
 	Map<String, ClientThread> clients;
+	boolean open;
 
 	public Server(String name,int port) {
 		this(name,port, Config.MAX_CLIENTS);
@@ -45,6 +46,7 @@ public class Server implements Runnable {
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
+		open=true;
 	}
 
 	public Server(int port) {
@@ -62,10 +64,11 @@ public class Server implements Runnable {
 		System.out.println(getClass().getName() + ">>>Packet received from: " + packet.getAddress().getHostAddress());
 		System.out.println(getClass().getName() + ">>>Packet received; data: " + new String(packet.getData()));
 		simpleExchangeRequest req = new SimpleExchangePacket(packet.getData()).getRequest();
+		System.out.println(req);
 		// See if the packet holds the right command (message)
 		InetAddress address=packet.getAddress();
+		System.out.println(req.getRequestType());
 		if (req.getRequestType().equals(RequestType.PROBE)) {
-
 			// Send a response
 			socket.send(
 					new SimpleExchangePacket(ResponseType.PROBE, "").getPacket(address, packet.getPort()));
@@ -85,7 +88,7 @@ public class Server implements Runnable {
 	@Override
 	public void run() {
 		init();
-		while (true) {
+		while (open) {
 			try {
 				update();
 			} catch (IOException e) {
@@ -93,8 +96,11 @@ public class Server implements Runnable {
 			}
 		}
 	}
-
+	public void close(){
+		open=false;
+		socket.close();
+	}
 	public static void main(String[] args) {
-		new Server("test",Config.PORT).run();
+		new Thread(new Server("test",Config.PORT)).start();
 	}
 }

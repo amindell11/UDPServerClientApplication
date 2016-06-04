@@ -16,7 +16,7 @@ import multiplayergamelauncher.AppState;
  */
 public class ServerSelectSubPanel extends javax.swing.JPanel {
     ServerSelectPanel parent;
-   
+    
     /**
      * Creates new form ServerSelectSubPanel
      */
@@ -24,7 +24,7 @@ public class ServerSelectSubPanel extends javax.swing.JPanel {
         initComponents();
         this.parent=parent;
     }
-    protected void enter(){
+    protected void onEnter(){
 		final ArrayList<String> strings = new ArrayList<>();
 		strings.addAll(parent.servers.keySet());
 		System.out.println(strings);
