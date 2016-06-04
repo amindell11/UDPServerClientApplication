@@ -16,7 +16,12 @@ public class ConnectionUtil {
 	}
 	protected static DatagramPacket receivePacket(int timeout) throws IOException {
 		getUtilSocket().setSoTimeout(timeout);
-		DatagramPacket receivePacket = receivePacket();
+		DatagramPacket receivePacket=null;
+		try {
+			receivePacket = receivePacket();
+		} catch (IOException e) {
+			System.out.println("recieve timed out.");
+		}
 		getUtilSocket().setSoTimeout(0);
 		return receivePacket;
 	}

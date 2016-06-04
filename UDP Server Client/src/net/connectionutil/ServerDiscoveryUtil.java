@@ -24,8 +24,7 @@ import com.google.gson.Gson;
 
 public class ServerDiscoveryUtil extends ConnectionUtil {
 
-	public static Map<String, InetAddress> getAvailableServers(int timeout)
-			throws SocketException {
+	public static Map<String, InetAddress> getAvailableServers(int timeout) throws SocketException {
 		return getServerNames(getAvailableServerIPs(1000));
 	}
 
@@ -40,8 +39,7 @@ public class ServerDiscoveryUtil extends ConnectionUtil {
 		return availableServerIPs;
 	}
 
-	public static Map<String, InetAddress> getServerNames(
-			List<InetAddress> ipsToCheck) {
+	public static Map<String, InetAddress> getServerNames(List<InetAddress> ipsToCheck) {
 		Map<String, InetAddress> serverList = new HashMap<>();
 		for (InetAddress serverAddress : ipsToCheck) {
 			try {
@@ -53,18 +51,13 @@ public class ServerDiscoveryUtil extends ConnectionUtil {
 		return serverList;
 	}
 
-	public static String getServerName(InetAddress serverAddress)
-			throws IOException {
-		getUtilSocket().send(
-				new SimpleExchangePacket(RequestType.SERVER_NAME, "")
-						.getPacket(serverAddress, 8888));
+	public static String getServerName(InetAddress serverAddress) throws IOException {
+		getUtilSocket().send(new SimpleExchangePacket(RequestType.SERVER_NAME, "").getPacket(serverAddress, 8888));
 		DatagramPacket response = receivePacket();
-		return new SimpleExchangePacket(response.getData()).getResponse()
-				.getResponseNote();
+		return new SimpleExchangePacket(response.getData()).getResponse().getResponseNote();
 	}
 
-	public static List<InetAddress> waitForServerResponses(int timeout)
-			throws SocketException {
+	public static List<InetAddress> waitForServerResponses(int timeout) throws SocketException {
 		Set<InetAddress> servers = new HashSet<>();
 		DatagramPacket recievePacket;
 		getUtilSocket().setSoTimeout(timeout);
@@ -74,8 +67,7 @@ public class ServerDiscoveryUtil extends ConnectionUtil {
 				recievePacket = new DatagramPacket(recvBuf, recvBuf.length);
 				getUtilSocket().receive(recievePacket);
 				System.out.println("packet recieved!");
-				if (new SimpleExchangePacket(recievePacket.getData())
-						.getResponse().getResponseType()
+				if (new SimpleExchangePacket(recievePacket.getData()).getResponse().getResponseType()
 						.equals(ResponseType.PROBE)) {
 					servers.add(recievePacket.getAddress());
 				}
@@ -90,8 +82,7 @@ public class ServerDiscoveryUtil extends ConnectionUtil {
 	}
 
 	public static void sendProbePacket(InetAddress address) {
-		DatagramPacket packet = new SimpleExchangePacket(RequestType.PROBE, "")
-				.getPacket(address, 8888);
+		DatagramPacket packet = new SimpleExchangePacket(RequestType.PROBE, "").getPacket(address, 8888);
 		try {
 			getUtilSocket().send(packet);
 		} catch (IOException e) {
@@ -105,16 +96,14 @@ public class ServerDiscoveryUtil extends ConnectionUtil {
 		}
 	}
 
-	public static List<InetAddress> getBroadcastAddresses()
-			throws SocketException {
+	public static List<InetAddress> getBroadcastAddresses() throws SocketException {
 		List<InetAddress> addresses = new ArrayList<>();
 		try {
 			addresses.add(InetAddress.getByName("255.255.255.255"));
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
-		Enumeration<NetworkInterface> interfaces = NetworkInterface
-				.getNetworkInterfaces();
+		Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
 		while (interfaces.hasMoreElements()) {
 			NetworkInterface networkInterface = interfaces.nextElement();
 
@@ -123,8 +112,7 @@ public class ServerDiscoveryUtil extends ConnectionUtil {
 							// interface
 			}
 
-			for (InterfaceAddress interfaceAddress : networkInterface
-					.getInterfaceAddresses()) {
+			for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses()) {
 				InetAddress broadcast = interfaceAddress.getBroadcast();
 				if (broadcast == null) {
 					continue;
@@ -136,24 +124,24 @@ public class ServerDiscoveryUtil extends ConnectionUtil {
 
 	}
 
-	public static ServerInfo getServerInfo(InetAddress serverAddress)
-		throws IOException {
-	getUtilSocket().send(
-			new SimpleExchangePacket(RequestType.SERVER_INFO, "")
-					.getPacket(serverAddress, 8888));
-	DatagramPacket response = receivePacket();
-	return new Gson().fromJson(new SimpleExchangePacket(response.getData()).getResponse()
-			.getResponseNote(),ServerInfo.class);
+	public static ServerInfo getServerInfo(InetAddress serverAddress) throws IOException {
+		getUtilSocket().send(new SimpleExchangePacket(RequestType.SERVER_INFO, "").getPacket(serverAddress, 8888));
+		DatagramPacket response = receivePacket();
+		return new Gson().fromJson(new SimpleExchangePacket(response.getData()).getResponse().getResponseNote(),
+				ServerInfo.class);
 	}
-	
+
 	public static boolean checkAddressForServer(InetAddress address, int timeout) {
 		sendProbePacket(address);
+		DatagramPacket receivePacket = null;
 		try {
-			return new SimpleExchangePacket(receivePacket(timeout).getData())
-					.getResponse().getResponseType().equals(ResponseType.PROBE);
-		} catch (IOException e) {
-			e.printStackTrace();
+			receivePacket = receivePacket(timeout);
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
-		return false;
+		if (receivePacket == null)
+			return false;
+		return new SimpleExchangePacket(receivePacket.getData()).getResponse().getResponseType()
+				.equals(ResponseType.PROBE);
 	}
 }

@@ -1,6 +1,7 @@
 package multiplayergamelauncher;
 
 import panel.serverselect.ServerSelectPanel;
+import profile.User;
 import sun.font.CreatedFontTracker;
 
 import java.awt.event.*;
@@ -18,6 +19,7 @@ public class ApplicationManager implements Runnable, ProgressListener {
 	AppState state;
 	private JFrame frame;
 	HomePanel homePanel;
+	User loggedInUser;
 	ClientConsolePanel clientConsolePanel;
 	DirectConnectPanel directConnectPanel;
 	ServerConsolePanel serverConsolePanel;
