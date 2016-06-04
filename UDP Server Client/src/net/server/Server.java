@@ -23,11 +23,11 @@ public class Server implements Runnable {
 	int maxClients;
 	Map<String, ClientThread> clients;
 
-	public Server(int port, String name) {
-		this(port, name, Config.MAX_CLIENTS);
+	public Server(String name,int port) {
+		this(name,port, Config.MAX_CLIENTS);
 	}
 
-	public Server(int port, String name, int maxClients) {
+	public Server(String name,int port, int maxClients) {
 		try {
 			info=new ServerInfo(InetAddress.getLocalHost().getHostAddress(),port, name, 0, maxClients);
 		} catch (UnknownHostException e) {
@@ -48,7 +48,7 @@ public class Server implements Runnable {
 	}
 
 	public Server(int port) {
-		this(port, "default");
+		this("default",port);
 	}
 
 	public void update() throws IOException {
@@ -95,6 +95,6 @@ public class Server implements Runnable {
 	}
 
 	public static void main(String[] args) {
-		new Server(Config.PORT, "test").run();
+		new Server("test",Config.PORT).run();
 	}
 }

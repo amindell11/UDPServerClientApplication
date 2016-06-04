@@ -6,8 +6,12 @@
 
 package panel;
 
+import javax.swing.SwingUtilities;
+
 import multiplayergamelauncher.AppState;
 import multiplayergamelauncher.ProgressListener;
+import net.Config;
+import net.server.Server;
 
 /**
  *
@@ -155,7 +159,9 @@ public class ServerCreationPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_moreButtonActionPerformed
 
     private void createServerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createServerButtonActionPerformed
-        //TODO create server code
+    	String name=serverNameField.getText();
+    	int players=maxPlayersSlider.getValue();
+    	new Thread(new Server(name,Config.PORT,players)).start();
     	listener.progressTo(AppState.SERVER_CONSOLE);
     }//GEN-LAST:event_createServerButtonActionPerformed
 
