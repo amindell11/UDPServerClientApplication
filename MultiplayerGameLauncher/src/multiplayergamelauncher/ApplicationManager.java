@@ -28,13 +28,14 @@ public class ApplicationManager implements Runnable, ProgressListener {
 	EditProfilePanel editProfilePanel;
 	/** Empty constructor of objects of class SomeClassUI. */
 	public ApplicationManager() {
-		homePanel = new HomePanel(this);
+		loggedInUser=new User("New001");
+		homePanel = new HomePanel(this,loggedInUser);
 		clientConsolePanel=new ClientConsolePanel(this);
 		directConnectPanel=new DirectConnectPanel(this);
 		serverConsolePanel=new ServerConsolePanel(this);
         serverSelectPanel=new ServerSelectPanel(this);
         serverCreationPanel=new ServerCreationPanel(this);
-        editProfilePanel=new EditProfilePanel(this);
+        editProfilePanel=new EditProfilePanel(this,loggedInUser);
 	}
 
 	/** Interface initialization. */
@@ -62,6 +63,7 @@ public class ApplicationManager implements Runnable, ProgressListener {
 		switch (newState) {
 		case HOME:
 			setPanel(homePanel);
+			homePanel.onEnter();
 			break;
 		case CLIENT_CONSOLE:
 			setPanel(clientConsolePanel);
@@ -71,6 +73,7 @@ public class ApplicationManager implements Runnable, ProgressListener {
 			break;
 		case EDIT_PROFILE:
 			setPanel(editProfilePanel);
+			editProfilePanel.onEnter();
 			break;
 		case SERVER_CONSOLE:
 			setPanel(serverConsolePanel);

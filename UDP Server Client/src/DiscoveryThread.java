@@ -60,7 +60,6 @@ public class DiscoveryThread implements Runnable {
 	}
 
 	private static class DiscoveryThreadHolder {
-
 		private static final DiscoveryThread INSTANCE = new DiscoveryThread();
 	}
 

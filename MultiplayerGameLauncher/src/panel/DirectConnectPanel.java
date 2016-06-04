@@ -8,6 +8,7 @@ package panel;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
@@ -18,7 +19,9 @@ import javax.swing.SwingWorker;
 
 import multiplayergamelauncher.AppState;
 import multiplayergamelauncher.ProgressListener;
+import net.Config;
 import net.connectionutil.ServerDiscoveryUtil;
+import net.server.ServerInfo;
 import panel.serverselect.ServerSelectSubPanel;
 
 /**
@@ -27,7 +30,7 @@ import panel.serverselect.ServerSelectSubPanel;
  */
 public class DirectConnectPanel extends javax.swing.JPanel {
 	private ProgressListener listener;
-
+	String address;
 	/**
 	 * Creates new form DirectConnect
 	 */
@@ -173,7 +176,8 @@ public class DirectConnectPanel extends javax.swing.JPanel {
 	}// GEN-LAST:event_jTextField1ActionPerformed
 
 	private void checkAddressButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_checkAddressButtonActionPerformed
-		checkAddress(jTextField1.getText());
+		address=jTextField1.getText();
+		checkAddress(address);
 	}// GEN-LAST:event_checkAddressButtonActionPerformed
 
 	private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_connectButtonActionPerformed
@@ -213,15 +217,19 @@ public class DirectConnectPanel extends javax.swing.JPanel {
 				if ("state".equals(evt.getPropertyName()) && SwingWorker.StateValue.DONE == evt.getNewValue()) {
 					try {
 						if (worker.get()) {
-							// updateInfoArea(ConnectionUtil.getServerInfo(address,Config.PORT,1000,1000));
+							updateInfoArea(ServerDiscoveryUtil.getServerInfo(InetAddress.getByName(address),Config.PORT));
 							jLabel3.setText("Server available");
 						} else {
-							// updateInfoArea(new ServerInfo("","",0,0));
+							updateInfoArea(new ServerInfo("",0,"",0,0));
 							jLabel3.setText("No server at requested address");
 						}
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					} catch (ExecutionException e) {
+						e.printStackTrace();
+					} catch (UnknownHostException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
 						e.printStackTrace();
 					}
 				}
@@ -230,6 +238,11 @@ public class DirectConnectPanel extends javax.swing.JPanel {
 		});
 		worker.execute();
 
+	}
+	private void updateInfoArea(ServerInfo info){
+		serverAddressLabel.setText(info.getAddress());
+		serverNameLabel.setText(info.getServerName());
+		playerNumLabel.setText(info.getNumClients()+"/"+info.getMaxClients());
 	}
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables

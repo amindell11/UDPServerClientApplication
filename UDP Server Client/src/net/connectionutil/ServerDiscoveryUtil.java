@@ -15,10 +15,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import net.ServerInfo;
 import net.SimpleExchangePacket;
 import net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeRequest.RequestType;
 import net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeResponse.ResponseType;
+import net.server.ServerInfo;
 
 import com.google.gson.Gson;
 
@@ -124,8 +124,8 @@ public class ServerDiscoveryUtil extends ConnectionUtil {
 
 	}
 
-	public static ServerInfo getServerInfo(InetAddress serverAddress) throws IOException {
-		getUtilSocket().send(new SimpleExchangePacket(RequestType.SERVER_INFO, "").getPacket(serverAddress, 8888));
+	public static ServerInfo getServerInfo(InetAddress serverAddress,int port) throws IOException {
+		getUtilSocket().send(new SimpleExchangePacket(RequestType.SERVER_INFO, "").getPacket(serverAddress, port));
 		DatagramPacket response = receivePacket();
 		return new Gson().fromJson(new SimpleExchangePacket(response.getData()).getResponse().getResponseNote(),
 				ServerInfo.class);

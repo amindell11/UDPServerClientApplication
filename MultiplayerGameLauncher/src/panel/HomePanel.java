@@ -8,6 +8,7 @@ package panel;
 
 import multiplayergamelauncher.AppState;
 import multiplayergamelauncher.ProgressListener;
+import profile.User;
 
 /**
  *
@@ -15,15 +16,19 @@ import multiplayergamelauncher.ProgressListener;
  */
 public class HomePanel extends javax.swing.JPanel {
 	private ProgressListener listener;
-
+	private User loggedInUser;
     /**
      * Creates new form HomePanel
+     * @param loggedInUser 
      */
-    public HomePanel(ProgressListener listener) {
-        initComponents();
+    public HomePanel(ProgressListener listener, User loggedInUser) {
         this.listener=listener;
+        this.loggedInUser=loggedInUser;
+        initComponents();
     }
-
+    public void onEnter(){
+        WelcomeTag.setText(loggedInUser.getName());
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -38,7 +43,7 @@ public class HomePanel extends javax.swing.JPanel {
         CreateGameButton = new javax.swing.JButton();
         DirectConnectButton = new javax.swing.JButton();
         EditProfileButton = new javax.swing.JButton();
-        WelcomTag = new javax.swing.JLabel();
+        WelcomeTag = new javax.swing.JLabel();
 
         jLabel1.setFont(new java.awt.Font("BankGothic Md BT", 1, 48)); // NOI18N
         jLabel1.setText("Multiplayer");
@@ -70,9 +75,7 @@ public class HomePanel extends javax.swing.JPanel {
                 EditProfileButtonActionPerformed(evt);
             }
         });
-
-        WelcomTag.setText("jLabel2");
-
+        WelcomeTag.setText(loggedInUser.getName());
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -92,7 +95,7 @@ public class HomePanel extends javax.swing.JPanel {
                                 .addComponent(DirectConnectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(119, 119, 119)
-                                .addComponent(WelcomTag)))))
+                                .addComponent(WelcomeTag)))))
                 .addContainerGap(67, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -101,7 +104,7 @@ public class HomePanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
-                .addComponent(WelcomTag)
+                .addComponent(WelcomeTag)
                 .addGap(18, 18, 18)
                 .addComponent(JoinGameButton, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -136,7 +139,7 @@ public class HomePanel extends javax.swing.JPanel {
     private javax.swing.JButton DirectConnectButton;
     private javax.swing.JButton EditProfileButton;
     private javax.swing.JButton JoinGameButton;
-    private javax.swing.JLabel WelcomTag;
+    private javax.swing.JLabel WelcomeTag;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

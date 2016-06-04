@@ -10,6 +10,7 @@ import javax.swing.JDialog;
 
 import multiplayergamelauncher.AppState;
 import multiplayergamelauncher.ProgressListener;
+import profile.User;
 
 /**
  *
@@ -17,15 +18,18 @@ import multiplayergamelauncher.ProgressListener;
  */
 public class EditProfilePanel extends javax.swing.JPanel {
 	ProgressListener listener;
+	User loggedInUser;
     /**
      * Creates new form EditProfilePanel
      */
-    public EditProfilePanel(ProgressListener listener) {
-        initComponents();
+    public EditProfilePanel(ProgressListener listener, User loggedInUser) {
         this.listener=listener;
-        
+        this.loggedInUser=loggedInUser;
+        initComponents();
     }
-
+    public void onEnter(){
+        currentUsernameLabel.setText("Current Username: "+loggedInUser.getName());
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -50,7 +54,7 @@ public class EditProfilePanel extends javax.swing.JPanel {
         jLabel3.setText("Change Username");
 
         jLabel4.setText("Enter new username:");
-
+        
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
@@ -109,7 +113,7 @@ public class EditProfilePanel extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setText("Profile");
 
-        currentUsernameLabel.setText("Current Username: New001");
+        currentUsernameLabel.setText("Current Username: "+loggedInUser.getName());
 
         changeUsernameButton.setText("Change Username");
         changeUsernameButton.addActionListener(new java.awt.event.ActionListener() {
@@ -169,6 +173,7 @@ public class EditProfilePanel extends javax.swing.JPanel {
     	String s=jTextField1.getText();
     	currentUsernameLabel.setText("Current Username: "+s);
     	changeUsernameDialog.setVisible(false);
+    	loggedInUser.setName(s);
     }//GEN-LAST:event_confirmButtonActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
