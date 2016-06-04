@@ -2,10 +2,10 @@ package net.connectionutil;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
+import java.net.InetAddress;
 import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -14,13 +14,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.gson.Gson;
+
 import net.Config;
 import net.SimpleExchangePacket;
 import net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeRequest.RequestType;
 import net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeResponse.ResponseType;
 import net.server.ServerInfo;
-
-import com.google.gson.Gson;
 
 public class ServerDiscoveryUtil extends ConnectionUtil {
 
@@ -109,11 +109,12 @@ public class ServerDiscoveryUtil extends ConnectionUtil {
 			}
 
 			for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses()) {
-				String broadcast = interfaceAddress.getBroadcast().getHostAddress();
+				InetAddress broadcast = interfaceAddress.getBroadcast();
 				if (broadcast == null) {
 					continue;
 				}
-				addresses.add(broadcast);
+				
+				addresses.add(broadcast.getHostAddress());
 			}
 		}
 		return addresses;
