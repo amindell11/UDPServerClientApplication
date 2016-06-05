@@ -6,6 +6,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gson.Gson;
@@ -16,21 +17,21 @@ import net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeRequest
 import net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeRequest.RequestType;
 import net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeResponse.ResponseType;
 
-public class Server implements Runnable {
+public class ServerThread extends Thread {
 	static final boolean REQUIRE_UNIQUE_CLIENTS = false;
 	ServerInfo info;
 	DatagramSocket socket;
 	int maxClients;
-	Map<String, ClientThread> clients;
+	Map<String, Client> clients;
 	boolean open;
 
-	public Server(String name,int port) {
-		this(name,port, Config.MAX_CLIENTS);
+	public ServerThread(String name, int port) {
+		this(name, port, Config.MAX_CLIENTS);
 	}
 
-	public Server(String name,int port, int maxClients) {
+	public ServerThread(String name, int port, int maxClients) {
 		try {
-			info=new ServerInfo(InetAddress.getLocalHost().getHostAddress(),port, name, 0, maxClients);
+			info = new ServerInfo(InetAddress.getLocalHost().getHostAddress(), port, name, 0, maxClients);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
@@ -40,17 +41,18 @@ public class Server implements Runnable {
 		try {
 			socket = new DatagramSocket(info.port, InetAddress.getByName("0.0.0.0"));
 			socket.setBroadcast(true);
-			System.out.println("server running at "+InetAddress.getLocalHost()+" port "+info.port);
+			clients=new HashMap<String,Client>();
+			System.out.println("server running at " + InetAddress.getLocalHost() + " port " + info.port);
 		} catch (SocketException e) {
 			e.printStackTrace();
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
-		open=true;
+		open = true;
 	}
 
-	public Server(int port) {
-		this("default",port);
+	public ServerThread(int port) {
+		this("default", port);
 	}
 
 	public void update() throws IOException {
@@ -66,22 +68,43 @@ public class Server implements Runnable {
 		simpleExchangeRequest req = new SimpleExchangePacket(packet.getData()).getRequest();
 		System.out.println(req);
 		// See if the packet holds the right command (message)
-		InetAddress address=packet.getAddress();
+		InetAddress address = packet.getAddress();
 		System.out.println(req.getRequestType());
 		if (req.getRequestType().equals(RequestType.PROBE)) {
 			// Send a response
-			socket.send(
-					new SimpleExchangePacket(ResponseType.PROBE, "").getPacket(address, packet.getPort()));
+			socket.send(new SimpleExchangePacket(ResponseType.PROBE, "").getPacket(address, packet.getPort()));
 
 			System.out.println(getClass().getName() + ">>>Sent packet to: " + packet.getAddress().getHostAddress());
 		} else if (req.getRequestType().equals(RequestType.SERVER_NAME)) {
-			socket.send(new SimpleExchangePacket(ResponseType.SERVER_NAME, info.name).getPacket(address,
-					packet.getPort()));
+			socket.send(
+					new SimpleExchangePacket(ResponseType.SERVER_NAME, info.name).getPacket(address, packet.getPort()));
 		} else if (req.getRequestType().equals(RequestType.SERVER_INFO)) {
 			String msg = new Gson().toJson(info);
-			socket.send(new SimpleExchangePacket(ResponseType.SERVER_INFO, msg).getPacket(address,
+			socket.send(new SimpleExchangePacket(ResponseType.SERVER_INFO, msg).getPacket(address, packet.getPort()));
+		} else if (req.getRequestType().equals(RequestType.CLUSTER_MEMBERSHIP_REQUEST)) {
+			boolean isClientAcceptable = true;
+			ResponseType decision;
+			String reasoning = "";
+			Client proposedClient = new Client(req.getRequestNote(), Client.assignNewId(),
+					packet.getAddress().getHostAddress());
+			for (Client client : clients.values()) {
+				System.out.println(client+" "+proposedClient+" "+client.username);
+				if (Config.REQUIRE_UNIQUE_CLIENTS && client.address.equals(proposedClient.address)) {
+					isClientAcceptable = false;
+					reasoning = "active client at address " + proposedClient.address
+							+ " already in use. Close any instances and retry.";
+				} else if (client.username.equals(proposedClient.username)) {
+					isClientAcceptable = false;
+					reasoning = "invalid or taken username. Change username and retry";
+				}
+			}
+			if(isClientAcceptable){
+				decision=ResponseType.CLUSTER_MEMBERSHIP_ACCEPT;
+				clients.put(proposedClient.username,proposedClient);
+			}
+			else decision=ResponseType.CLUSTER_MEMBERSHIP_DENIED;
+			socket.send(new SimpleExchangePacket(decision, reasoning).getPacket(address,
 					packet.getPort()));
-
 		}
 	}
 
@@ -96,11 +119,13 @@ public class Server implements Runnable {
 			}
 		}
 	}
-	public void close(){
-		open=false;
+
+	public void close() {
+		open = false;
 		socket.close();
 	}
+
 	public static void main(String[] args) {
-		new Thread(new Server("test",Config.PORT)).start();
+		new ServerThread("test", Config.PORT).start();
 	}
 }

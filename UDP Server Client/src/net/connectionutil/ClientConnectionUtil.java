@@ -10,7 +10,7 @@ import net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeRespons
 import net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeResponse.ResponseType;
 
 public class ClientConnectionUtil extends ConnectionUtil {
-	public String requestClusterMembership(String serverAddress, int port, String username) throws IOException {
+	public static String requestClusterMembership(String serverAddress, int port, String username) throws IOException {
 		getUtilSocket().send(new SimpleExchangePacket(RequestType.CLUSTER_MEMBERSHIP_REQUEST, username)
 				.getPacket(serverAddress, port));
 		DatagramPacket responsePacket = receivePacket(Config.DEFAULT_TIMEOUT);
@@ -23,5 +23,8 @@ public class ClientConnectionUtil extends ConnectionUtil {
 		}else{
 			return "Unknown error.";
 		}
+	}
+	public static void main(String[] args) throws IOException{
+		System.out.println(requestClusterMembership("127.0.0.1",Config.PORT,"hi"));
 	}
 }

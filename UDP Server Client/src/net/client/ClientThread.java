@@ -1,4 +1,4 @@
-package net.server;
+package net.client;
 
 public class ClientThread extends Thread {
 

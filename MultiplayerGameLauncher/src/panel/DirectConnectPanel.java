@@ -15,11 +15,14 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.concurrent.ExecutionException;
 
+import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 
 import multiplayergamelauncher.AppState;
+import multiplayergamelauncher.ApplicationManager;
 import multiplayergamelauncher.ProgressListener;
 import net.Config;
+import net.connectionutil.ClientConnectionUtil;
 import net.connectionutil.ServerDiscoveryUtil;
 import net.server.ServerInfo;
 import panel.serverselect.ServerSelectSubPanel;
@@ -29,12 +32,12 @@ import panel.serverselect.ServerSelectSubPanel;
  * @author amind_000
  */
 public class DirectConnectPanel extends javax.swing.JPanel {
-	private ProgressListener listener;
+	private ApplicationManager listener;
 	String address;
 	/**
 	 * Creates new form DirectConnect
 	 */
-	public DirectConnectPanel(ProgressListener listener) {
+	public DirectConnectPanel(ApplicationManager listener) {
 		initComponents();
 		this.listener = listener;
 	}
@@ -181,8 +184,19 @@ public class DirectConnectPanel extends javax.swing.JPanel {
 	}// GEN-LAST:event_checkAddressButtonActionPerformed
 
 	private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_connectButtonActionPerformed
-		// TODO add client creation code
-		listener.progressTo(AppState.CLIENT_CONSOLE);
+		String canConnect;
+		try {
+			canConnect=ClientConnectionUtil.requestClusterMembership(address, Config.PORT, listener.getUser().getName());
+			System.out.println(canConnect);
+		} catch (IOException e) {
+			canConnect="invalid Address";
+			e.printStackTrace();
+		}
+		if(canConnect==null){
+			listener.progressTo(AppState.CLIENT_CONSOLE);
+		}else{
+			listener.showMessageDialog(canConnect, "Error: Failed to connect", JOptionPane.ERROR_MESSAGE);
+		}
 	}// GEN-LAST:event_connectButtonActionPerformed
 
 	private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_backButtonActionPerformed

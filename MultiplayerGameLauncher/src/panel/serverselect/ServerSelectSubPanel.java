@@ -6,9 +6,14 @@
 
 package panel.serverselect;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import multiplayergamelauncher.AppState;
+import net.Config;
+import net.connectionutil.ClientConnectionUtil;
 
 /**
  *
@@ -49,7 +54,7 @@ public class ServerSelectSubPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
+        jList1 = new javax.swing.JList<String>();
         jLabel1 = new javax.swing.JLabel();
         selectServerButton = new javax.swing.JButton();
         backButton = new javax.swing.JButton();
@@ -122,8 +127,20 @@ public class ServerSelectSubPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void selectServerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectServerButtonActionPerformed
-        //TODO add server connection code
-    	parent.listener.progressTo(AppState.CLIENT_CONSOLE);
+		String address=parent.servers.get(jList1.getSelectedValue());
+		String canConnect;
+		try {
+			canConnect=ClientConnectionUtil.requestClusterMembership(address, Config.PORT, parent.listener.getUser().getName());
+			System.out.println(canConnect);
+		} catch (IOException e) {
+			canConnect="invalid Address";
+			e.printStackTrace();
+		}
+		if(canConnect==null){
+			parent.listener.progressTo(AppState.CLIENT_CONSOLE);
+		}else{
+			parent.listener.showMessageDialog(canConnect, "Error: Failed to connect", JOptionPane.ERROR_MESSAGE);
+		}
     }//GEN-LAST:event_selectServerButtonActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
@@ -138,7 +155,7 @@ public class ServerSelectSubPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JList jList1;
+    private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton refreshButton;
     private javax.swing.JButton selectServerButton;

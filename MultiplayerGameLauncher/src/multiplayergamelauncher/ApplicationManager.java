@@ -103,4 +103,11 @@ public class ApplicationManager implements Runnable, ProgressListener {
 	public static void main(String[] args) {
 		new ApplicationManager().go();
 	}
+	public void showMessageDialog(String message,String title,int type){
+		JOptionPane.showMessageDialog(frame, message, title, type);
+
+	}
+	public User getUser(){
+		return loggedInUser;
+	}
 }

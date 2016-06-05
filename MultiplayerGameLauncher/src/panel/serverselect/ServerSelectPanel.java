@@ -13,7 +13,7 @@ import java.util.Map;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 
-import multiplayergamelauncher.ProgressListener;
+import multiplayergamelauncher.ApplicationManager;
 import net.connectionutil.ServerDiscoveryUtil;
 
 /**
@@ -25,12 +25,12 @@ public class ServerSelectPanel extends javax.swing.JPanel {
 	FlowLayout layout;
 	private JPanel selectSubPanel;
 	private JPanel loadingSubPanel;
-	protected ProgressListener listener;
+	protected ApplicationManager listener;
 
 	/**
 	 * Creates new form ServerSelectPanel
 	 */
-	public ServerSelectPanel(ProgressListener listener) {
+	public ServerSelectPanel(ApplicationManager listener) {
 		loadingSubPanel = new LoadingServersSubPanel(this);
 		selectSubPanel = new ServerSelectSubPanel(this);
 		setPreferredSize(selectSubPanel.getPreferredSize());

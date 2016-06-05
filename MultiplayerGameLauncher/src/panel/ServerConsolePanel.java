@@ -8,7 +8,7 @@ package panel;
 
 import multiplayergamelauncher.AppState;
 import multiplayergamelauncher.ProgressListener;
-import net.server.Server;
+import net.server.ServerThread;
 
 /**
  *
@@ -16,7 +16,7 @@ import net.server.Server;
  */
 public class ServerConsolePanel extends javax.swing.JPanel {
 	private ProgressListener listener;
-	Server server;
+	ServerThread server;
     /**
      * Creates new form ClientConsole
      */
@@ -24,7 +24,7 @@ public class ServerConsolePanel extends javax.swing.JPanel {
         initComponents();
         this.listener=listener;
     }
-    public void onEnter(Server server){
+    public void onEnter(ServerThread server){
     	this.server=server;
     }
     /**

@@ -13,7 +13,7 @@ import multiplayergamelauncher.AppState;
 import multiplayergamelauncher.ApplicationManager;
 import multiplayergamelauncher.ProgressListener;
 import net.Config;
-import net.server.Server;
+import net.server.ServerThread;
 
 /**
  *
@@ -163,8 +163,8 @@ public class ServerCreationPanel extends javax.swing.JPanel {
     private void createServerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createServerButtonActionPerformed
     	String name=serverNameField.getText();
     	int players=maxPlayersSlider.getValue();
-		Server server = new Server(name,Config.PORT,players);
-		new Thread(server).start();
+		ServerThread server = new ServerThread(name,Config.PORT,players);
+		server.start();
 		listener.serverConsolePanel.onEnter(server);
     	listener.progressTo(AppState.SERVER_CONSOLE);
     }//GEN-LAST:event_createServerButtonActionPerformed
