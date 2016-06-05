@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 
 import multiplayergamelauncher.AppState;
 import net.Config;
+import net.client.ClientThread;
 import net.connectionutil.ClientConnectionUtil;
 
 /**
@@ -128,18 +129,17 @@ public class ServerSelectSubPanel extends javax.swing.JPanel {
 
     private void selectServerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectServerButtonActionPerformed
 		String address=parent.servers.get(jList1.getSelectedValue());
-		String canConnect;
+		ClientThread canConnect=null;
 		try {
 			canConnect=ClientConnectionUtil.requestClusterMembership(address, Config.PORT, parent.listener.getUser().getName());
 			System.out.println(canConnect);
 		} catch (IOException e) {
-			canConnect="invalid Address";
 			e.printStackTrace();
 		}
-		if(canConnect==null){
+		if(canConnect!=null){
 			parent.listener.progressTo(AppState.CLIENT_CONSOLE);
 		}else{
-			parent.listener.showMessageDialog(canConnect, "Error: Failed to connect", JOptionPane.ERROR_MESSAGE);
+			parent.listener.showMessageDialog("Server refused connection. Try changing username, and closing any other instances of the game.", "Error: Failed to connect", JOptionPane.ERROR_MESSAGE);
 		}
     }//GEN-LAST:event_selectServerButtonActionPerformed
 

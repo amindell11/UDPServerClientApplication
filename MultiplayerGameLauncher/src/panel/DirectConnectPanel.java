@@ -9,10 +9,6 @@ package panel;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.concurrent.ExecutionException;
 
 import javax.swing.JOptionPane;
@@ -20,12 +16,11 @@ import javax.swing.SwingWorker;
 
 import multiplayergamelauncher.AppState;
 import multiplayergamelauncher.ApplicationManager;
-import multiplayergamelauncher.ProgressListener;
 import net.Config;
+import net.client.ClientThread;
 import net.connectionutil.ClientConnectionUtil;
 import net.connectionutil.ServerDiscoveryUtil;
 import net.server.ServerInfo;
-import panel.serverselect.ServerSelectSubPanel;
 
 /**
  *
@@ -181,21 +176,20 @@ public class DirectConnectPanel extends javax.swing.JPanel {
 	private void checkAddressButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_checkAddressButtonActionPerformed
 		address=jTextField1.getText();
 		checkAddress(address);
-	}// GEN-LAST:event_checkAddressButtonActionPerformed
+	}// GEN-LAST:event_checkAddressButtonActionPerformed:
 
-	private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_connectButtonActionPerformed
-		String canConnect;
+	private void connectButtonActionPerformed(java.awt.event.ActionEvent evt){// GEN-FIRST:event_connectButtonActionPerformed
+		ClientThread canConnect=null;
 		try {
 			canConnect=ClientConnectionUtil.requestClusterMembership(address, Config.PORT, listener.getUser().getName());
 			System.out.println(canConnect);
 		} catch (IOException e) {
-			canConnect="invalid Address";
 			e.printStackTrace();
 		}
-		if(canConnect==null){
+		if(canConnect!=null){
 			listener.progressTo(AppState.CLIENT_CONSOLE);
 		}else{
-			listener.showMessageDialog(canConnect, "Error: Failed to connect", JOptionPane.ERROR_MESSAGE);
+			listener.showMessageDialog("Server refused connection. Try changing username, and closing any other instances of the game.", "Error: Failed to connect", JOptionPane.ERROR_MESSAGE);
 		}
 	}// GEN-LAST:event_connectButtonActionPerformed
 
