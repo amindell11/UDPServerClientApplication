@@ -22,7 +22,7 @@ public class ServerThread extends Thread {
 	ServerInfo info;
 	DatagramSocket socket;
 	int maxClients;
-	Map<String, Client> clients;
+	Map<Integer, Client> clients;
 	boolean open;
 
 	public ServerThread(String name, int port) {
@@ -41,7 +41,7 @@ public class ServerThread extends Thread {
 		try {
 			socket = new DatagramSocket(info.port, InetAddress.getByName("0.0.0.0"));
 			socket.setBroadcast(true);
-			clients=new HashMap<String,Client>();
+			clients=new HashMap<Integer,Client>();
 			System.out.println("server running at " + InetAddress.getLocalHost() + " port " + info.port);
 		} catch (SocketException e) {
 			e.printStackTrace();
@@ -100,7 +100,7 @@ public class ServerThread extends Thread {
 			}
 			if(isClientAcceptable){
 				decision=ResponseType.CLUSTER_MEMBERSHIP_ACCEPT;
-				clients.put(proposedClient.username,proposedClient);
+				clients.put(proposedClient.id,proposedClient);
 			}
 			else decision=ResponseType.CLUSTER_MEMBERSHIP_DENIED;
 			socket.send(new SimpleExchangePacket(decision, reasoning).getPacket(address,
