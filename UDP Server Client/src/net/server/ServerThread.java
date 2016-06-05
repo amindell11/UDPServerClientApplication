@@ -94,7 +94,7 @@ public class ServerThread extends Thread {
 		case CLUSTER_MEMBERSHIP_REQUEST:
 			ResponseType decision;
 			boolean validClient=true;
-			int note = 0;
+			String note = "";
 			Client proposedClient = new Client(req.getRequestNote(), Client.assignNewId(),
 					packet.getAddress().getHostAddress());
 			for (Client client : clients.values()) {
@@ -105,17 +105,23 @@ public class ServerThread extends Thread {
 			//		reasoning = "active client at address " + proposedClient.address
 				//			+ " already in use. Close any instances and retry.";
 					break;
-				} else if (client.username.equals(proposedClient.username)) {
+				} 
+				else if (client.username.equals(proposedClient.username)) {
 					validClient=false;
 					//reasoning = "invalid or taken username. Change username and retry";
 					note=ErrorMessage.INVALID_USERNAME;
+					break;
+				}
+				else if(clients.size() == info.getMaxClients()){
+					validClient=false;
+					note=ErrorMessage.SERVER_FULL;
 					break;
 				}
 			}
 			if(validClient){
 				decision=ResponseType.CLUSTER_MEMBERSHIP_ACCEPT;
 				clients.put(proposedClient.id,proposedClient);
-				note=proposedClient.id;
+				note=proposedClient.id + "";
 			}
 			else{
 				decision=ResponseType.CLUSTER_MEMBERSHIP_DENIED;

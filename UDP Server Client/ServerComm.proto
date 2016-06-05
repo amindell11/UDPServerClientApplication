@@ -6,6 +6,8 @@ message simpleExchange {
 	optional simpleExchangeRequest request = 1;
 	optional simpleExchangeResponse response = 2;
 	optional int32 id = 3;
+	optional int32 time_stamp = 4;
+	optional int32 packet_number = 5;
 	message simpleExchangeRequest {
 		required RequestType request_type = 1;
 		optional string request_note = 2;

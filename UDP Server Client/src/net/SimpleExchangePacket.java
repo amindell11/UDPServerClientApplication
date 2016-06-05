@@ -36,6 +36,18 @@ public class SimpleExchangePacket {
 				);
 		message=builder.build();
 	}
+	
+	public SimpleExchangePacket(ResponseType responseType, String note, int id){
+		this();
+		builder.setResponse(simpleExchangeResponse.newBuilder()
+				.setResponseType(responseType)
+				.setResponseNote(note)
+				);
+		message=builder.build();
+	}
+	
+
+	
 	public SimpleExchangePacket(byte[] bytes){
 		this();
     	ByteArrayInputStream aInput = new ByteArrayInputStream(bytes);
@@ -48,6 +60,7 @@ public class SimpleExchangePacket {
     	message=comm;
 
 	}
+	
 	public byte[] getBytes() throws IOException{
 		ByteArrayOutputStream aOutput = new ByteArrayOutputStream(15000);
 		builder.build().writeDelimitedTo(aOutput);

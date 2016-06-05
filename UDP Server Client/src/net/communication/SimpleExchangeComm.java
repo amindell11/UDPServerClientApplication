@@ -37,6 +37,33 @@ public final class SimpleExchangeComm {
      * <code>optional .communication.simpleExchange.simpleExchangeResponse response = 2;</code>
      */
     net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeResponseOrBuilder getResponseOrBuilder();
+
+    /**
+     * <code>optional int32 id = 3;</code>
+     */
+    boolean hasId();
+    /**
+     * <code>optional int32 id = 3;</code>
+     */
+    int getId();
+
+    /**
+     * <code>optional int32 time_stamp = 4;</code>
+     */
+    boolean hasTimeStamp();
+    /**
+     * <code>optional int32 time_stamp = 4;</code>
+     */
+    int getTimeStamp();
+
+    /**
+     * <code>optional int32 packet_number = 5;</code>
+     */
+    boolean hasPacketNumber();
+    /**
+     * <code>optional int32 packet_number = 5;</code>
+     */
+    int getPacketNumber();
   }
   /**
    * Protobuf type {@code communication.simpleExchange}
@@ -50,6 +77,9 @@ public final class SimpleExchangeComm {
       super(builder);
     }
     private simpleExchange() {
+      id_ = 0;
+      timeStamp_ = 0;
+      packetNumber_ = 0;
     }
 
     @java.lang.Override
@@ -103,6 +133,21 @@ public final class SimpleExchangeComm {
                 response_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000002;
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              id_ = input.readInt32();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              timeStamp_ = input.readInt32();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000010;
+              packetNumber_ = input.readInt32();
               break;
             }
           }
@@ -1526,6 +1571,51 @@ public final class SimpleExchangeComm {
       return response_ == null ? net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeResponse.getDefaultInstance() : response_;
     }
 
+    public static final int ID_FIELD_NUMBER = 3;
+    private int id_;
+    /**
+     * <code>optional int32 id = 3;</code>
+     */
+    public boolean hasId() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional int32 id = 3;</code>
+     */
+    public int getId() {
+      return id_;
+    }
+
+    public static final int TIME_STAMP_FIELD_NUMBER = 4;
+    private int timeStamp_;
+    /**
+     * <code>optional int32 time_stamp = 4;</code>
+     */
+    public boolean hasTimeStamp() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional int32 time_stamp = 4;</code>
+     */
+    public int getTimeStamp() {
+      return timeStamp_;
+    }
+
+    public static final int PACKET_NUMBER_FIELD_NUMBER = 5;
+    private int packetNumber_;
+    /**
+     * <code>optional int32 packet_number = 5;</code>
+     */
+    public boolean hasPacketNumber() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional int32 packet_number = 5;</code>
+     */
+    public int getPacketNumber() {
+      return packetNumber_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -1556,6 +1646,15 @@ public final class SimpleExchangeComm {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeMessage(2, getResponse());
       }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(3, id_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(4, timeStamp_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeInt32(5, packetNumber_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -1571,6 +1670,18 @@ public final class SimpleExchangeComm {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, getResponse());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, id_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, timeStamp_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, packetNumber_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1698,6 +1809,12 @@ public final class SimpleExchangeComm {
           responseBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000002);
+        id_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        timeStamp_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        packetNumber_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -1738,6 +1855,18 @@ public final class SimpleExchangeComm {
         } else {
           result.response_ = responseBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.id_ = id_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.timeStamp_ = timeStamp_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.packetNumber_ = packetNumber_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1759,6 +1888,15 @@ public final class SimpleExchangeComm {
         }
         if (other.hasResponse()) {
           mergeResponse(other.getResponse());
+        }
+        if (other.hasId()) {
+          setId(other.getId());
+        }
+        if (other.hasTimeStamp()) {
+          setTimeStamp(other.getTimeStamp());
+        }
+        if (other.hasPacketNumber()) {
+          setPacketNumber(other.getPacketNumber());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -2034,6 +2172,102 @@ public final class SimpleExchangeComm {
         return responseBuilder_;
       }
 
+      private int id_ ;
+      /**
+       * <code>optional int32 id = 3;</code>
+       */
+      public boolean hasId() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional int32 id = 3;</code>
+       */
+      public int getId() {
+        return id_;
+      }
+      /**
+       * <code>optional int32 id = 3;</code>
+       */
+      public Builder setId(int value) {
+        bitField0_ |= 0x00000004;
+        id_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 id = 3;</code>
+       */
+      public Builder clearId() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        id_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int timeStamp_ ;
+      /**
+       * <code>optional int32 time_stamp = 4;</code>
+       */
+      public boolean hasTimeStamp() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional int32 time_stamp = 4;</code>
+       */
+      public int getTimeStamp() {
+        return timeStamp_;
+      }
+      /**
+       * <code>optional int32 time_stamp = 4;</code>
+       */
+      public Builder setTimeStamp(int value) {
+        bitField0_ |= 0x00000008;
+        timeStamp_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 time_stamp = 4;</code>
+       */
+      public Builder clearTimeStamp() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        timeStamp_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int packetNumber_ ;
+      /**
+       * <code>optional int32 packet_number = 5;</code>
+       */
+      public boolean hasPacketNumber() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional int32 packet_number = 5;</code>
+       */
+      public int getPacketNumber() {
+        return packetNumber_;
+      }
+      /**
+       * <code>optional int32 packet_number = 5;</code>
+       */
+      public Builder setPacketNumber(int value) {
+        bitField0_ |= 0x00000010;
+        packetNumber_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 packet_number = 5;</code>
+       */
+      public Builder clearPacketNumber() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        packetNumber_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:communication.simpleExchange)
     }
 
@@ -2105,25 +2339,26 @@ public final class SimpleExchangeComm {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\020ServerComm.proto\022\rcommunication\"\210\005\n\016si" +
+      "\n\020ServerComm.proto\022\rcommunication\"\277\005\n\016si" +
       "mpleExchange\022D\n\007request\030\001 \001(\01323.communic" +
       "ation.simpleExchange.simpleExchangeReque" +
       "st\022F\n\010response\030\002 \001(\01324.communication.sim" +
-      "pleExchange.simpleExchangeResponse\032\340\001\n\025s" +
-      "impleExchangeRequest\022U\n\014request_type\030\001 \002" +
-      "(\0162?.communication.simpleExchange.simple" +
-      "ExchangeRequest.RequestType\022\024\n\014request_n" +
-      "ote\030\002 \001(\t\"Z\n\013RequestType\022\t\n\005PROBE\020\000\022\036\n\032C" +
-      "LUSTER_MEMBERSHIP_REQUEST\020\001\022\017\n\013SERVER_NA",
-      "ME\020\002\022\017\n\013SERVER_INFO\020\003\032\204\002\n\026simpleExchange" +
-      "Response\022X\n\rresponse_type\030\001 \002(\0162A.commun" +
-      "ication.simpleExchange.simpleExchangeRes" +
-      "ponse.ResponseType\022\025\n\rresponse_note\030\002 \001(" +
-      "\t\"y\n\014ResponseType\022\t\n\005PROBE\020\000\022\035\n\031CLUSTER_" +
-      "MEMBERSHIP_ACCEPT\020\001\022\035\n\031CLUSTER_MEMBERSHI" +
-      "P_DENIED\020\002\022\017\n\013SERVER_NAME\020\003\022\017\n\013SERVER_IN" +
-      "FO\020\004B\'\n\021net.communicationB\022SimpleExchang" +
-      "eComm"
+      "pleExchange.simpleExchangeResponse\022\n\n\002id" +
+      "\030\003 \001(\005\022\022\n\ntime_stamp\030\004 \001(\005\022\025\n\rpacket_num" +
+      "ber\030\005 \001(\005\032\340\001\n\025simpleExchangeRequest\022U\n\014r" +
+      "equest_type\030\001 \002(\0162?.communication.simple" +
+      "Exchange.simpleExchangeRequest.RequestTy" +
+      "pe\022\024\n\014request_note\030\002 \001(\t\"Z\n\013RequestType\022",
+      "\t\n\005PROBE\020\000\022\036\n\032CLUSTER_MEMBERSHIP_REQUEST" +
+      "\020\001\022\017\n\013SERVER_NAME\020\002\022\017\n\013SERVER_INFO\020\003\032\204\002\n" +
+      "\026simpleExchangeResponse\022X\n\rresponse_type" +
+      "\030\001 \002(\0162A.communication.simpleExchange.si" +
+      "mpleExchangeResponse.ResponseType\022\025\n\rres" +
+      "ponse_note\030\002 \001(\t\"y\n\014ResponseType\022\t\n\005PROB" +
+      "E\020\000\022\035\n\031CLUSTER_MEMBERSHIP_ACCEPT\020\001\022\035\n\031CL" +
+      "USTER_MEMBERSHIP_DENIED\020\002\022\017\n\013SERVER_NAME" +
+      "\020\003\022\017\n\013SERVER_INFO\020\004B\'\n\021net.communication" +
+      "B\022SimpleExchangeComm"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2142,7 +2377,7 @@ public final class SimpleExchangeComm {
     internal_static_communication_simpleExchange_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_communication_simpleExchange_descriptor,
-        new java.lang.String[] { "Request", "Response", });
+        new java.lang.String[] { "Request", "Response", "Id", "TimeStamp", "PacketNumber", });
     internal_static_communication_simpleExchange_simpleExchangeRequest_descriptor =
       internal_static_communication_simpleExchange_descriptor.getNestedTypes().get(0);
     internal_static_communication_simpleExchange_simpleExchangeRequest_fieldAccessorTable = new
