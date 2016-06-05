@@ -20,6 +20,14 @@ import net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeRespons
 public class ServerThread extends Thread {
 	static final boolean REQUIRE_UNIQUE_CLIENTS = false;
 	ServerInfo info;
+	public ServerInfo getInfo() {
+		return info;
+	}
+
+	public void setInfo(ServerInfo info) {
+		this.info = info;
+	}
+
 	DatagramSocket socket;
 	int maxClients;
 	Map<Integer, Client> clients;

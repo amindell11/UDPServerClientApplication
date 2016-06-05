@@ -6,6 +6,9 @@
 
 package panel;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import multiplayergamelauncher.AppState;
 import multiplayergamelauncher.ProgressListener;
 
@@ -23,6 +26,7 @@ public class ClientConsolePanel extends javax.swing.JPanel {
         this.listener=listener;
     }
     public void onEnter(){
+    	CustomOutputStream.reallocatePrint(jTextArea1);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -33,7 +37,6 @@ public class ClientConsolePanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        textArea1 = new java.awt.TextArea();
         jLabel1 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox();
         jTextField1 = new javax.swing.JTextField();
@@ -41,6 +44,8 @@ public class ClientConsolePanel extends javax.swing.JPanel {
         ClearButton = new javax.swing.JButton();
         disconnectButton = new javax.swing.JButton();
         IPAddress = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel1.setText("Client Console Output");
@@ -70,7 +75,15 @@ public class ClientConsolePanel extends javax.swing.JPanel {
             }
         });
 
-        IPAddress.setText("0.0.0.0");
+        try {
+			IPAddress.setText(InetAddress.getLocalHost().getHostAddress());
+		} catch (UnknownHostException e) {
+			IPAddress.setText("0.0.0.0");
+		}
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -79,7 +92,7 @@ public class ClientConsolePanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(textArea1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -109,7 +122,7 @@ public class ClientConsolePanel extends javax.swing.JPanel {
                         .addComponent(ClearButton)
                         .addComponent(disconnectButton)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(textArea1, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -124,7 +137,7 @@ public class ClientConsolePanel extends javax.swing.JPanel {
     }//GEN-LAST:event_SendButtonActionPerformed
 
     private void ClearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearButtonActionPerformed
-        // TODO add your handling code here:
+        jTextArea1.setText("");
     }//GEN-LAST:event_ClearButtonActionPerformed
 
     private void disconnectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disconnectButtonActionPerformed
@@ -140,7 +153,8 @@ public class ClientConsolePanel extends javax.swing.JPanel {
     private javax.swing.JButton disconnectButton;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
-    private java.awt.TextArea textArea1;
     // End of variables declaration//GEN-END:variables
 }
