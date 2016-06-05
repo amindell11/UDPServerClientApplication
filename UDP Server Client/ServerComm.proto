@@ -5,6 +5,7 @@ option java_outer_classname = "SimpleExchangeComm";
 message simpleExchange {
 	optional simpleExchangeRequest request = 1;
 	optional simpleExchangeResponse response = 2;
+	optional int32 id = 3;
 	message simpleExchangeRequest {
 		required RequestType request_type = 1;
 		optional string request_note = 2;

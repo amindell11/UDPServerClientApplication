@@ -68,21 +68,30 @@ public class ServerThread extends Thread {
 		simpleExchangeRequest req = new SimpleExchangePacket(packet.getData()).getRequest();
 		System.out.println(req);
 		// See if the packet holds the right command (message)
-		InetAddress address = packet.getAddress();
 		System.out.println(req.getRequestType());
-		if (req.getRequestType().equals(RequestType.PROBE)) {
-			// Send a response
-			socket.send(new SimpleExchangePacket(ResponseType.PROBE, "").getPacket(address, packet.getPort()));
 
+		requestResponse(req, packet);
+	}
+
+	private void requestResponse(simpleExchangeRequest req, DatagramPacket packet) throws IOException{
+		InetAddress address = packet.getAddress();
+
+		switch(req.getRequestType()){
+		case PROBE:
+			socket.send(new SimpleExchangePacket(ResponseType.PROBE, "").getPacket(address, packet.getPort()));
 			System.out.println(getClass().getName() + ">>>Sent packet to: " + packet.getAddress().getHostAddress());
-		} else if (req.getRequestType().equals(RequestType.SERVER_NAME)) {
-			socket.send(
-					new SimpleExchangePacket(ResponseType.SERVER_NAME, info.name).getPacket(address, packet.getPort()));
-		} else if (req.getRequestType().equals(RequestType.SERVER_INFO)) {
+			break;
+
+		case SERVER_NAME:
+			socket.send(new SimpleExchangePacket(ResponseType.SERVER_NAME, info.name).getPacket(address, packet.getPort()));
+			break;
+
+		case SERVER_INFO:
 			String msg = new Gson().toJson(info);
 			socket.send(new SimpleExchangePacket(ResponseType.SERVER_INFO, msg).getPacket(address, packet.getPort()));
-		} else if (req.getRequestType().equals(RequestType.CLUSTER_MEMBERSHIP_REQUEST)) {
-			boolean isClientAcceptable = true;
+			break;
+
+		case CLUSTER_MEMBERSHIP_REQUEST:
 			ResponseType decision;
 			String reasoning = "";
 			Client proposedClient = new Client(req.getRequestNote(), Client.assignNewId(),
@@ -90,21 +99,24 @@ public class ServerThread extends Thread {
 			for (Client client : clients.values()) {
 				System.out.println(client+" "+proposedClient+" "+client.username);
 				if (Config.REQUIRE_UNIQUE_CLIENTS && client.address.equals(proposedClient.address)) {
-					isClientAcceptable = false;
 					reasoning = "active client at address " + proposedClient.address
 							+ " already in use. Close any instances and retry.";
+					break;
 				} else if (client.username.equals(proposedClient.username)) {
-					isClientAcceptable = false;
 					reasoning = "invalid or taken username. Change username and retry";
+					break;
 				}
 			}
-			if(isClientAcceptable){
+			if(reasoning.equals("")){
 				decision=ResponseType.CLUSTER_MEMBERSHIP_ACCEPT;
 				clients.put(proposedClient.username,proposedClient);
 			}
-			else decision=ResponseType.CLUSTER_MEMBERSHIP_DENIED;
+			else{
+				decision=ResponseType.CLUSTER_MEMBERSHIP_DENIED;
+			}
 			socket.send(new SimpleExchangePacket(decision, reasoning).getPacket(address,
 					packet.getPort()));
+			break;
 		}
 	}
 
