@@ -70,10 +70,10 @@ public class ServerThread extends Thread {
 		// See if the packet holds the right command (message)
 		System.out.println(req.getRequestType());
 
-		requestResponse(req, packet);
+		handleRequest(req, packet);
 	}
 
-	private void requestResponse(simpleExchangeRequest req, DatagramPacket packet) throws IOException{
+	private void handleRequest(simpleExchangeRequest req, DatagramPacket packet) throws IOException{
 		InetAddress address = packet.getAddress();
 
 		switch(req.getRequestType()){
@@ -93,28 +93,34 @@ public class ServerThread extends Thread {
 
 		case CLUSTER_MEMBERSHIP_REQUEST:
 			ResponseType decision;
-			String reasoning = "";
+			boolean validClient=true;
+			int note = 0;
 			Client proposedClient = new Client(req.getRequestNote(), Client.assignNewId(),
 					packet.getAddress().getHostAddress());
 			for (Client client : clients.values()) {
 				System.out.println(client+" "+proposedClient+" "+client.username);
 				if (Config.REQUIRE_UNIQUE_CLIENTS && client.address.equals(proposedClient.address)) {
-					reasoning = "active client at address " + proposedClient.address
-							+ " already in use. Close any instances and retry.";
+					validClient=false;
+					note=ErrorMessage.IP_IN_USE;
+			//		reasoning = "active client at address " + proposedClient.address
+				//			+ " already in use. Close any instances and retry.";
 					break;
 				} else if (client.username.equals(proposedClient.username)) {
-					reasoning = "invalid or taken username. Change username and retry";
+					validClient=false;
+					//reasoning = "invalid or taken username. Change username and retry";
+					note=ErrorMessage.INVALID_USERNAME;
 					break;
 				}
 			}
-			if(reasoning.equals("")){
+			if(validClient){
 				decision=ResponseType.CLUSTER_MEMBERSHIP_ACCEPT;
 				clients.put(proposedClient.id,proposedClient);
+				note=proposedClient.id;
 			}
 			else{
 				decision=ResponseType.CLUSTER_MEMBERSHIP_DENIED;
 			}
-			socket.send(new SimpleExchangePacket(decision, reasoning).getPacket(address,
+			socket.send(new SimpleExchangePacket(decision,""+note).getPacket(address,
 					packet.getPort()));
 			break;
 		}
