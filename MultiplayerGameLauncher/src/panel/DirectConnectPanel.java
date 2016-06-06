@@ -18,7 +18,6 @@ import multiplayergamelauncher.AppState;
 import multiplayergamelauncher.ApplicationManager;
 import net.Config;
 import net.client.ClientThread;
-import net.connectionutil.ClientConnectionUtil;
 import net.connectionutil.ServerDiscoveryUtil;
 import net.server.ServerInfo;
 
@@ -29,6 +28,7 @@ import net.server.ServerInfo;
 public class DirectConnectPanel extends javax.swing.JPanel {
 	private ApplicationManager listener;
 	String address;
+
 	/**
 	 * Creates new form DirectConnect
 	 */
@@ -174,23 +174,45 @@ public class DirectConnectPanel extends javax.swing.JPanel {
 	}// GEN-LAST:event_jTextField1ActionPerformed
 
 	private void checkAddressButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_checkAddressButtonActionPerformed
-		address=jTextField1.getText();
+		address = jTextField1.getText();
 		checkAddress(address);
 	}// GEN-LAST:event_checkAddressButtonActionPerformed:
 
-	private void connectButtonActionPerformed(java.awt.event.ActionEvent evt){// GEN-FIRST:event_connectButtonActionPerformed
-		ClientThread canConnect=null;
-		try {
-			canConnect=ClientConnectionUtil.requestClusterMembership(address, Config.PORT, listener.getUser().getName());
-			System.out.println(canConnect);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		if(canConnect!=null){
-			listener.progressTo(AppState.CLIENT_CONSOLE);
-		}else{
-			listener.showMessageDialog("Server refused connection. Try changing username, and closing any other instances of the game.", "Error: Failed to connect", JOptionPane.ERROR_MESSAGE);
-		}
+	private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_connectButtonActionPerformed
+		ClientThread client = new ClientThread(listener.getUser().getName(), address);
+		SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
+
+			@Override
+			protected String doInBackground() throws Exception {
+				String errorMessage = "Unkown server error. Please try again later.";
+				try {
+					errorMessage = client.requestClusterMembership(address, Config.PORT);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return errorMessage;
+			}
+
+		};
+		worker.addPropertyChangeListener(new PropertyChangeListener() {
+
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (client.isActiveMember()) {
+					listener.progressTo(AppState.CLIENT_CONSOLE);
+				} else {
+					try {
+						listener.showMessageDialog(worker.get(), "Error: Failed to connect", JOptionPane.ERROR_MESSAGE);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					} catch (ExecutionException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+		worker.execute();
+
 	}// GEN-LAST:event_connectButtonActionPerformed
 
 	private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_backButtonActionPerformed
@@ -203,7 +225,7 @@ public class DirectConnectPanel extends javax.swing.JPanel {
 		SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
 			@Override
 			public Boolean doInBackground() {
-				return (address != null && ServerDiscoveryUtil.checkAddressForServer(address,Config.PORT, 1000));
+				return (address != null && ServerDiscoveryUtil.checkAddressForServer(address, Config.PORT, 1000));
 			}
 
 			@Override
@@ -218,10 +240,10 @@ public class DirectConnectPanel extends javax.swing.JPanel {
 				if ("state".equals(evt.getPropertyName()) && SwingWorker.StateValue.DONE == evt.getNewValue()) {
 					try {
 						if (worker.get()) {
-							updateInfoArea(ServerDiscoveryUtil.getServerInfo(address,Config.PORT));
+							updateInfoArea(ServerDiscoveryUtil.getServerInfo(address, Config.PORT));
 							jLabel3.setText("Server available");
 						} else {
-							updateInfoArea(new ServerInfo("",0,"",0,0));
+							updateInfoArea(new ServerInfo("", 0, "", 0, 0));
 							jLabel3.setText("No server at requested address");
 						}
 					} catch (InterruptedException e) {
@@ -238,10 +260,11 @@ public class DirectConnectPanel extends javax.swing.JPanel {
 		worker.execute();
 
 	}
-	private void updateInfoArea(ServerInfo info){
+
+	private void updateInfoArea(ServerInfo info) {
 		serverAddressLabel.setText(info.getAddress());
 		serverNameLabel.setText(info.getServerName());
-		playerNumLabel.setText(info.getNumClients()+"/"+info.getMaxClients());
+		playerNumLabel.setText(info.getNumClients() + "/" + info.getMaxClients());
 	}
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables

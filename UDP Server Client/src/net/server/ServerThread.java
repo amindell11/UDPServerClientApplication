@@ -100,6 +100,7 @@ public class ServerThread extends Thread {
 			break;
 
 		case CLUSTER_MEMBERSHIP_REQUEST:
+			System.out.println("???");
 			ResponseType decision;
 			boolean validClient=true;
 			String note = "";
@@ -130,10 +131,12 @@ public class ServerThread extends Thread {
 			if(validClient){
 				decision=ResponseType.CLUSTER_MEMBERSHIP_ACCEPT;
 				clients.put(proposedClient.id,proposedClient);
+				System.out.println("accepted");
 			}
 			else{
 				decision=ResponseType.CLUSTER_MEMBERSHIP_DENIED;
 			}
+			System.out.println("sending packet back");
 			socket.send(new SimpleExchangePacket(decision,note,proposedClient.id).getPacket(address,
 					packet.getPort()));
 			break;
