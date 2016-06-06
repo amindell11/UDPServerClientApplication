@@ -83,7 +83,7 @@ public class ServerSecretary {
 			decision = ResponseType.CLUSTER_MEMBERSHIP_ACCEPT;
 			parent.clients.put(proposedClient.getClientId(), proposedClient);
 			System.out.println("accepted");
-			proposedClient.run();
+			proposedClient.start();
 		} else {
 			decision = ResponseType.CLUSTER_MEMBERSHIP_DENIED;
 		}

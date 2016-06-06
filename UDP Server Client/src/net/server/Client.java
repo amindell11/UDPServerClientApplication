@@ -7,7 +7,6 @@ import java.util.List;
 import net.SimpleExchangePacket;
 import net.communication.SimpleExchangeComm.simpleExchange;
 import net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeRequest.RequestType;
-import net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeResponse.ResponseType;
 
 public class Client extends Thread{
     public static List<Integer> usedIds;
