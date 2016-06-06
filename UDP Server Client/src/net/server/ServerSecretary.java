@@ -50,20 +50,20 @@ public class ServerSecretary {
 		boolean validClient = true;
 		String note = "";
 		Client proposedClient = new Client(req.getRequestNote(),
-				Client.assignNewId(), packet.getAddress().getHostAddress());
+				Client.assignNewId(), packet.getAddress().getHostAddress(), parent);
 		for (Client client : parent.clients.values()) {
 			if (Config.REQUIRE_UNIQUE_CLIENTS) {
-				if (client.address.equals(proposedClient.address)) {
+				if (client.getAddress().equals(proposedClient.getAddress())) {
 					validClient = false;
-					note = "Active client at address " + proposedClient.address
+					note = "Active client at address " + proposedClient.getAddress()
 							+ " already in use. Close any instances and retry.";
 					break;
-				} else if (client.username.equals(proposedClient.username)) {
+				} else if (client.getUsername().equals(proposedClient.getUsername())) {
 					validClient = false;
 					note = "Invalid or taken username. Change username and retry.";
 					break;
 				}
-			} else if (client.username.equals(proposedClient.username)) {
+			} else if (client.getUsername().equals(proposedClient.getUsername())) {
 				validClient = false;
 				note = "Invalid or taken username. Change username and retry.";
 				break;
@@ -81,7 +81,7 @@ public class ServerSecretary {
 
 		if (validClient) {
 			decision = ResponseType.CLUSTER_MEMBERSHIP_ACCEPT;
-			parent.clients.put(proposedClient.id, proposedClient);
+			parent.clients.put(proposedClient.getClientId(), proposedClient);
 			System.out.println("accepted");
 			proposedClient.run();
 		} else {
@@ -89,7 +89,7 @@ public class ServerSecretary {
 		}
 		System.out.println("sending packet back");
 		parent.socket.send(new SimpleExchangePacket(decision, note,
-				proposedClient.id).getPacket(address, packet.getPort()));
+				proposedClient.getClientId()).getPacket(address, packet.getPort()));
 	}
 
 }
