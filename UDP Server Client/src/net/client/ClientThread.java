@@ -51,24 +51,29 @@ public class ClientThread extends Thread {
 	public void handlePacket(DatagramPacket packet){
 		//TODO
 	}
-	public String requestClusterMembership(String serverAddress, int port) throws IOException {
+	public boolean requestClusterMembership(String serverAddress, int port) throws MembershipRequestDeniedException {
+		DatagramPacket responsePacket=null;
+		try{
 		ConnectionUtil.getUtilSocket().send(new SimpleExchangePacket(RequestType.CLUSTER_MEMBERSHIP_REQUEST, username)
 				.getPacket(serverAddress, port));
-		DatagramPacket responsePacket = ConnectionUtil.receivePacket(Config.DEFAULT_TIMEOUT);
-		if (responsePacket == null) {
-			return "Packet timed out. Server unavailable";
+		responsePacket = ConnectionUtil.receivePacket(Config.DEFAULT_TIMEOUT);
+		}catch(IOException e){
+			
 		}
+		if (responsePacket == null) {
+			throw new MembershipRequestDeniedException("Packet timed out. Server unavailable");
+		}
+		
 		simpleExchange responseMsg = new SimpleExchangePacket(responsePacket.getData()).getMessage();
 		simpleExchangeResponse response = responseMsg.getResponse();
 		if (response.getResponseType().equals(ResponseType.CLUSTER_MEMBERSHIP_ACCEPT)) {
 			int id = responseMsg.getId();
 			this.id = id;
 			activeMember = true;
-			return null;
 		} else if (response.getResponseType().equals(ResponseType.CLUSTER_MEMBERSHIP_DENIED)) {
-			return response.getResponseNote();
+			throw new MembershipRequestDeniedException(response.getResponseNote());
 		}
-		return "Unknown error.";
+		return activeMember;
 	}
 
 	public boolean isActiveMember() {

@@ -16,8 +16,10 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 
 import multiplayergamelauncher.AppState;
+import multiplayergamelauncher.AppUtil;
 import net.Config;
 import net.client.ClientThread;
+import net.client.MembershipRequestDeniedException;
 import net.connectionutil.ClientConnectionUtil;
 
 /**
@@ -135,38 +137,7 @@ public class ServerSelectSubPanel extends javax.swing.JPanel {
 
 	private void selectServerButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_selectServerButtonActionPerformed
 		String address = parent.servers.get(jList1.getSelectedValue());
-		ClientThread client = new ClientThread(parent.listener.getUser().getName(), address);
-		SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
-			@Override
-			protected String doInBackground() throws Exception {
-				String errorMessage = "Unkown server error. Please try again later.";
-				try {
-					errorMessage = client.requestClusterMembership(address, Config.PORT);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				return errorMessage;
-			}
-
-		};
-		worker.addPropertyChangeListener(new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				if (client.isActiveMember()) {
-					parent.listener.progressTo(AppState.CLIENT_CONSOLE);
-				} else {
-					try {
-						parent.listener.showMessageDialog(worker.get(), "Error: Failed to connect",
-								JOptionPane.ERROR_MESSAGE);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					} catch (ExecutionException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		});
-		worker.execute();
+		ClientThread client=AppUtil.createClient(address, Config.PORT, parent.listener.getUser().getName(), parent.listener);
 	}// GEN-LAST:event_selectServerButtonActionPerformed
 
 	private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_backButtonActionPerformed
