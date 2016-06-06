@@ -15,6 +15,9 @@ public class ClientThread extends Thread {
 	String username;
 	int id;
 	String address;
+	//TODO switch these to a serverInfo object
+	String serverAddress;
+	int serverPort;
 	private boolean activeMember;
 	private boolean open;
 
@@ -46,7 +49,14 @@ public class ClientThread extends Thread {
 		handlePacket(receive);
 	}
 	public void handlePacket(DatagramPacket packet){
-		//TODO
+		simpleExchange message=new SimpleExchangePacket(packet.getData()).getMessage();
+		if(message.hasRequest()&&message.getRequest().getRequestType().equals(RequestType.PROBE)){
+			try {
+				ConnectionUtil.getUtilSocket().send(new SimpleExchangePacket(ResponseType.PROBE,"").getPacket(serverAddress, serverPort));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	public boolean requestClusterMembership(String serverAddress, int port) throws MembershipRequestDeniedException {
 		DatagramPacket responsePacket=null;
@@ -66,6 +76,8 @@ public class ClientThread extends Thread {
 		if (response.getResponseType().equals(ResponseType.CLUSTER_MEMBERSHIP_ACCEPT)) {
 			int id = responseMsg.getId();
 			this.id = id;
+			this.serverAddress=serverAddress;
+			this.serverPort=port;
 			activeMember = true;
 		} else if (response.getResponseType().equals(ResponseType.CLUSTER_MEMBERSHIP_DENIED)) {
 			throw new MembershipRequestDeniedException(response.getResponseNote());
