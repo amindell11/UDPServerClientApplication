@@ -61,9 +61,8 @@ public class ServerThread extends Thread {
 	this("default", port);
     }
 
-    public void update() throws IOException {
-	System.out.println(getClass().getName()
-		+ ">>>Ready to receive broadcast packets!");
+	public void update() throws IOException {
+		System.out.println(getClass().getName() + ">>>Ready to receive broadcast packets!");
 
 	// Receive a packet
 	byte[] recvBuf = new byte[15000];

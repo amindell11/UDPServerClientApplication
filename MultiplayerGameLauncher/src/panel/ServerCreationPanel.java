@@ -6,6 +6,9 @@
 
 package panel;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import multiplayergamelauncher.AppState;
 import multiplayergamelauncher.ApplicationManager;
 import net.Config;
@@ -105,7 +108,16 @@ public class ServerCreationPanel extends javax.swing.JPanel {
 
         maxPlayersLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         maxPlayersLabel.setText("16");
+        
+        maxPlayersSlider.setMaximum(net.Config.MAX_CLIENTS);
+        maxPlayersSlider.addChangeListener(new ChangeListener(){
 
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				maxPlayersLabel.setText(maxPlayersSlider.getValue()+"");
+			}
+        	
+        });
         jLabel7.setText("Max Players");
 
         moreButton.setText("More Options...");
