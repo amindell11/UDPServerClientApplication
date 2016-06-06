@@ -45,6 +45,14 @@ public class SimpleExchangePacket {
 				);
 		message=builder.build();
 	}
+	public SimpleExchangePacket(RequestType requestType, String note, int id){
+		this();
+		builder.setRequest(simpleExchangeRequest.newBuilder()
+				.setRequestType(requestType)
+				.setRequestNote(note)
+				).setId(id);
+		message=builder.build();
+	}
 	
 
 	
@@ -98,12 +106,25 @@ public class SimpleExchangePacket {
 		System.out.println("message does not have request");
 		return null;
 	}
+	public boolean hasId(){
+		return message.hasId();
+	}
+	public int getId(){
+		if(hasId()){
+			return message.getId();
+		}
+		System.out.println("message does not have id");
+		return -1;
+	}
 	public simpleExchangeResponse getResponse(){
 		if(isResponse()){
 			return message.getResponse();
 		}
 		System.out.println("message does not have response");
 		return null;
+	}
+	public simpleExchange getMessage(){
+		return message;
 	}
 
 }

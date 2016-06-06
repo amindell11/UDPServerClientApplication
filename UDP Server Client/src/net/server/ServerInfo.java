@@ -6,12 +6,21 @@ public final class ServerInfo {
 	int numClients;
 	int maxClients;
 	int port;
+	String password;
 	public ServerInfo(String address,int port,String name, int numClients, int maxClients){
 		this.address=address;
 		this.port=port;
 		this.name=name;
 		this.numClients=numClients;
 		this.maxClients=maxClients;
+	}
+	public ServerInfo(String address,int port,String name, int numClients, int maxClients,String password){
+		this.address=address;
+		this.port=port;
+		this.name=name;
+		this.numClients=numClients;
+		this.maxClients=maxClients;
+		this.password=password;
 	}
 	public void setServerAddress(String address){
 		this.address=address;
@@ -33,5 +42,11 @@ public final class ServerInfo {
 	}
 	public int getMaxClients(){
 		return maxClients;
+	}
+	public boolean hasPassword(){
+		return password!=null;
+	}
+	public String getPassword(){
+		return password;
 	}
 }

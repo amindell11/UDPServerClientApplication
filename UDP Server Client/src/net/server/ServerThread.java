@@ -109,32 +109,32 @@ public class ServerThread extends Thread {
 				System.out.println(client+" "+proposedClient+" "+client.username);
 				if (Config.REQUIRE_UNIQUE_CLIENTS && client.address.equals(proposedClient.address)) {
 					validClient=false;
-					note=ErrorMessage.IP_IN_USE;
-			//		reasoning = "active client at address " + proposedClient.address
-				//			+ " already in use. Close any instances and retry.";
+					note = "Active client at address " + proposedClient.address
+							+ " already in use. Close any instances and retry.";
 					break;
 				} 
 				else if (client.username.equals(proposedClient.username)) {
 					validClient=false;
-					//reasoning = "invalid or taken username. Change username and retry";
-					note=ErrorMessage.INVALID_USERNAME;
-					break;
-				}
-				else if(clients.size() == info.getMaxClients()){
-					validClient=false;
-					note=ErrorMessage.SERVER_FULL;
+					note = "Invalid or taken username. Change username and retry.";
 					break;
 				}
 			}
+			if(clients.size() == info.getMaxClients()){
+				validClient=false;
+				note="Server already has the maximum number of connected clients.";
+			}else if(info.hasPassword()&&!req.getRequestNote().equals(info.getPassword())){
+				validClient=false;
+				note="Incorrect server password.";
+			}
+			
 			if(validClient){
 				decision=ResponseType.CLUSTER_MEMBERSHIP_ACCEPT;
 				clients.put(proposedClient.id,proposedClient);
-				note=proposedClient.id + "";
 			}
 			else{
 				decision=ResponseType.CLUSTER_MEMBERSHIP_DENIED;
 			}
-			socket.send(new SimpleExchangePacket(decision,""+note).getPacket(address,
+			socket.send(new SimpleExchangePacket(decision,note,proposedClient.id).getPacket(address,
 					packet.getPort()));
 			break;
 		}
