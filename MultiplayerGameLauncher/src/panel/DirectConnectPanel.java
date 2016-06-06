@@ -70,7 +70,7 @@ public class DirectConnectPanel extends javax.swing.JPanel {
 	public void checkAddress(String ip) {
 		serverAddressLabel.setText(ip);
 		jLabel3.setText("Checking...");
-		SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
+		final SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
 			@Override
 			public Boolean doInBackground() {
 				return (address != null && ServerDiscoveryUtil.checkAddressForServer(address, Config.PORT, 1000));

@@ -12,9 +12,9 @@ import net.client.ClientThread;
 import net.client.MembershipRequestDeniedException;
 
 public class AppUtil {
-	public static ClientThread createClient(String address,int port,String username,ApplicationManager listener){
-		ClientThread client = new ClientThread(username, address);
-		SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
+	public static ClientThread createClient(final String address,int port,String username,final ApplicationManager listener){
+		final ClientThread client = new ClientThread(username, address);
+		final SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
 			@Override
 			protected String doInBackground() throws Exception {
 				String errorMessage = "Unkown server error. Please try again later.";
