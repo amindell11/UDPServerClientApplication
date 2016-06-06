@@ -1,4 +1,3 @@
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -7,7 +6,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.SimpleExchangePacket;
-import net.communication.SimpleExchangeComm;
 import net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeRequest;
 import net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeRequest.RequestType;
 import net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeResponse.ResponseType;

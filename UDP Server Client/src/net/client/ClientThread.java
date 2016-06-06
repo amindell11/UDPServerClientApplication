@@ -2,15 +2,12 @@ package net.client;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
 
 import net.Config;
 import net.SimpleExchangePacket;
 import net.communication.SimpleExchangeComm.simpleExchange;
-import net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeResponse;
 import net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeRequest.RequestType;
+import net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeResponse;
 import net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeResponse.ResponseType;
 import net.connectionutil.ConnectionUtil;
 
