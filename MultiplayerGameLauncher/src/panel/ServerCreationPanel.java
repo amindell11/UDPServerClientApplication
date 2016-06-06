@@ -6,13 +6,20 @@
 
 package panel;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import multiplayergamelauncher.AppState;
 import multiplayergamelauncher.ApplicationManager;
 import multiplayergamelauncher.ProgressListener;
 import net.Config;
+import net.client.ClientThread;
 import net.server.ServerThread;
 
 /**
@@ -74,7 +81,16 @@ public class ServerCreationPanel extends javax.swing.JPanel {
 
         maxPlayersLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         maxPlayersLabel.setText("16");
+        
+        maxPlayersSlider.setMaximum(net.Config.MAX_CLIENTS);
+        maxPlayersSlider.addChangeListener(new ChangeListener(){
 
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				maxPlayersLabel.setText(maxPlayersSlider.getValue()+"");
+			}
+        	
+        });
         jLabel7.setText("Max Players");
 
         moreButton.setText("More Options...");
@@ -162,9 +178,22 @@ public class ServerCreationPanel extends javax.swing.JPanel {
 
     private void createServerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createServerButtonActionPerformed
     	String name=serverNameField.getText();
+    	int port=Config.PORT;
     	int players=maxPlayersSlider.getValue();
-		ServerThread server = new ServerThread(name,Config.PORT,players);
+		ServerThread server = new ServerThread(name,port,players);
 		server.start();
+		if(playAsClientToggle.isSelected()){
+			try {
+				String localHost = InetAddress.getLocalHost().getHostAddress();
+				ClientThread client=new ClientThread(listener.getUser().getName(),localHost);
+				client.requestClusterMembership(localHost, port);
+				client.start();
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 		listener.serverConsolePanel.onEnter(server);
     	listener.progressTo(AppState.SERVER_CONSOLE);
     }//GEN-LAST:event_createServerButtonActionPerformed

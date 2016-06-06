@@ -131,6 +131,7 @@ public class ServerThread extends Thread {
 			if(validClient){
 				decision=ResponseType.CLUSTER_MEMBERSHIP_ACCEPT;
 				clients.put(proposedClient.id,proposedClient);
+				info.numClients=clients.size();
 				System.out.println("accepted");
 			}
 			else{
