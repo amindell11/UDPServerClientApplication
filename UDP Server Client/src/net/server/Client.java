@@ -3,7 +3,7 @@ package net.server;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Client {
+public class Client extends Thread{
 	public static List<Integer> usedIds;
 	String username;
 	int id;
@@ -16,7 +16,7 @@ public class Client {
 		lastCommTimestamp=System.currentTimeMillis();
 	}
 	public void handleMessage(){
-		//TODO
+		
 	}
 	public static int assignNewId() {
 		if(usedIds==null)usedIds=new ArrayList<>();
@@ -26,5 +26,10 @@ public class Client {
 		}
 		usedIds.add(generatedId);
 		return generatedId;
+	}
+	
+	@Override
+	public void run(){
+		
 	}
 }

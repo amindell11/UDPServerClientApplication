@@ -24,23 +24,17 @@ public class ServerSecretary {
 
 		switch (req.getRequestType()) {
 		case PROBE:
-			parent.socket.send(new SimpleExchangePacket(ResponseType.PROBE, "")
-					.getPacket(address, packet.getPort()));
-			System.out.println(getClass().getName() + ">>>Sent packet to: "
-					+ packet.getAddress().getHostAddress());
+			parent.socket.send(new SimpleExchangePacket(ResponseType.PROBE, "").getPacket(address, packet.getPort()));
+			System.out.println(getClass().getName() + ">>>Sent packet to: " + packet.getAddress().getHostAddress());
 			break;
 
 		case SERVER_NAME:
-			parent.socket.send(new SimpleExchangePacket(
-					ResponseType.SERVER_NAME, parent.info.name).getPacket(
-					address, packet.getPort()));
+			parent.socket.send(new SimpleExchangePacket(ResponseType.SERVER_NAME, parent.info.name).getPacket(address, packet.getPort()));
 			break;
 
 		case SERVER_INFO:
 			String msg = new Gson().toJson(parent.info);
-			parent.socket.send(new SimpleExchangePacket(
-					ResponseType.SERVER_INFO, msg).getPacket(address,
-					packet.getPort()));
+			parent.socket.send(new SimpleExchangePacket(ResponseType.SERVER_INFO, msg).getPacket(address,packet.getPort()));
 			break;
 
 		case CLUSTER_MEMBERSHIP_REQUEST:
@@ -89,6 +83,7 @@ public class ServerSecretary {
 			decision = ResponseType.CLUSTER_MEMBERSHIP_ACCEPT;
 			parent.clients.put(proposedClient.id, proposedClient);
 			System.out.println("accepted");
+			proposedClient.run();
 		} else {
 			decision = ResponseType.CLUSTER_MEMBERSHIP_DENIED;
 		}
