@@ -6,6 +6,8 @@
 
 package panel;
 
+import java.awt.Dimension;
+
 import javax.swing.JDialog;
 
 import multiplayergamelauncher.AppState;
@@ -109,7 +111,8 @@ public class EditProfilePanel extends javax.swing.JPanel {
                     .addComponent(confirmButton))
                 .addContainerGap())
         );
-
+        changeUsernameDialog.setMinimumSize(new Dimension(500,200));
+        changeUsernameDialog.setLocationRelativeTo(null);
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setText("Profile");
 
