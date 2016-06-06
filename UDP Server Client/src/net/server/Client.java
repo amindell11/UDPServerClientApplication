@@ -15,7 +15,9 @@ public class Client {
 		this.address=address;
 		lastCommTimestamp=System.currentTimeMillis();
 	}
-	
+	public void handleMessage(){
+		//TODO
+	}
 	public static int assignNewId() {
 		if(usedIds==null)usedIds=new ArrayList<>();
 		int generatedId=1;

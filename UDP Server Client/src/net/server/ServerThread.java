@@ -11,10 +11,7 @@ import java.util.Map;
 
 import net.Config;
 import net.SimpleExchangePacket;
-import net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeRequest;
-import net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeResponse.ResponseType;
-
-import com.google.gson.Gson;
+import net.communication.SimpleExchangeComm.simpleExchange;
 
 public class ServerThread extends Thread {
 	static final boolean REQUIRE_UNIQUE_CLIENTS = false;
@@ -75,15 +72,13 @@ public class ServerThread extends Thread {
 		// Packet received
 		System.out.println(getClass().getName() + ">>>Packet received from: "
 				+ packet.getAddress().getHostAddress());
-		System.out.println(getClass().getName() + ">>>Packet received; data: "
-				+ new String(packet.getData()));
-		simpleExchangeRequest req = new SimpleExchangePacket(packet.getData())
-				.getRequest();
-		System.out.println(req);
-		// See if the packet holds the right command (message)
-		System.out.println(req.getRequestType());
-
-		secretary.handleRequest(req, packet);
+		simpleExchange msg = new SimpleExchangePacket(packet.getData())
+				.getMessage();
+		System.out.println(msg);
+		if (msg.hasId()) {
+			clients.get(msg.getId()).handleMessage();
+		}
+		secretary.handleRequest(msg.getRequest(), packet);
 	}
 
 	@Override
