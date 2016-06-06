@@ -19,13 +19,10 @@ import com.google.gson.Gson;
 public class ServerThread extends Thread {
 	static final boolean REQUIRE_UNIQUE_CLIENTS = false;
 	ServerInfo info;
+	ServerSecretary secretary;
 
 	public ServerInfo getInfo() {
 		return info;
-	}
-
-	public void setInfo(ServerInfo info) {
-		this.info = info;
 	}
 
 	DatagramSocket socket;
@@ -44,6 +41,7 @@ public class ServerThread extends Thread {
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
+		secretary = new ServerSecretary(this);
 	}
 
 	public void init() {
@@ -85,81 +83,7 @@ public class ServerThread extends Thread {
 		// See if the packet holds the right command (message)
 		System.out.println(req.getRequestType());
 
-		handleRequest(req, packet);
-	}
-
-	private void handleRequest(simpleExchangeRequest req, DatagramPacket packet)
-			throws IOException {
-		InetAddress address = packet.getAddress();
-
-		switch (req.getRequestType()) {
-		case PROBE:
-			socket.send(new SimpleExchangePacket(ResponseType.PROBE, "")
-					.getPacket(address, packet.getPort()));
-			System.out.println(getClass().getName() + ">>>Sent packet to: "
-					+ packet.getAddress().getHostAddress());
-			break;
-
-		case SERVER_NAME:
-			socket.send(new SimpleExchangePacket(ResponseType.SERVER_NAME,
-					info.name).getPacket(address, packet.getPort()));
-			break;
-
-		case SERVER_INFO:
-			String msg = new Gson().toJson(info);
-			socket.send(new SimpleExchangePacket(ResponseType.SERVER_INFO, msg)
-					.getPacket(address, packet.getPort()));
-			break;
-
-		case CLUSTER_MEMBERSHIP_REQUEST:
-			System.out.println("???");
-			ResponseType decision;
-			boolean validClient = true;
-			String note = "";
-			Client proposedClient = new Client(req.getRequestNote(),
-					Client.assignNewId(), packet.getAddress().getHostAddress());
-			for (Client client : clients.values()) {
-				System.out.println(client + " " + proposedClient + " "
-						+ client.username);
-				if (Config.REQUIRE_UNIQUE_CLIENTS) {
-					if (client.address.equals(proposedClient.address)) {
-						validClient = false;
-						note = "Active client at address "
-								+ proposedClient.address
-								+ " already in use. Close any instances and retry.";
-						break;
-					} else if (client.username.equals(proposedClient.username)) {
-						validClient = false;
-						note = "Invalid or taken username. Change username and retry.";
-						break;
-					}
-				} else if (client.username.equals(proposedClient.username)) {
-					validClient = false;
-					note = "Invalid or taken username. Change username and retry.";
-					break;
-				}
-			}
-			if (clients.size() == info.getMaxClients()) {
-				validClient = false;
-				note = "Server already has the maximum number of connected clients.";
-			} else if (info.hasPassword()
-					&& !req.getRequestNote().equals(info.getPassword())) {
-				validClient = false;
-				note = "Incorrect server password.";
-			}
-
-			if (validClient) {
-				decision = ResponseType.CLUSTER_MEMBERSHIP_ACCEPT;
-				clients.put(proposedClient.id, proposedClient);
-				System.out.println("accepted");
-			} else {
-				decision = ResponseType.CLUSTER_MEMBERSHIP_DENIED;
-			}
-			System.out.println("sending packet back");
-			socket.send(new SimpleExchangePacket(decision, note,
-					proposedClient.id).getPacket(address, packet.getPort()));
-			break;
-		}
+		secretary.handleRequest(req, packet);
 	}
 
 	@Override
