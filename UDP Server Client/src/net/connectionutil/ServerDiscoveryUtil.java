@@ -53,7 +53,7 @@ public class ServerDiscoveryUtil extends ConnectionUtil {
 
 	public static String getServerName(String serverAddress, int port) throws IOException {
 		getUtilSocket().send(new SimpleExchangePacket(RequestType.SERVER_NAME, "").getPacket(serverAddress, port));
-		DatagramPacket response = receivePacket();
+		DatagramPacket response = receivePacket(getUtilSocket());
 		return new SimpleExchangePacket(response.getData()).getResponse().getResponseNote();
 	}
 
@@ -123,7 +123,7 @@ public class ServerDiscoveryUtil extends ConnectionUtil {
 
 	public static ServerInfo getServerInfo(String serverAddress,int port) throws IOException {
 		getUtilSocket().send(new SimpleExchangePacket(RequestType.SERVER_INFO, "").getPacket(serverAddress, port));
-		DatagramPacket response = receivePacket();
+		DatagramPacket response = receivePacket(getUtilSocket());
 		return new Gson().fromJson(new SimpleExchangePacket(response.getData()).getResponse().getResponseNote(),
 				ServerInfo.class);
 	}
@@ -132,7 +132,7 @@ public class ServerDiscoveryUtil extends ConnectionUtil {
 		sendProbePacket(address,port);
 		DatagramPacket receivePacket = null;
 		try {
-			receivePacket = receivePacket(timeout);
+			receivePacket = receivePacket(getUtilSocket(),timeout);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}

@@ -50,7 +50,7 @@ public class ServerSecretary {
 		boolean validClient = true;
 		String note = "";
 		Client proposedClient = new Client(req.getRequestNote(),
-				Client.assignNewId(), packet.getAddress().getHostAddress(), parent);
+				Client.assignNewId(), packet.getAddress().getHostAddress(), parent,packet.getPort());
 		for (Client client : parent.clients.values()) {
 			if (Config.REQUIRE_UNIQUE_CLIENTS) {
 				if (client.getAddress().equals(proposedClient.getAddress())) {
@@ -88,6 +88,7 @@ public class ServerSecretary {
 			decision = ResponseType.CLUSTER_MEMBERSHIP_DENIED;
 		}
 		System.out.println("sending packet back");
+		System.out.println(address+" " +packet.getPort());
 		parent.socket.send(new SimpleExchangePacket(decision, note,
 				proposedClient.getClientId()).getPacket(address, packet.getPort()));
 	}

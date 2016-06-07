@@ -2,6 +2,8 @@ package multiplayergamelauncher;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.concurrent.ExecutionException;
 
 import javax.swing.JOptionPane;
@@ -67,9 +69,9 @@ public class AppUtil {
 		return client;
 
 	}
-	public static void main(String[] args){
+	public static void main(String[] args) throws UnknownHostException{
 		String username="  ";
-		String address="192.168.1.11";
+		String address=InetAddress.getLocalHost().getHostAddress();
 		final ClientThread client = new ClientThread(username, address);
 		String errorMessage = "Unkown server error. Please try again later.";
 		try {
@@ -80,6 +82,7 @@ public class AppUtil {
 		if (client.isActiveMember()) {
 			client.start();
 		} else {
+			System.out.println(errorMessage);
 		}
 	}
 }

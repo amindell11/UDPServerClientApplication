@@ -2,6 +2,8 @@ package net.client;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.SocketException;
 
 import net.Config;
 import net.SimpleExchangePacket;
@@ -16,12 +18,20 @@ public class ClientThread extends Thread {
 	int id;
 	String address;
 	//TODO switch these to a serverInfo object
+	DatagramSocket socket;
 	String serverAddress;
 	int serverPort;
 	private boolean activeMember;
 	private boolean open;
 
 	public ClientThread(String username, String address) {
+		try {
+			socket=new DatagramSocket();
+			socket.setBroadcast(true);
+			System.out.println(socket.getLocalPort());
+		} catch (SocketException e) {
+			e.printStackTrace();
+		}
 		this.username = username;
 		activeMember = false;
 		open = false;
@@ -30,14 +40,12 @@ public class ClientThread extends Thread {
 
 	@Override
 	public void run() {
-		System.out.println("tryna tryna start this up");
 		if (!activeMember) {
 			System.out.println("Error: Client not connected to a server. Cannot begin update cycle.");
 			return;
 		}
 		open = true;
 		while (true) {
-			System.out.println("test");
 			try {
 				System.out.println("update is happening right now dude");
 				update();
@@ -48,7 +56,7 @@ public class ClientThread extends Thread {
 	}
 
 	public void update() throws IOException {
-		DatagramPacket receive=ConnectionUtil.receivePacket();
+		DatagramPacket receive=ConnectionUtil.receivePacket(socket);
 		System.out.println("got it");
 		handlePacket(receive);
 	}
@@ -58,7 +66,7 @@ public class ClientThread extends Thread {
 		if(message.hasRequest()&&message.getRequest().getRequestType().equals(RequestType.CLIENT_PING)){
 			try {
 				System.out.println("ping recieved from server. responding");
-				ConnectionUtil.getUtilSocket().send(new SimpleExchangePacket(ResponseType.CLIENT_PING,"",id).getPacket(serverAddress, serverPort));
+				socket.send(new SimpleExchangePacket(ResponseType.CLIENT_PING,"",id).getPacket(serverAddress, serverPort));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -67,9 +75,9 @@ public class ClientThread extends Thread {
 	public boolean requestClusterMembership(String serverAddress, int port) throws MembershipRequestDeniedException {
 		DatagramPacket responsePacket=null;
 		try{
-		ConnectionUtil.getUtilSocket().send(new SimpleExchangePacket(RequestType.CLUSTER_MEMBERSHIP_REQUEST, username)
+		socket.send(new SimpleExchangePacket(RequestType.CLUSTER_MEMBERSHIP_REQUEST, username)
 				.getPacket(serverAddress, port));
-		responsePacket = ConnectionUtil.receivePacket(Config.DEFAULT_TIMEOUT);
+		responsePacket = ConnectionUtil.receivePacket(socket,Config.DEFAULT_TIMEOUT);
 		}catch(IOException e){
 			
 		}

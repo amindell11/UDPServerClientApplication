@@ -15,12 +15,13 @@ public class Client extends Thread{
 	private String username;
 	private int id;
 	private String address;
+	int port;
 	private long lastCommTimestamp;
 	private boolean open;
 	private ServerThread parent;
 	private long lastSentPingTimestamp;
 
-	public Client(String username, int id, String address, ServerThread parent){
+	public Client(String username, int id, String address, ServerThread parent,int port){
 		this.username = username;
 		this.id = id;
 		this.address = address;
@@ -70,7 +71,7 @@ public class Client extends Thread{
 			System.out.println("New Ping");
 			try{
 				System.out.println(address+" "+parent.info.port);
-				ConnectionUtil.getUtilSocket().send(new SimpleExchangePacket(RequestType.CLIENT_PING, "").getPacket(address, parent.info.getPort()));
+				ConnectionUtil.getUtilSocket().send(new SimpleExchangePacket(RequestType.CLIENT_PING, "").getPacket(address, port));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
