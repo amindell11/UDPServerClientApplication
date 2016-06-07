@@ -157,7 +157,7 @@ public class ClientConsolePanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
     public void onEnter(){
-    	//CustomOutputStream.reallocatePrint(jTextArea1);
+    	CustomOutputStream.reallocatePrint(jTextArea1);
     }
     private void SendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SendButtonActionPerformed
         // TODO add your handling code here:
