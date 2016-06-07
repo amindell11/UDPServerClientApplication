@@ -29,6 +29,7 @@ public class Client extends Thread{
 	}
 
 	public void handleMessage(simpleExchange msg){
+		System.out.println("gaht it");
 		lastCommTimestamp = System.currentTimeMillis();
 	}
 
@@ -56,11 +57,14 @@ public class Client extends Thread{
 		long timeSinceCommed = currentTime-lastCommTimestamp;
 		if(timeSinceCommed > Config.CLIENT_MAX_DEAD_TIME){
 				try{
-					parent.socket.send(new SimpleExchangePacket(RequestType.PROBE, "").getPacket(getAddress(), parent.info.getPort()));
+					System.out.println("client inactive. pinging.");
+					parent.socket.send(new SimpleExchangePacket(RequestType.CLIENT_PING, "").getPacket(getAddress(), parent.info.getPort()));
 					ConnectionUtil.receivePacket(Config.DEFAULT_TIMEOUT);
+					System.out.println("finished waiting");
 					lastCommTimestamp=currentTime;
 					return true;
 				} catch (IOException e) {
+					System.out.println("ping was not returned. Concluding client must be closed.");
 					return false;
 				}
 		}

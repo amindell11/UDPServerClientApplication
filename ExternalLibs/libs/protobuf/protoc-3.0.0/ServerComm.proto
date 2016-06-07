@@ -16,6 +16,7 @@ message simpleExchange {
 			CLUSTER_MEMBERSHIP_REQUEST = 1;
 			SERVER_NAME = 2;
 			SERVER_INFO = 3;
+			CLIENT_PING=4;
 		}
 
 	}
@@ -29,6 +30,7 @@ message simpleExchange {
 			CLUSTER_MEMBERSHIP_DENIED = 2;
 			SERVER_NAME = 3;
 			SERVER_INFO = 4;
+			CLIENT_PING=5;
 		}
 
 	}

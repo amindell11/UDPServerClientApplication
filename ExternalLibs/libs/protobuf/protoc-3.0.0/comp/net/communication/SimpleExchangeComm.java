@@ -308,6 +308,10 @@ public final class SimpleExchangeComm {
          * <code>SERVER_INFO = 3;</code>
          */
         SERVER_INFO(3, 3),
+        /**
+         * <code>CLIENT_PING = 4;</code>
+         */
+        CLIENT_PING(4, 4),
         ;
 
         /**
@@ -326,6 +330,10 @@ public final class SimpleExchangeComm {
          * <code>SERVER_INFO = 3;</code>
          */
         public static final int SERVER_INFO_VALUE = 3;
+        /**
+         * <code>CLIENT_PING = 4;</code>
+         */
+        public static final int CLIENT_PING_VALUE = 4;
 
 
         public final int getNumber() {
@@ -338,6 +346,7 @@ public final class SimpleExchangeComm {
             case 1: return CLUSTER_MEMBERSHIP_REQUEST;
             case 2: return SERVER_NAME;
             case 3: return SERVER_INFO;
+            case 4: return CLIENT_PING;
             default: return null;
           }
         }
@@ -984,6 +993,10 @@ public final class SimpleExchangeComm {
          * <code>SERVER_INFO = 4;</code>
          */
         SERVER_INFO(4, 4),
+        /**
+         * <code>CLIENT_PING = 5;</code>
+         */
+        CLIENT_PING(5, 5),
         ;
 
         /**
@@ -1006,6 +1019,10 @@ public final class SimpleExchangeComm {
          * <code>SERVER_INFO = 4;</code>
          */
         public static final int SERVER_INFO_VALUE = 4;
+        /**
+         * <code>CLIENT_PING = 5;</code>
+         */
+        public static final int CLIENT_PING_VALUE = 5;
 
 
         public final int getNumber() {
@@ -1019,6 +1036,7 @@ public final class SimpleExchangeComm {
             case 2: return CLUSTER_MEMBERSHIP_DENIED;
             case 3: return SERVER_NAME;
             case 4: return SERVER_INFO;
+            case 5: return CLIENT_PING;
             default: return null;
           }
         }
@@ -2339,26 +2357,27 @@ public final class SimpleExchangeComm {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\020ServerComm.proto\022\rcommunication\"\277\005\n\016si" +
+      "\n\020ServerComm.proto\022\rcommunication\"\342\005\n\016si" +
       "mpleExchange\022D\n\007request\030\001 \001(\01323.communic" +
       "ation.simpleExchange.simpleExchangeReque" +
       "st\022F\n\010response\030\002 \001(\01324.communication.sim" +
       "pleExchange.simpleExchangeResponse\022\n\n\002id" +
       "\030\003 \001(\005\022\022\n\ntime_stamp\030\004 \001(\005\022\025\n\rpacket_num" +
-      "ber\030\005 \001(\005\032\340\001\n\025simpleExchangeRequest\022U\n\014r" +
+      "ber\030\005 \001(\005\032\361\001\n\025simpleExchangeRequest\022U\n\014r" +
       "equest_type\030\001 \002(\0162?.communication.simple" +
       "Exchange.simpleExchangeRequest.RequestTy" +
-      "pe\022\024\n\014request_note\030\002 \001(\t\"Z\n\013RequestType\022",
+      "pe\022\024\n\014request_note\030\002 \001(\t\"k\n\013RequestType\022",
       "\t\n\005PROBE\020\000\022\036\n\032CLUSTER_MEMBERSHIP_REQUEST" +
-      "\020\001\022\017\n\013SERVER_NAME\020\002\022\017\n\013SERVER_INFO\020\003\032\204\002\n" +
-      "\026simpleExchangeResponse\022X\n\rresponse_type" +
-      "\030\001 \002(\0162A.communication.simpleExchange.si" +
-      "mpleExchangeResponse.ResponseType\022\025\n\rres" +
-      "ponse_note\030\002 \001(\t\"y\n\014ResponseType\022\t\n\005PROB" +
-      "E\020\000\022\035\n\031CLUSTER_MEMBERSHIP_ACCEPT\020\001\022\035\n\031CL" +
-      "USTER_MEMBERSHIP_DENIED\020\002\022\017\n\013SERVER_NAME" +
-      "\020\003\022\017\n\013SERVER_INFO\020\004B\'\n\021net.communication" +
-      "B\022SimpleExchangeComm"
+      "\020\001\022\017\n\013SERVER_NAME\020\002\022\017\n\013SERVER_INFO\020\003\022\017\n\013" +
+      "CLIENT_PING\020\004\032\226\002\n\026simpleExchangeResponse" +
+      "\022X\n\rresponse_type\030\001 \002(\0162A.communication." +
+      "simpleExchange.simpleExchangeResponse.Re" +
+      "sponseType\022\025\n\rresponse_note\030\002 \001(\t\"\212\001\n\014Re" +
+      "sponseType\022\t\n\005PROBE\020\000\022\035\n\031CLUSTER_MEMBERS" +
+      "HIP_ACCEPT\020\001\022\035\n\031CLUSTER_MEMBERSHIP_DENIE" +
+      "D\020\002\022\017\n\013SERVER_NAME\020\003\022\017\n\013SERVER_INFO\020\004\022\017\n" +
+      "\013CLIENT_PING\020\005B\'\n\021net.communicationB\022Sim",
+      "pleExchangeComm"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

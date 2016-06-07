@@ -50,9 +50,11 @@ public class ClientThread extends Thread {
 	}
 	public void handlePacket(DatagramPacket packet){
 		simpleExchange message=new SimpleExchangePacket(packet.getData()).getMessage();
-		if(message.hasRequest()&&message.getRequest().getRequestType().equals(RequestType.PROBE)){
+		System.out.println(message);
+		if(message.hasRequest()&&message.getRequest().getRequestType().equals(RequestType.CLIENT_PING)){
 			try {
-				ConnectionUtil.getUtilSocket().send(new SimpleExchangePacket(ResponseType.PROBE,"").getPacket(serverAddress, serverPort));
+				System.out.println("ping recieved from server. responding");
+				ConnectionUtil.getUtilSocket().send(new SimpleExchangePacket(ResponseType.CLIENT_PING,"",id).getPacket(serverAddress, serverPort));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
