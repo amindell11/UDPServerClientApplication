@@ -53,6 +53,7 @@ public class Client extends Thread {
 		while (open) {
 			open = isClientStillActive();
 		}
+		parent.killClient(id);
 		System.out.println("Client no longer active. Closing.");
 	}
 
