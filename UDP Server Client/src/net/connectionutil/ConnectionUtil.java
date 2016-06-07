@@ -5,6 +5,8 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
+import net.Config;
+
 public class ConnectionUtil {
 	private static DatagramSocket socket;
 
@@ -28,7 +30,7 @@ public class ConnectionUtil {
 	public static DatagramSocket getUtilSocket(){
 		if(socket==null){
 			try {
-				socket=new DatagramSocket();
+				socket=new DatagramSocket(Config.PORT);
 			} catch (SocketException e) {
 				e.printStackTrace();
 			}

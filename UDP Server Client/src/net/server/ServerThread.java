@@ -62,21 +62,26 @@ public class ServerThread extends Thread {
 	}
 
 	public void update() throws IOException {
-		System.out.println(getClass().getName() + ">>>Ready to receive broadcast packets!");
 
 		// Receive a packet
 		byte[] recvBuf = new byte[15000];
 		DatagramPacket packet = new DatagramPacket(recvBuf, recvBuf.length);
-		socket.receive(packet);
-		// Packet received
-		System.out.println(getClass().getName() + ">>>Packet received from: "+ packet.getAddress().getHostAddress());
-		simpleExchange msg = new SimpleExchangePacket(packet.getData()).getMessage();
-		System.out.println(msg);
+		if(clients.size()==0){
+			System.out.println(getClass().getName() + ">>>Ready to receive broadcast packets!");
 
-		if (msg.hasId()) {
-			clients.get(msg.getId()).handleMessage(msg);
+			socket.receive(packet);
+
+			// Packet received
+			System.out.println(getClass().getName() + ">>>Packet received from: "+ packet.getAddress().getHostAddress());
+			simpleExchange msg = new SimpleExchangePacket(packet.getData()).getMessage();
+			System.out.println(msg);
+
+			if (msg.hasId()) {
+				System.out.println("forwarding packet to client handle method");
+				clients.get(msg.getId()).handleMessage(msg);
+			}
+			secretary.handleRequest(msg.getRequest(), packet);
 		}
-		secretary.handleRequest(msg.getRequest(), packet);
 	}
 
 	@Override

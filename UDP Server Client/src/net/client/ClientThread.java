@@ -30,13 +30,16 @@ public class ClientThread extends Thread {
 
 	@Override
 	public void run() {
+		System.out.println("tryna tryna start this up");
 		if (!activeMember) {
 			System.out.println("Error: Client not connected to a server. Cannot begin update cycle.");
 			return;
 		}
 		open = true;
-		while (open) {
+		while (true) {
+			System.out.println("test");
 			try {
+				System.out.println("update is happening right now dude");
 				update();
 			} catch (IOException e) {
 				System.out.println("update tripped. attempting to resume.");
@@ -46,6 +49,7 @@ public class ClientThread extends Thread {
 
 	public void update() throws IOException {
 		DatagramPacket receive=ConnectionUtil.receivePacket();
+		System.out.println("got it");
 		handlePacket(receive);
 	}
 	public void handlePacket(DatagramPacket packet){
@@ -81,6 +85,7 @@ public class ClientThread extends Thread {
 			this.serverAddress=serverAddress;
 			this.serverPort=port;
 			activeMember = true;
+			System.out.println("hi");
 		} else if (response.getResponseType().equals(ResponseType.CLUSTER_MEMBERSHIP_DENIED)) {
 			throw new MembershipRequestDeniedException(response.getResponseNote());
 		}

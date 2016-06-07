@@ -42,8 +42,9 @@ public class SimpleExchangePacket {
 		builder.setResponse(simpleExchangeResponse.newBuilder()
 				.setResponseType(responseType)
 				.setResponseNote(note)
-				);
+				).setId(id);
 		message=builder.build();
+		System.out.println(message);
 	}
 	public SimpleExchangePacket(RequestType requestType, String note, int id){
 		this();
@@ -85,6 +86,7 @@ public class SimpleExchangePacket {
 		return getPacket(address,port);
 	}
 	public DatagramPacket getPacket(InetAddress address,int port){
+		System.out.println(message);
 		byte[] req={};
 		try {
 			req = getBytes();
