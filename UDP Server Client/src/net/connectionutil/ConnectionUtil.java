@@ -27,7 +27,7 @@ public class ConnectionUtil {
 		socket.setSoTimeout(0);
 		return receivePacket;
 	}
-	public static DatagramSocket getUtilSocket(){
+	protected static DatagramSocket getUtilSocket(){
 		if(socket==null){
 			try {
 				socket=new DatagramSocket();

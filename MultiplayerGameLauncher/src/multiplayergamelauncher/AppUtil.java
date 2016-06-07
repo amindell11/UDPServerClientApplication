@@ -69,20 +69,5 @@ public class AppUtil {
 		return client;
 
 	}
-	public static void main(String[] args) throws UnknownHostException{
-		String username="  ";
-		String address=InetAddress.getLocalHost().getHostAddress();
-		final ClientThread client = new ClientThread(username, address);
-		String errorMessage = "Unkown server error. Please try again later.";
-		try {
-			client.requestClusterMembership(address, Config.PORT);
-		} catch (MembershipRequestDeniedException e) {
-			errorMessage=e.getMessage();
-		}
-		if (client.isActiveMember()) {
-			client.start();
-		} else {
-			System.out.println(errorMessage);
-		}
-	}
+
 }
