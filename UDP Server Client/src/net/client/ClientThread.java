@@ -47,9 +47,8 @@ public class ClientThread extends Thread {
 			return;
 		}
 		open = true;
-		while (true) {
+		while (open) {
 			try {
-				System.out.println("update is happening right now dude");
 				update();
 			} catch (IOException e) {
 				System.out.println("update tripped. attempting to resume.");
@@ -69,7 +68,6 @@ public class ClientThread extends Thread {
 		if (message.hasRequest() && message.getRequest().getRequestType().equals(RequestType.CLIENT_PING)) {
 			try {
 				System.out.println("ping recieved from server. responding");
-				System.out.println(serverPort);
 				socket.send(new SimpleExchangePacket(ResponseType.CLIENT_PING, "", id).getPacket(serverAddress, serverPort));
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -97,7 +95,6 @@ public class ClientThread extends Thread {
 			this.serverAddress = serverAddress;
 			this.serverPort = port;
 			activeMember = true;
-			System.out.println("hi");
 		} else if (response.getResponseType().equals(ResponseType.CLUSTER_MEMBERSHIP_DENIED)) {
 			throw new MembershipRequestDeniedException(response.getResponseNote());
 		}

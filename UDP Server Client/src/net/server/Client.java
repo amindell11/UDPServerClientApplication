@@ -66,7 +66,7 @@ public class Client extends Thread {
 			open = isClientStillActive();
 		}
 		parent.killClient(id);
-		System.out.println("Client no longer active. Closing.");
+		System.out.println("Client "+id+" closed.");
 	}
 
 	public boolean isClientStillActive() {
@@ -75,7 +75,7 @@ public class Client extends Thread {
 
 		// If this is true, kill the thread by returning false
 		// The thread has been unresponsive for more than 20 seconds
-		if (timeSinceLastComm > 2000) {
+		if (timeSinceLastComm > Config.PingSettings.TOTAL_WAIT) {
 			return false;
 		}
 
@@ -83,11 +83,9 @@ public class Client extends Thread {
 		// seconds
 		// Also don't ping again if we already sent a ping less than a second
 		// ago
-		else if (timeSinceLastComm > 1000 && currentTime - lastSentPingTimestamp > 500) {
+		else if (timeSinceLastComm > Config.PingSettings.CLIENT_MAX_DEAD_TIME && currentTime - lastSentPingTimestamp > Config.PingSettings.TIME_BETWEEN_PINGS) {
 			lastSentPingTimestamp = currentTime;
-			System.out.println("New Ping");
 			try {
-				System.out.println(address + " " + port);
 				parent.socket.send(new SimpleExchangePacket(RequestType.CLIENT_PING, "").getPacket(address, port));
 			} catch (IOException e) {
 				e.printStackTrace();

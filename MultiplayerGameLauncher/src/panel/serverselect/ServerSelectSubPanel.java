@@ -140,9 +140,8 @@ public class ServerSelectSubPanel extends javax.swing.JPanel {
 
 	private void selectServerButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_selectServerButtonActionPerformed
 		String address = parent.servers.get(jList1.getSelectedValue());
-		ClientThread client=AppUtil.createClientNoSwingWorker(address, Config.PORT, parent.listener.getUser().getName(), parent.listener);
+		ClientThread client=AppUtil.createClient(address, Config.PORT, parent.listener.getUser().getName(), parent.listener);
 		System.out.println(client.isActiveMember());
-		client.start();
 	}// GEN-LAST:event_selectServerButtonActionPerformed
 
 	private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_backButtonActionPerformed

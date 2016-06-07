@@ -71,7 +71,6 @@ public class ServerThread extends Thread {
 	public void update() throws IOException {
 
 		// Receive a packet
-		System.out.println(getClass().getName() + ">>>Ready to receive broadcast packets!");
 		DatagramPacket packet = ConnectionUtil.receivePacket(socket);
 
 		// Packet received
@@ -80,7 +79,7 @@ public class ServerThread extends Thread {
 		System.out.println(msg);
 
 		if (msg.hasId()) {
-			System.out.println("forwarding packet to client handle method");
+			System.out.println("message intended for client "+msg.getId()+"forwarding packet to client handle method");
 			clients.get(msg.getId()).handleMessage(msg);
 		}
 		secretary.handleRequest(msg.getRequest(), packet);
