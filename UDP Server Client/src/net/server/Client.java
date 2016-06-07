@@ -10,17 +10,29 @@ import net.communication.SimpleExchangeComm.simpleExchange;
 import net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeRequest.RequestType;
 import net.connectionutil.ConnectionUtil;
 
+/**
+ * Code to handle client's on the server. The server's representation of a client.
+ * It is important to note that this is all serverside.
+ */
 public class Client extends Thread {
 	public static List<Integer> usedIds;
 	private String username;
 	private int id;
 	private String address;
-	int port;
+	private int port;
 	private long lastCommTimestamp;
 	private boolean open;
 	private ServerThread parent;
 	private long lastSentPingTimestamp;
 
+	/**
+	 * Creates a single client object to represent one of the client's on the server
+	 * @param username The client's chosen name
+	 * @param id The server assigned id of the client
+	 * @param address The IP address of the client's computer, represented as a string
+	 * @param parent The object running the server
+	 * @param port The port on which the client's computer is communicating with the server
+	 */
 	public Client(String username, int id, String address, ServerThread parent, int port) {
 		this.username = username;
 		this.id = id;
