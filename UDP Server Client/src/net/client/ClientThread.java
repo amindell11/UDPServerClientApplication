@@ -22,6 +22,9 @@ public class ClientThread extends Thread {
 	// TODO switch these to a serverInfo object
 	DatagramSocket socket;
 	String serverAddress;
+	public String getServerAddress() {
+	    return serverAddress;
+	}
 	int serverPort;
 	private boolean activeMember;
 	private boolean open;
