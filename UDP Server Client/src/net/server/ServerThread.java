@@ -15,13 +15,12 @@ import net.communication.SimpleExchangeComm.simpleExchange;
 import net.connectionutil.ConnectionUtil;
 
 public class ServerThread extends Thread {
-    static final boolean REQUIRE_UNIQUE_CLIENTS = false;
-    ServerInfo info;
-    ServerSecretary secretary;
-    DatagramSocket socket;
-    int maxClients;
-    Map<Integer, Client> clients;
-    boolean open;
+    protected ServerInfo info;
+    private ServerSecretary secretary;
+    protected DatagramSocket socket;
+    private int maxClients;
+    protected Map<Integer, Client> clients;
+    private boolean open;
 
     public ServerInfo getInfo() {
 	return info;
