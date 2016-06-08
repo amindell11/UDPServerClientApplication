@@ -10,8 +10,10 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import multiplayergamelauncher.AppState;
+import multiplayergamelauncher.AppUtil;
 import multiplayergamelauncher.ApplicationManager;
 import net.Config;
+import net.client.ClientThread;
 import net.server.ServerThread;
 
 /**
@@ -60,6 +62,11 @@ public class ServerCreationPanel extends javax.swing.JPanel {
     	int players=maxPlayersSlider.getValue();
 		ServerThread server = new ServerThread(name,Config.PORT,players);
 		server.start();
+		String address=server.getInfo().getAddress();
+		if(playAsClientToggle.isSelected()){
+			@SuppressWarnings("unused")
+			ClientThread client=AppUtil.createClient(address,Config.PORT,listener.getUser().getName(),listener);
+		}
 		listener.serverConsolePanel.onEnter(server);
     	listener.progressTo(AppState.SERVER_CONSOLE);
     }//GEN-LAST:event_createServerButtonActionPerformed
@@ -86,7 +93,8 @@ public class ServerCreationPanel extends javax.swing.JPanel {
         createServerButton = new javax.swing.JButton();
 
         playAsClientToggle.setText("Play as Client");
-
+        playAsClientToggle.setSelected(true);
+        
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setText("Create a Game");
 
