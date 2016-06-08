@@ -15,98 +15,97 @@ import net.communication.SimpleExchangeComm.simpleExchange;
 import net.connectionutil.ConnectionUtil;
 
 public class ServerThread extends Thread {
-	static final boolean REQUIRE_UNIQUE_CLIENTS = false;
-	ServerInfo info;
-	ServerSecretary secretary;
-	DatagramSocket socket;
-	int maxClients;
-	Map<Integer, Client> clients;
-	boolean open;
+    static final boolean REQUIRE_UNIQUE_CLIENTS = false;
+    ServerInfo info;
+    ServerSecretary secretary;
+    DatagramSocket socket;
+    int maxClients;
+    Map<Integer, Client> clients;
+    boolean open;
 
-	public ServerInfo getInfo() {
-		return info;
+    public ServerInfo getInfo() {
+	return info;
+    }
+
+    public ServerThread(String name, int port) {
+	this(name, port, Config.MAX_CLIENTS);
+    }
+
+    public ServerThread(String name, int port, int maxClients) {
+	try {
+	    info = new ServerInfo(InetAddress.getLocalHost().getHostAddress(), port, name, 0, maxClients);
+	} catch (UnknownHostException e) {
+	    e.printStackTrace();
 	}
+	secretary = new ServerSecretary(this);
+    }
 
-	public ServerThread(String name, int port) {
-		this(name, port, Config.MAX_CLIENTS);
+    /**
+     * Removes all references to and kills a client.
+     * 
+     * @param id
+     *            Server assigned id of the client to close
+     */
+    protected void killClient(int id) {
+	if (clients.containsKey(id)) {
+	    clients.remove(id).close();
 	}
+    }
 
-	public ServerThread(String name, int port, int maxClients) {
-		try {
-			info = new ServerInfo(InetAddress.getLocalHost().getHostAddress(), port, name, 0, maxClients);
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		}
-		secretary = new ServerSecretary(this);
+    public void init() {
+	try {
+	    socket = new DatagramSocket(info.port, InetAddress.getByName("0.0.0.0"));
+	    socket.setBroadcast(true);
+	    clients = new HashMap<Integer, Client>();
+	    System.out.println("server running at " + InetAddress.getLocalHost() + " port " + info.port);
+	} catch (SocketException e) {
+	    e.printStackTrace();
+	} catch (UnknownHostException e) {
+	    e.printStackTrace();
 	}
+	open = true;
+    }
 
-	/**
-	 * Removes all references to and kills a client.
-	 * 
-	 * @param id
-	 *            Server assigned id of the client to close
-	 */
-	protected void killClient(int id) {
-		if (clients.containsKey(id)) {
-			clients.remove(id).close();
-		}
+    public ServerThread(int port) {
+	this("default", port);
+    }
+
+    public void update() throws IOException {
+
+	// Receive a packet
+	DatagramPacket packet = ConnectionUtil.receivePacket(socket);
+
+	// Packet received
+	System.out.println(getClass().getName() + ">>>Packet received from: " + packet.getAddress().getHostAddress());
+	simpleExchange msg = new SimpleExchangePacket(packet.getData()).getMessage();
+	System.out.println(msg);
+
+	if (msg.hasId()) {
+	    System.out.println("message intended for client " + msg.getId() + "forwarding packet to client handle method");
+	    clients.get(msg.getId()).handleMessage(msg);
+	} else {
+	    secretary.handleRequest(msg.getRequest(), packet);
 	}
+    }
 
-	public void init() {
-		try {
-			socket = new DatagramSocket(info.port, InetAddress.getByName("0.0.0.0"));
-			socket.setBroadcast(true);
-			clients = new HashMap<Integer, Client>();
-			System.out.println("server running at " + InetAddress.getLocalHost() + " port " + info.port);
-		} catch (SocketException e) {
-			e.printStackTrace();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		}
-		open = true;
+    @Override
+    public void run() {
+	init();
+	while (open) {
+	    try {
+		update();
+	    } catch (IOException e) {
+		e.printStackTrace();
+	    }
 	}
+    }
 
-	public ServerThread(int port) {
-		this("default", port);
-	}
+    public void close() {
+	open = false;
+	socket.close();
+    }
 
-	public void update() throws IOException {
-
-		// Receive a packet
-		DatagramPacket packet = ConnectionUtil.receivePacket(socket);
-
-		// Packet received
-		System.out.println(getClass().getName() + ">>>Packet received from: " + packet.getAddress().getHostAddress());
-		simpleExchange msg = new SimpleExchangePacket(packet.getData()).getMessage();
-		System.out.println(msg);
-
-		if (msg.hasId()) {
-			System.out.println(
-					"message intended for client " + msg.getId() + "forwarding packet to client handle method");
-			clients.get(msg.getId()).handleMessage(msg);
-		} else {
-			secretary.handleRequest(msg.getRequest(), packet);
-		}
-	}
-
-	@Override
-	public void run() {
-		init();
-		while (open) {
-			try {
-				update();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-	public void close() {
-		open = false;
-		socket.close();
-	}
-
-	public static void main(String[] args) {
-		new ServerThread("test", Config.PORT).start();
-	}
+    public static void main(String[] args) {
+	new ServerThread("test", Config.PORT).start();
+    }
 }

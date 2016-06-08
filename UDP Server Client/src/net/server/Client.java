@@ -14,14 +14,20 @@ import net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeRequest
  * It is important to note that this is all serverside.
  */
 public class Client extends Thread {
+    
+    	/**
+    	 * Ids already used to enumerate other clients, whether those clients are still alive or dead.
+    	 */
 	public static List<Integer> usedIds;
-	private String username;
-	private int id;
-	private String address;
-	private int port;
+	
+	private final String username;
+	private final int id;
+	private final String address;
+	private final int port;
+	private final ServerThread parent;
+	
 	private long lastCommTimestamp;
 	private boolean open;
-	private ServerThread parent;
 	private long lastSentPingTimestamp;
 
 	/**
@@ -43,10 +49,18 @@ public class Client extends Thread {
 		lastSentPingTimestamp = 0;
 	}
 
+	/**
+	 * Handles a message from the client represented by this object
+	 * @param msg The simple exchange message the client sent 
+	 */
 	public void handleMessage(simpleExchange msg) {
 		lastCommTimestamp = System.currentTimeMillis();
 	}
 
+	/**
+	 * Assigns a unique new id for a client. Note: Ids of dead clients are not deleted from the used pile.
+	 * @return The new unique id
+	 */
 	public static int assignNewId() {
 		if (usedIds == null) {
 			usedIds = new ArrayList<>();
@@ -59,6 +73,9 @@ public class Client extends Thread {
 		return generatedId;
 	}
 
+	/**
+	 * Checks to make sure the client is still active, if it isn't deletes this object.
+	 */
 	@Override
 	public void run() {
 		while (open) {
@@ -68,7 +85,12 @@ public class Client extends Thread {
 		System.out.println("Client "+id+" closed.");
 	}
 
-	public boolean isClientStillActive() {
+	/**
+	 * Sends messages to the client represented by this object to check if it is still connected to the server.
+	 * @return False if the client has timed out, True if the client has not yet timed out. Note a true value can be returned
+	 * even if the client has disconnected.
+	 */
+	private boolean isClientStillActive() {
 		long currentTime = System.currentTimeMillis();
 		long timeSinceLastComm = currentTime - lastCommTimestamp;
 
@@ -94,6 +116,9 @@ public class Client extends Thread {
 
 	}
 
+	/**
+	 * End's this object's thread
+	 */
 	public void close() {
 		open = false;
 	}
