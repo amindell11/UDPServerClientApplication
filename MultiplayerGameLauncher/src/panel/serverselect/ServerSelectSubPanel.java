@@ -8,8 +8,8 @@ package panel.serverselect;
 
 import java.util.ArrayList;
 
+import hooks.GameHooks;
 import multiplayergamelauncher.AppState;
-import multiplayergamelauncher.GameHooks;
 import net.Config;
 import net.client.ClientThread;
 
