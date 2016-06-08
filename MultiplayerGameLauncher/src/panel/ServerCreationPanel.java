@@ -62,12 +62,9 @@ public class ServerCreationPanel extends javax.swing.JPanel {
     	int players=maxPlayersSlider.getValue();
 		ServerThread server = GameHooks.createServer(name, Config.PORT, players);
 		String address=server.getInfo().getAddress();
-		ClientThread client=null;
 		if(playAsClientToggle.isSelected()){
-			client=GameHooks.createClient(address,Config.PORT,listener.getUser().getName(),listener);
+			GameHooks.createClient(address,Config.PORT,listener.getUser().getName(),listener);
 		}
-		listener.serverConsolePanel.onEnter(server,client);
-    	listener.progressTo(AppState.SERVER_CONSOLE);
     }//GEN-LAST:event_createServerButtonActionPerformed
     /**
      * This method is called from within the constructor to initialize the form.

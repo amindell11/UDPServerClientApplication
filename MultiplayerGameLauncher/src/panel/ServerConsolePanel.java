@@ -166,6 +166,9 @@ public class ServerConsolePanel extends javax.swing.JPanel {
     	onEnter(server);
     	this.client=client;
     }
+    public void setClient(ClientThread client){
+    	this.client=client;
+    }
     private void SendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SendButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_SendButtonActionPerformed

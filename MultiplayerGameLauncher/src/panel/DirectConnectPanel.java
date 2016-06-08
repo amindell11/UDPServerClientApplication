@@ -113,9 +113,7 @@ public class DirectConnectPanel extends javax.swing.JPanel {
 		checkAddress(address);
 	}// GEN-LAST:event_checkAddressButtonActionPerformed:
 	private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_connectButtonActionPerformed
-		ClientThread client=GameHooks.createClient(address,Config.PORT,listener.getUser().getName(),listener);
-		listener.clientConsolePanel.onEnter(client);
-		listener.progressTo(AppState.CLIENT_CONSOLE);
+		GameHooks.createClient(address,Config.PORT,listener.getUser().getName(),listener);
 	}// GEN-LAST:event_connectButtonActionPerformed
 	/**
 	 * This method is called from within the constructor to initialize the form.
