@@ -9,7 +9,7 @@
 	<classpathentry kind="lib" path="/ExternalLibs/libs/slick/lib/lwjgl_util.jar"/>
 	<classpathentry kind="lib" path="/ExternalLibs/libs/slick/lib/lwjgl.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="ExternalLibs/libs/lwjgl/lwjgl-2.9.3/native/windows"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="ExternalLibs/libs/lwjgl/lwjgl-2.9.3/native/macosx"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="/ExternalLibs/libs/slick/lib/slick.jar"/>

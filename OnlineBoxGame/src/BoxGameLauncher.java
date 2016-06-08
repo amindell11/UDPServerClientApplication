@@ -7,6 +7,7 @@ public class BoxGameLauncher extends ApplicationLauncher{
 
 	@Override
 	public void addHooks() {
+		super.addHooks();
 		GameHooks.addHook(new ClientCreatedHook(){
 
 			@Override
