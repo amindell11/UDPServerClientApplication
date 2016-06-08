@@ -113,6 +113,7 @@ public class DirectConnectPanel extends javax.swing.JPanel {
 		checkAddress(address);
 	}// GEN-LAST:event_checkAddressButtonActionPerformed:
 	private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_connectButtonActionPerformed
+		@SuppressWarnings("unused")
 		ClientThread client=AppUtil.createClient(address,Config.PORT,listener.getUser().getName(),listener);
 	}// GEN-LAST:event_connectButtonActionPerformed
 	/**
