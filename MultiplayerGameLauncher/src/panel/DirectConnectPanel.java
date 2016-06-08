@@ -14,8 +14,8 @@ import java.util.concurrent.ExecutionException;
 import javax.swing.SwingWorker;
 
 import multiplayergamelauncher.AppState;
-import multiplayergamelauncher.AppUtil;
 import multiplayergamelauncher.ApplicationManager;
+import multiplayergamelauncher.GameHooks;
 import net.Config;
 import net.client.ClientThread;
 import net.connectionutil.ServerDiscoveryUtil;
@@ -113,8 +113,9 @@ public class DirectConnectPanel extends javax.swing.JPanel {
 		checkAddress(address);
 	}// GEN-LAST:event_checkAddressButtonActionPerformed:
 	private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_connectButtonActionPerformed
-		@SuppressWarnings("unused")
-		ClientThread client=AppUtil.createClient(address,Config.PORT,listener.getUser().getName(),listener);
+		ClientThread client=GameHooks.createClient(address,Config.PORT,listener.getUser().getName(),listener);
+		listener.clientConsolePanel.onEnter(client);
+		listener.progressTo(AppState.CLIENT_CONSOLE);
 	}// GEN-LAST:event_connectButtonActionPerformed
 	/**
 	 * This method is called from within the constructor to initialize the form.

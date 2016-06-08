@@ -9,7 +9,7 @@ package panel.serverselect;
 import java.util.ArrayList;
 
 import multiplayergamelauncher.AppState;
-import multiplayergamelauncher.AppUtil;
+import multiplayergamelauncher.GameHooks;
 import net.Config;
 import net.client.ClientThread;
 
@@ -140,8 +140,9 @@ public class ServerSelectSubPanel extends javax.swing.JPanel {
 
 	private void selectServerButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_selectServerButtonActionPerformed
 		String address = parent.servers.get(jList1.getSelectedValue());
-		@SuppressWarnings("unused")
-		ClientThread client=AppUtil.createClient(address, Config.PORT, parent.listener.getUser().getName(), parent.listener);
+		ClientThread client=GameHooks.createClient(address, Config.PORT, parent.listener.getUser().getName(), parent.listener);
+		parent.listener.clientConsolePanel.onEnter(client);
+		parent.listener.progressTo(AppState.CLIENT_CONSOLE);
 	}// GEN-LAST:event_selectServerButtonActionPerformed
 
 	private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_backButtonActionPerformed

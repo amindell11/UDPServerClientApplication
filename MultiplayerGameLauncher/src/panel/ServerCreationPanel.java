@@ -10,8 +10,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import multiplayergamelauncher.AppState;
-import multiplayergamelauncher.AppUtil;
 import multiplayergamelauncher.ApplicationManager;
+import multiplayergamelauncher.GameHooks;
 import net.Config;
 import net.client.ClientThread;
 import net.server.ServerThread;
@@ -60,14 +60,13 @@ public class ServerCreationPanel extends javax.swing.JPanel {
     private void createServerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createServerButtonActionPerformed
     	String name=serverNameField.getText();
     	int players=maxPlayersSlider.getValue();
-		ServerThread server = new ServerThread(name,Config.PORT,players);
-		server.start();
+		ServerThread server = GameHooks.createServer(name, Config.PORT, players);
 		String address=server.getInfo().getAddress();
+		ClientThread client=null;
 		if(playAsClientToggle.isSelected()){
-			@SuppressWarnings("unused")
-			ClientThread client=AppUtil.createClient(address,Config.PORT,listener.getUser().getName(),listener);
+			client=GameHooks.createClient(address,Config.PORT,listener.getUser().getName(),listener);
 		}
-		listener.serverConsolePanel.onEnter(server);
+		listener.serverConsolePanel.onEnter(server,client);
     	listener.progressTo(AppState.SERVER_CONSOLE);
     }//GEN-LAST:event_createServerButtonActionPerformed
     /**

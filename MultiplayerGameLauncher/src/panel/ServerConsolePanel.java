@@ -8,6 +8,7 @@ package panel;
 
 import multiplayergamelauncher.AppState;
 import multiplayergamelauncher.ProgressListener;
+import net.client.ClientThread;
 import net.server.ServerThread;
 
 /**
@@ -36,7 +37,8 @@ public class ServerConsolePanel extends javax.swing.JPanel {
 
     private ProgressListener listener;
     private javax.swing.JButton SendButton;
-    ServerThread server;
+    private ServerThread server;
+    private ClientThread client;
     /**
      * Creates new form ClientConsole
      */
@@ -49,6 +51,9 @@ public class ServerConsolePanel extends javax.swing.JPanel {
     }//GEN-LAST:event_ClearButtonActionPerformed
     private void CloseServerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CloseServerButtonActionPerformed
     	server.close();
+    	if(client!=null){
+    		client.close();
+    	}
     	listener.progressTo(AppState.HOME);
     }//GEN-LAST:event_CloseServerButtonActionPerformed
     /**
@@ -156,6 +161,10 @@ public class ServerConsolePanel extends javax.swing.JPanel {
     	this.server=server;
     	ipLabel.setText(server.getInfo().getAddress());
     	CustomOutputStream.reallocatePrint(jTextArea1);
+    }
+    public void onEnter(ServerThread server,ClientThread client){
+    	onEnter(server);
+    	this.client=client;
     }
     private void SendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SendButtonActionPerformed
         // TODO add your handling code here:

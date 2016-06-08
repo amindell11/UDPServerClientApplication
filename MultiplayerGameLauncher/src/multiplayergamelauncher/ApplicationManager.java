@@ -23,7 +23,7 @@ public class ApplicationManager implements Runnable, ProgressListener {
 	private JFrame frame;
 	HomePanel homePanel;
 	User loggedInUser;
-	ClientConsolePanel clientConsolePanel;
+	public ClientConsolePanel clientConsolePanel;
 	DirectConnectPanel directConnectPanel;
 	public ServerConsolePanel serverConsolePanel;
     ServerSelectPanel serverSelectPanel;
