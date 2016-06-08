@@ -41,6 +41,9 @@ public class ClientThread extends Thread {
 		open = false;
 		this.address = address;
 	}
+	public String getUsername() {
+	    return username;
+	}
 	public void close(){
 	    open=false;
 	    socket.close();
