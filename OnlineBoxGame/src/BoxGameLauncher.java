@@ -11,7 +11,7 @@ public class BoxGameLauncher extends ApplicationLauncher{
 
 			@Override
 			public void clientCreated(ClientThread client) {
-				new ClientDisplayWindow().run();
+				if(client.isActiveMember())new ClientDisplayWindow().start();
 			}
 			
 		});
