@@ -42,8 +42,10 @@ public class GameHooks {
 		} else {
 			listener.showMessageDialog(errorMessage, "Error: Failed to connect", JOptionPane.ERROR_MESSAGE);
 		}
-		for(ClientCreatedHook hook:onClientCreationHooks){
-			hook.clientCreated(client);
+		if (onClientCreationHooks != null) {
+			for (ClientCreatedHook hook : onClientCreationHooks) {
+				hook.clientCreated(client);
+			}
 		}
 		return client;
 	}
@@ -51,8 +53,10 @@ public class GameHooks {
 	public static ServerThread createServer(String name, int port, int players) {
 		ServerThread server = new ServerThread(name, Config.PORT, players);
 		server.start();
-		for(ServerCreatedHook hook:onServerCreationHooks){
-			hook.serverCreated(server);
+		if (onServerCreationHooks != null) {
+			for (ServerCreatedHook hook : onServerCreationHooks) {
+				hook.serverCreated(server);
+			}
 		}
 		return server;
 	}
