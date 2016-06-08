@@ -2,9 +2,6 @@ package net;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 import net.communication.SimpleExchangeComm;
 import net.communication.SimpleExchangeComm.simpleExchange;
@@ -71,10 +68,10 @@ public class SimpleExchangePacket {
 	
 	public byte[] getBytes() throws IOException{
 		ByteArrayOutputStream aOutput = new ByteArrayOutputStream(15000);
-		builder.build().writeDelimitedTo(aOutput);
+		message.writeDelimitedTo(aOutput);
 		return aOutput.toByteArray();
 	}
-	public DatagramPacket getPacket(String hostAddress,int port){
+	/*private DatagramPacket getPacket(String hostAddress,int port){
 		InetAddress address=null;
 		try {
 			address = InetAddress.getByName(hostAddress);
@@ -84,7 +81,7 @@ public class SimpleExchangePacket {
 
 		return getPacket(address,port);
 	}
-	public DatagramPacket getPacket(InetAddress address,int port){
+	private DatagramPacket getPacket(InetAddress address,int port){
 		byte[] req={};
 		try {
 			req = getBytes();
@@ -92,7 +89,7 @@ public class SimpleExchangePacket {
 			e.printStackTrace();
 		}
 		return new DatagramPacket(req,req.length,address,port);
-	}
+	}*/
 	public boolean isResponse(){
 		return message.hasResponse();
 	}

@@ -2,14 +2,14 @@ package net.server;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
-import java.net.InetAddress;
+
+import com.google.gson.Gson;
 
 import net.Config;
 import net.SimpleExchangePacket;
 import net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeRequest;
 import net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeResponse.ResponseType;
-
-import com.google.gson.Gson;
+import net.connectionutil.ConnectionUtil;
 
 public class ServerSecretary {
 	ServerThread parent;
@@ -19,20 +19,20 @@ public class ServerSecretary {
 	}
 
 	protected void handleRequest(simpleExchangeRequest req, DatagramPacket packet) throws IOException {
-		InetAddress address = packet.getAddress();
-
+		String address = packet.getAddress().getHostAddress();
+		int port=packet.getPort();
 		switch (req.getRequestType()) {
 		case PROBE:
-			parent.socket.send(new SimpleExchangePacket(ResponseType.PROBE, "sent by server secretary").getPacket(address, packet.getPort()));
+			ConnectionUtil.sendMessage(new SimpleExchangePacket(ResponseType.PROBE, "").getMessage(), parent.socket, address, port);
 			break;
 
 		case SERVER_NAME:
-			parent.socket.send(new SimpleExchangePacket(ResponseType.SERVER_NAME, parent.info.name).getPacket(address, packet.getPort()));
+			ConnectionUtil.sendMessage(new SimpleExchangePacket(ResponseType.SERVER_NAME, parent.info.name).getMessage(), parent.socket, address, port);
 			break;
 
 		case SERVER_INFO:
 			String msg = new Gson().toJson(parent.info);
-			parent.socket.send(new SimpleExchangePacket(ResponseType.SERVER_INFO, msg).getPacket(address, packet.getPort()));
+			ConnectionUtil.sendMessage(new SimpleExchangePacket(ResponseType.SERVER_INFO, msg).getMessage(), parent.socket, address, port);
 			break;
 		case CLUSTER_MEMBERSHIP_REQUEST:
 			handleClusterMembershipRequest(req, packet);
@@ -43,11 +43,11 @@ public class ServerSecretary {
 	}
 
 	public void handleClusterMembershipRequest(simpleExchangeRequest req, DatagramPacket packet) throws IOException {
-		InetAddress address = packet.getAddress();
+		String address = packet.getAddress().getHostAddress();
 		ResponseType decision;
 		boolean validClient = true;
 		String note = "";
-		Client proposedClient = new Client(req.getRequestNote(), Client.assignNewId(), packet.getAddress().getHostAddress(), parent, packet.getPort());
+		Client proposedClient = new Client(req.getRequestNote(), Client.assignNewId(), address, parent, packet.getPort());
 		for (Client client : parent.clients.values()) {
 			if (Config.REQUIRE_UNIQUE_CLIENTS) {
 				if (client.getAddress().equals(proposedClient.getAddress())) {
@@ -81,7 +81,8 @@ public class ServerSecretary {
 		} else {
 			decision = ResponseType.CLUSTER_MEMBERSHIP_DENIED;
 		}
-		parent.socket.send(new SimpleExchangePacket(decision, note, proposedClient.getClientId()).getPacket(address, packet.getPort()));
+		ConnectionUtil.sendMessage(new SimpleExchangePacket(decision, note,proposedClient.getClientId()).getMessage(), parent.socket, address, packet.getPort());
+
 	}
 
 }

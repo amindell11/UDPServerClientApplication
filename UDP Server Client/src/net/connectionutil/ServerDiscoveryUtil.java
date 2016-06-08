@@ -52,7 +52,7 @@ public class ServerDiscoveryUtil extends ConnectionUtil {
 	}
 
 	public static String getServerName(String serverAddress, int port) throws IOException {
-		getUtilSocket().send(new SimpleExchangePacket(RequestType.SERVER_NAME, "").getPacket(serverAddress, port));
+		ConnectionUtil.sendMessage(new SimpleExchangePacket(RequestType.SERVER_NAME, "").getMessage(), getUtilSocket(), serverAddress, port);
 		DatagramPacket response = receivePacket(getUtilSocket());
 		return new SimpleExchangePacket(response.getData()).getResponse().getResponseNote();
 	}
@@ -82,9 +82,8 @@ public class ServerDiscoveryUtil extends ConnectionUtil {
 	}
 
 	public static void sendProbePacket(String address, int port) {
-		DatagramPacket packet = new SimpleExchangePacket(RequestType.PROBE, "").getPacket(address, port);
 		try {
-			getUtilSocket().send(packet);
+			ConnectionUtil.sendMessage(new SimpleExchangePacket(RequestType.PROBE, "").getMessage(), getUtilSocket(), address, port);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -122,7 +121,7 @@ public class ServerDiscoveryUtil extends ConnectionUtil {
 	}
 
 	public static ServerInfo getServerInfo(String serverAddress,int port) throws IOException {
-		getUtilSocket().send(new SimpleExchangePacket(RequestType.SERVER_INFO, "").getPacket(serverAddress, port));
+		ConnectionUtil.sendMessage(new SimpleExchangePacket(RequestType.SERVER_INFO, "").getMessage(), getUtilSocket(), serverAddress, port);
 		DatagramPacket response = receivePacket(getUtilSocket());
 		return new Gson().fromJson(new SimpleExchangePacket(response.getData()).getResponse().getResponseNote(),
 				ServerInfo.class);
