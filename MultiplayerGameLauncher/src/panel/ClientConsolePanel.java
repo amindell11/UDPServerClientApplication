@@ -11,6 +11,7 @@ import java.net.UnknownHostException;
 
 import multiplayergamelauncher.AppState;
 import multiplayergamelauncher.ProgressListener;
+import net.client.ClientThread;
 
 /**
  *
@@ -38,6 +39,7 @@ public class ClientConsolePanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
     private ProgressListener listener;
     private javax.swing.JButton SendButton;
+    private ClientThread client;
     /**
      * Creates new form ClientConsole
      */
@@ -50,6 +52,7 @@ public class ClientConsolePanel extends javax.swing.JPanel {
     }//GEN-LAST:event_ClearButtonActionPerformed
     private void disconnectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disconnectButtonActionPerformed
         //TODO client close code
+    	client.close();
     	listener.progressTo(AppState.HOME);
     }//GEN-LAST:event_disconnectButtonActionPerformed
     /**
@@ -156,8 +159,9 @@ public class ClientConsolePanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-    public void onEnter(){
+    public void onEnter(ClientThread client){
     	CustomOutputStream.reallocatePrint(jTextArea1);
+    	this.client=client;
     }
     private void SendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SendButtonActionPerformed
         // TODO add your handling code here:

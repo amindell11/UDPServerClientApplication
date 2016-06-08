@@ -38,6 +38,10 @@ public class ClientThread extends Thread {
 		open = false;
 		this.address = address;
 	}
+	public void close(){
+	    open=false;
+	    socket.close();
+	}
 
 	@Override
 	public void run() {

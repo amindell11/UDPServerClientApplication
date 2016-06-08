@@ -33,6 +33,7 @@ public class AppUtil {
 				if ("state".equals(evt.getPropertyName()) && SwingWorker.StateValue.DONE == evt.getNewValue()) {
 					if (client.isActiveMember()) {
 						client.start();
+						listener.clientConsolePanel.onEnter(client);
 						listener.progressTo(AppState.CLIENT_CONSOLE);
 					} else {
 						try {

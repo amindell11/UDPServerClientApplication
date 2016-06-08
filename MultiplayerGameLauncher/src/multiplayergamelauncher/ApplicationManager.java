@@ -65,7 +65,6 @@ public class ApplicationManager implements Runnable, ProgressListener {
 			break;
 		case CLIENT_CONSOLE:
 			setPanel(clientConsolePanel);
-			clientConsolePanel.onEnter();
 			break;
 		case DIRECT_CONNECT:
 			setPanel(directConnectPanel);
