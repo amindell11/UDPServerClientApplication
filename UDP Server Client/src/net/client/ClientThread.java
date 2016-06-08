@@ -66,7 +66,8 @@ public class ClientThread extends Thread {
 		if (message.hasRequest() && message.getRequest().getRequestType().equals(RequestType.CLIENT_PING)) {
 			try {
 				System.out.println("ping recieved from server. responding");
-				socket.send(new SimpleExchangePacket(ResponseType.CLIENT_PING, "", id).getPacket(serverAddress, serverPort));
+				ConnectionUtil.sendMessage(new SimpleExchangePacket(ResponseType.CLIENT_PING, "",id).getMessage(), socket, serverAddress, serverPort);
+
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -76,7 +77,7 @@ public class ClientThread extends Thread {
 	public boolean requestClusterMembership(String serverAddress, int port) throws MembershipRequestDeniedException {
 		DatagramPacket responsePacket = null;
 		try {
-			socket.send(new SimpleExchangePacket(RequestType.CLUSTER_MEMBERSHIP_REQUEST, username).getPacket(serverAddress, port));
+			ConnectionUtil.sendMessage(new SimpleExchangePacket(RequestType.CLUSTER_MEMBERSHIP_REQUEST, username).getMessage(), socket, serverAddress, port);
 			responsePacket = ConnectionUtil.receivePacket(socket, Config.DEFAULT_TIMEOUT);
 		} catch (IOException e) {
 

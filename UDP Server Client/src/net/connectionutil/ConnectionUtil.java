@@ -1,9 +1,13 @@
 package net.connectionutil;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.SocketException;
+
+import net.communication.SimpleExchangeComm.simpleExchange;
 
 public class ConnectionUtil {
 	private static DatagramSocket socket;
@@ -34,5 +38,14 @@ public class ConnectionUtil {
 			}
 		}
 		return socket;
+	}
+	private static void sendBytes(byte[] bytes,DatagramSocket sourceSocket,String address,int port) throws IOException{
+		InetAddress netAddress=InetAddress.getByName(address);
+		sourceSocket.send(new DatagramPacket(bytes,bytes.length,netAddress,port));
+	}
+	public static void sendMessage(simpleExchange message,DatagramSocket sourceSocket,String address,int port) throws IOException{
+		ByteArrayOutputStream aOutput = new ByteArrayOutputStream(15000);
+		message.writeDelimitedTo(aOutput);
+		sendBytes(aOutput.toByteArray(),sourceSocket, address, port);
 	}
 }
