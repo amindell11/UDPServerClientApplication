@@ -85,6 +85,7 @@ public class ServerThread extends Thread {
 	} else {
 	    secretary.handleRequest(msg.getRequest(), packet);
 	}
+	info.numClients=clients.size();
     }
 
     @Override
