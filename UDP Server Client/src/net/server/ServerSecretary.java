@@ -79,6 +79,7 @@ public class ServerSecretary {
 			parent.clients.put(proposedClient.getClientId(), proposedClient);
 			proposedClient.start();
 		} else {
+		    	Client.usedIds.remove(Integer.valueOf(proposedClient.getClientId()));
 			decision = ResponseType.CLUSTER_MEMBERSHIP_DENIED;
 		}
 		ConnectionUtil.sendMessage(new SimpleExchangePacket(decision, note,proposedClient.getClientId()).getMessage(), parent.socket, address, packet.getPort());

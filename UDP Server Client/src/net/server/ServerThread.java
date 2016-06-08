@@ -18,7 +18,6 @@ public class ServerThread extends Thread {
     protected ServerInfo info;
     private ServerSecretary secretary;
     protected DatagramSocket socket;
-    private int maxClients;
     protected Map<Integer, Client> clients;
     private boolean open;
 
@@ -48,6 +47,7 @@ public class ServerThread extends Thread {
     protected void killClient(int id) {
 	if (clients.containsKey(id)) {
 	    clients.remove(id).close();
+	    Client.usedIds.remove(Integer.valueOf(id));
 	}
     }
 
@@ -80,7 +80,7 @@ public class ServerThread extends Thread {
 	System.out.println(msg);
 
 	if (msg.hasId()) {
-	    System.out.println("message intended for client " + msg.getId() + "forwarding packet to client handle method");
+	    System.out.println("message intended for client " + msg.getId() + ": forwarding packet to client handle method");
 	    clients.get(msg.getId()).handleMessage(msg);
 	} else {
 	    secretary.handleRequest(msg.getRequest(), packet);
