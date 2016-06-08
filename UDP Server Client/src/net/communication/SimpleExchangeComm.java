@@ -2,7 +2,7 @@
 // source: ServerComm.proto
 
 package net.communication;
-
+@SuppressWarnings(value = { "all" })
 public final class SimpleExchangeComm {
   private SimpleExchangeComm() {}
   public static void registerAllExtensions(

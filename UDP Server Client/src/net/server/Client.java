@@ -8,7 +8,6 @@ import net.Config;
 import net.SimpleExchangePacket;
 import net.communication.SimpleExchangeComm.simpleExchange;
 import net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeRequest.RequestType;
-import net.connectionutil.ConnectionUtil;
 
 /**
  * Code to handle client's on the server. The server's representation of a client.

@@ -22,7 +22,7 @@ public class ServerThread extends Thread {
 	int maxClients;
 	Map<Integer, Client> clients;
 	boolean open;
-	
+
 	public ServerInfo getInfo() {
 		return info;
 	}
@@ -42,14 +42,16 @@ public class ServerThread extends Thread {
 
 	/**
 	 * Removes all references to and kills a client.
-	 * @param id Server assigned id of the client to close
+	 * 
+	 * @param id
+	 *            Server assigned id of the client to close
 	 */
-	protected void killClient(int id){
-		if(clients.containsKey(id)){
+	protected void killClient(int id) {
+		if (clients.containsKey(id)) {
 			clients.remove(id).close();
 		}
 	}
-	
+
 	public void init() {
 		try {
 			socket = new DatagramSocket(info.port, InetAddress.getByName("0.0.0.0"));
@@ -79,10 +81,12 @@ public class ServerThread extends Thread {
 		System.out.println(msg);
 
 		if (msg.hasId()) {
-			System.out.println("message intended for client "+msg.getId()+"forwarding packet to client handle method");
+			System.out.println(
+					"message intended for client " + msg.getId() + "forwarding packet to client handle method");
 			clients.get(msg.getId()).handleMessage(msg);
+		} else {
+			secretary.handleRequest(msg.getRequest(), packet);
 		}
-		secretary.handleRequest(msg.getRequest(), packet);
 	}
 
 	@Override

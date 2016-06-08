@@ -30,7 +30,6 @@ public class ClientThread extends Thread {
 		try {
 			socket = new DatagramSocket();
 			socket.setBroadcast(true);
-			System.out.println(socket.getLocalPort());
 		} catch (SocketException e) {
 			e.printStackTrace();
 		}
@@ -58,7 +57,6 @@ public class ClientThread extends Thread {
 
 	public void update() throws IOException {
 		DatagramPacket receive = ConnectionUtil.receivePacket(socket);
-		System.out.println("got it");
 		handlePacket(receive);
 	}
 

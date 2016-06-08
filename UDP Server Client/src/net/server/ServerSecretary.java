@@ -23,7 +23,7 @@ public class ServerSecretary {
 
 		switch (req.getRequestType()) {
 		case PROBE:
-			parent.socket.send(new SimpleExchangePacket(ResponseType.PROBE, "").getPacket(address, packet.getPort()));
+			parent.socket.send(new SimpleExchangePacket(ResponseType.PROBE, "sent by server secretary").getPacket(address, packet.getPort()));
 			break;
 
 		case SERVER_NAME:
@@ -34,9 +34,10 @@ public class ServerSecretary {
 			String msg = new Gson().toJson(parent.info);
 			parent.socket.send(new SimpleExchangePacket(ResponseType.SERVER_INFO, msg).getPacket(address, packet.getPort()));
 			break;
-
 		case CLUSTER_MEMBERSHIP_REQUEST:
 			handleClusterMembershipRequest(req, packet);
+			break;
+		default:
 			break;
 		}
 	}

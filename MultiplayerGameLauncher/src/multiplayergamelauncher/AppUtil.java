@@ -2,8 +2,6 @@ package multiplayergamelauncher;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.concurrent.ExecutionException;
 
 import javax.swing.JOptionPane;
@@ -52,22 +50,4 @@ public class AppUtil {
 		worker.execute();
 		return client;
 	}
-	public static ClientThread createClientNoSwingWorker(final String address,int port,String username,final ApplicationManager listener){
-		final ClientThread client = new ClientThread(username, address);
-		String errorMessage = "Unkown server error. Please try again later.";
-		try {
-			client.requestClusterMembership(address, Config.PORT);
-		} catch (MembershipRequestDeniedException e) {
-			errorMessage=e.getMessage();
-		}
-		if (client.isActiveMember()) {
-			listener.progressTo(AppState.CLIENT_CONSOLE);
-		} else {
-				listener.showMessageDialog(errorMessage, "Error: Failed to connect",
-						JOptionPane.ERROR_MESSAGE);
-		}
-		return client;
-
-	}
-
 }
