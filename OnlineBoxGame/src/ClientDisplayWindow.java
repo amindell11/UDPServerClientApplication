@@ -3,10 +3,13 @@ import org.newdawn.slick.SlickException;
 
 public class ClientDisplayWindow extends Thread {
 	GameManager game;
+	public ClientDisplayWindow(){
+		this.game=new GameManager();
+	}
 	@Override
 	public void run() {
 		try {
-			AppGameContainer app = new AppGameContainer(new GameManager());
+			AppGameContainer app = new AppGameContainer(game);
 			app.setDisplayMode(500, 400, false);
 			app.setAlwaysRender(true);
 			app.setTargetFrameRate(60);

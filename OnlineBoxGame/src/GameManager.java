@@ -26,7 +26,7 @@ public class GameManager extends BasicGame
  
     public void render(GameContainer container, Graphics g) throws SlickException
     {
-    	g.drawString(username, 0, 10);
+    	g.drawString(username, 10, 30);
     }
     public void setUsername(String username){
     	this.username=username;
