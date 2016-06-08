@@ -6,9 +6,9 @@ import org.newdawn.slick.SlickException;
 /**
  * @author Ari
  */
-public class ExampleGame extends BasicGame
+public class GameManager extends BasicGame
 {
-    public ExampleGame()
+    public GameManager()
     {
         super("Box game");
     }
@@ -17,7 +17,7 @@ public class ExampleGame extends BasicGame
     {
         try
         {
-            AppGameContainer app = new AppGameContainer(new ExampleGame());
+            AppGameContainer app = new AppGameContainer(new GameManager());
             app.setDisplayMode(500, 400, false);
             app.start();
         }
