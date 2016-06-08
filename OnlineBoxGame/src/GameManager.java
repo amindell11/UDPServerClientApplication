@@ -1,4 +1,3 @@
-import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -12,21 +11,7 @@ public class GameManager extends BasicGame
     {
         super("Box game");
     }
- 
-    public static void main(String[] arguments)
-    {
-        try
-        {
-            AppGameContainer app = new AppGameContainer(new GameManager());
-            app.setDisplayMode(500, 400, false);
-            app.start();
-        }
-        catch (SlickException e)
-        {
-            e.printStackTrace();
-        }
-    }
- 
+
     @Override
     public void init(GameContainer container) throws SlickException
     {
