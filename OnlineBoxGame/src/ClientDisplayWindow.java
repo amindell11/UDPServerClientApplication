@@ -12,4 +12,7 @@ public class ClientDisplayWindow extends Thread {
 			e.printStackTrace();
 		}
 	}
+	public static void main(String[] args){
+		new ClientDisplayWindow().run();
+	}
 }
