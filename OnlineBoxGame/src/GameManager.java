@@ -7,9 +7,11 @@ import org.newdawn.slick.SlickException;
  */
 public class GameManager extends BasicGame
 {
+	String username;
     public GameManager()
     {
         super("Box game");
+        this.username="";
     }
 
     @Override
@@ -24,5 +26,9 @@ public class GameManager extends BasicGame
  
     public void render(GameContainer container, Graphics g) throws SlickException
     {
+    	g.drawString(username, 0, 10);
+    }
+    public void setUsername(String username){
+    	this.username=username;
     }
 }
