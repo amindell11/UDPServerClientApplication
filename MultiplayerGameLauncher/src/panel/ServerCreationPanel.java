@@ -9,9 +9,9 @@ package panel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import hooks.GameHooks;
 import multiplayergamelauncher.AppState;
 import multiplayergamelauncher.ApplicationManager;
-import multiplayergamelauncher.GameHooks;
 import net.Config;
 import net.client.ClientThread;
 import net.server.ServerThread;

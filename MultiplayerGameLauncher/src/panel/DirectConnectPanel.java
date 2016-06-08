@@ -13,9 +13,9 @@ import java.util.concurrent.ExecutionException;
 
 import javax.swing.SwingWorker;
 
+import hooks.GameHooks;
 import multiplayergamelauncher.AppState;
 import multiplayergamelauncher.ApplicationManager;
-import multiplayergamelauncher.GameHooks;
 import net.Config;
 import net.client.ClientThread;
 import net.connectionutil.ServerDiscoveryUtil;
