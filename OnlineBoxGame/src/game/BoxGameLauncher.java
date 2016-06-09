@@ -1,3 +1,4 @@
+package game;
 import hooks.ClientCreatedHook;
 import hooks.GameHooks;
 import multiplayergamelauncher.ApplicationLauncher;
@@ -13,9 +14,9 @@ public class BoxGameLauncher extends ApplicationLauncher{
 			@Override
 			public void clientCreated(ClientThread client) {
 				if(client.isActiveMember()){
-					ClientDisplayWindow window=new ClientDisplayWindow();
-					window.getGame().setUsername(client.getUsername());
-					window.start();
+					GameClientThread gameClient=new GameClientThread();
+					gameClient.getGame().setUsername(client.getUsername());
+					gameClient.start();
 				}
 			}
 			

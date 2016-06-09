@@ -1,13 +1,17 @@
+package game;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
 
 public class ClientDisplayWindow extends Thread {
 	GameManager game;
-	public ClientDisplayWindow(){
-		this.game=new GameManager();
+	public ClientDisplayWindow(GameManager game){
+		this.game=game;
 	}
 	@Override
 	public void run() {
+		initWindow();
+	}
+	public void initWindow(){
 		try {
 			AppGameContainer app = new AppGameContainer(game);
 			app.setDisplayMode(500, 400, false);
@@ -17,9 +21,6 @@ public class ClientDisplayWindow extends Thread {
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
-	}
-	public static void main(String[] args){
-		new ClientDisplayWindow().run();
 	}
 	public GameManager getGame(){
 		return game;
