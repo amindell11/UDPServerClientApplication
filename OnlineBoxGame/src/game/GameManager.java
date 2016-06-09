@@ -30,11 +30,14 @@ public class GameManager extends BasicGame
     @Override
     public void update(GameContainer container, int delta) throws SlickException
     {
+    	System.out.println("start using list");
     	synchronized(objects){
     	for(GameObject object:objects){
     		object.update(container, delta);
     	}
+    	System.out.println("finished using list");
     	}
+    	
     }
  
     public void render(GameContainer container, Graphics g) throws SlickException
