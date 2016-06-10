@@ -25,8 +25,10 @@ public class GameObject {
 	public void update(GameContainer container, int delta) {
 		if (Math.abs(velocity)>.001) {
 			force -= friction * Math.abs(velocity) / velocity;
+		}else{
+			velocity=0;
 		}
-		System.out.println(force);
+		System.out.println(velocity);
 		float acc = force / mass;
 		velocity = velocity + acc * delta;
 		x += velocity * delta;
