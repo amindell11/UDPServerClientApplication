@@ -24,7 +24,7 @@ public class GameManager extends BasicGame {
 		super("Box game");
 		this.username = "";
 		objects = new ArrayList<>();
-		clientObject=new GameObject(10,10,50,50);
+		clientObject=new GameObject(new Vector2f(10,10),50,50);
 	}
 
 	@Override
@@ -39,14 +39,22 @@ public class GameManager extends BasicGame {
 				object.update(container, delta);
 			}
 		}
+				
 		//TODO figure a better way to handle input
 		Input input=new Input(0);
 		if(input.isKeyDown(Input.KEY_LEFT)){
-			clientObject.applyForce(-.001f);
+			clientObject.applyForce(new Vector2f(-.001f,0));
 		}
 		if(input.isKeyDown(Input.KEY_RIGHT)){
-			clientObject.applyForce(.001f);
+			clientObject.applyForce(new Vector2f(.001f,0));
 		}
+		if(input.isKeyDown(Input.KEY_DOWN)){
+			clientObject.applyForce(new Vector2f(0,.001f));
+		}
+		if(input.isKeyDown(Input.KEY_UP)){
+			clientObject.applyForce(new Vector2f(0,-.001f));
+		}
+		
 		clientObject.update(container, delta);
 		
 	}
