@@ -6,7 +6,9 @@ import java.util.List;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Vector2f;
 
 import game_object.GameObject;
 
@@ -15,12 +17,14 @@ import game_object.GameObject;
  */
 public class GameManager extends BasicGame {
 	List<GameObject> objects;
+	GameObject clientObject;
 	String username;
 
 	public GameManager() {
 		super("Box game");
 		this.username = "";
 		objects = new ArrayList<>();
+		clientObject=new GameObject(10,10,50,50);
 	}
 
 	@Override
@@ -35,12 +39,22 @@ public class GameManager extends BasicGame {
 				object.update(container, delta);
 			}
 		}
-
+		//TODO figure a better way to handle input
+		Input input=new Input(0);
+		if(input.isKeyDown(Input.KEY_LEFT)){
+			clientObject.applyForce(-.001f);
+		}
+		if(input.isKeyDown(Input.KEY_RIGHT)){
+			clientObject.applyForce(.001f);
+		}
+		clientObject.update(container, delta);
+		
 	}
 
 	public void render(GameContainer container, Graphics g)
 			throws SlickException {
 		g.drawString(username, 10, 30);
+		clientObject.render(container, g);
 	}
 
 	public void setUsername(String username) {

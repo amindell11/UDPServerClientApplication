@@ -16,11 +16,8 @@ public class GameClientThread extends Thread {
 	@Override
 	public void run() {
 		new ClientDisplayWindow(game).start();
-		game.objects.add(new GameObject(0, 0, 0, 0));
 		while (true) {
 			synchronized (game.objects) {
-				game.objects.remove(0);
-				game.objects.add(new GameObject(0, 0, 0, 0));
 			}
 		}
 	}

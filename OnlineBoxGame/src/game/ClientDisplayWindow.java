@@ -16,7 +16,7 @@ public class ClientDisplayWindow extends Thread {
 			AppGameContainer app = new AppGameContainer(game);
 			app.setDisplayMode(500, 400, false);
 			app.setAlwaysRender(true);
-			app.setTargetFrameRate(60);
+			app.setTargetFrameRate(20);
 			app.start();
 		} catch (SlickException e) {
 			e.printStackTrace();
