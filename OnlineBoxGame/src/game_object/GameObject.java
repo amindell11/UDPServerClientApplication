@@ -29,17 +29,19 @@ public class GameObject {
 
 	public void update(GameContainer container, int delta) {
 		if (vel.length() > .001) {
-			//double angle = force.getTheta();
-			//Vector2f frictionForce = new Vector2f(angle);
-			//frictionForce.scale(friction);
-			//force.sub(frictionForce);
+			double angle = vel.getTheta();
+			Vector2f frictionForce = new Vector2f(angle);
+			frictionForce.scale(friction);
+			force.sub(frictionForce);
 		}
 		else{
 			zero(vel);
 		}
+		
 		Vector2f acceleration = force.copy();
-		vel.add(acceleration.scale(delta));
-		pos.add(vel.scale(delta));
+		vel.add(acceleration.copy().scale(delta));
+		pos.add(vel.copy().scale(delta));
+		
 		zero(force);
 
 	}
