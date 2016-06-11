@@ -6,6 +6,8 @@ import org.newdawn.slick.geom.Vector2f;
 
 public class GameObject {
     public static final float friction = .0001f;
+    public static final float smooth = .01f;
+    
     private float width;
     private float height;
     private float mass;
@@ -30,31 +32,37 @@ public class GameObject {
 
     public void update(GameContainer container, int delta) {
 	Vector2f initialForce = force.copy();
-	
+	Vector2f initialVelocity = vel.copy(); //initial velocity
+
 	//Friction
 	double angle = vel.getTheta();
 	Vector2f frictionForce = new Vector2f(angle);
 	frictionForce.scale(friction);
 	force.sub(frictionForce);
 
-	
-	Vector2f acceleration = force.copy().scale(1/mass);
-	Vector2f oldVelocity = vel.copy(); //initial velocity
-	vel.add(acceleration.copy().scale(delta)); //final velocity
-	pos.add(oldVelocity.scale(delta)).add(vel.copy().scale(delta/2)); //x = vt + .5at^2
 
-	if(initialForce.equals(zeroVector) && oldVelocity.getTheta() == vel.getTheta() - 180){
+	Vector2f acceleration = force.copy().scale(1/mass);
+	vel.add(acceleration.copy().scale(delta)); //final velocity
+	pos.add(vel.copy().add(initialVelocity.copy()).scale(delta/2)); //x = vt + .5at^2
+
+	if(initialForce.equals(zeroVector) && initialVelocity.getTheta() == vel.getTheta() - 180){
 	    zero(vel);
 	}
-	
+
+	smooth(vel);
 	zero(force);
-	
-	
 
     }
-    
-   
-   
+
+    private void smooth(Vector2f v){
+	if(Math.abs(v.x) < smooth){
+	    v.x = 0;
+	}
+	if(Math.abs(v.y) < smooth){
+	    v.y = 0;
+	}
+    }
+
 
     public void zero(Vector2f v){
 	v.scale(0);
