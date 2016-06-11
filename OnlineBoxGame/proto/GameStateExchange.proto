@@ -1,0 +1,9 @@
+syntax = "proto2";
+
+import "../../Square.proto";
+
+message GameStateExchange{
+	oneof gameObject{
+		Square sq = 1;
+	}
+}
