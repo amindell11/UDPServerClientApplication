@@ -1,0 +1,4 @@
+-create a super message type 'Exchange' with subMessages simpleExchange and gameStateExchange in the proto
+-add handleMessage hooks in ClientThread for when a recieved message does not contain a simpleExchange
+-replace SimpleExchangePacket class with an ExchangePacket class
+-update all references to SimplExchangePacket
