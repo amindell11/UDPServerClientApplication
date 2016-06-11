@@ -1,0 +1,11 @@
+syntax = "proto2";
+
+import "ServerComm.proto";
+
+message exchange{
+	oneof differentMessageTypes{
+		SimpleExchange simpleEx = 1;
+		extensions 2;
+	}
+
+}

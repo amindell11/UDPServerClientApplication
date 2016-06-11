@@ -1,6 +1,6 @@
 syntax = "proto2";
 
-import "../../Square.proto";
+import "Square.proto";
 
 message GameStateExchange{
 	oneof gameObject{
