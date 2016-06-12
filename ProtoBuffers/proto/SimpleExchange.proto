@@ -1,0 +1,41 @@
+syntax = "proto2";
+
+option java_package = "net.proto";
+option java_outer_classname = "SimpleExchangeProto";
+
+import "proto/Exchange.proto";
+
+message SimpleExchange {
+	extend exchange{
+		optional SimpleExchange simple_exchange=4;
+	}
+	optional SimpleExchangeRequest request = 1;
+	optional SimpleExchangeResponse response = 2;
+	message SimpleExchangeRequest {
+		required RequestType request_type = 1;
+		optional string request_note = 2;
+		enum RequestType {
+			PROBE = 0;
+			CLUSTER_MEMBERSHIP_REQUEST = 1;
+			SERVER_NAME = 2;
+			SERVER_INFO = 3;
+			CLIENT_PING=4;
+		}
+
+	}
+
+	message SimpleExchangeResponse {
+		required ResponseType response_type = 1;
+		optional string response_note = 2;
+		enum ResponseType {
+			PROBE = 0;
+			CLUSTER_MEMBERSHIP_ACCEPT = 1;
+			CLUSTER_MEMBERSHIP_DENIED = 2;
+			SERVER_NAME = 3;
+			SERVER_INFO = 4;
+			CLIENT_PING=5;
+		}
+
+	}
+
+}
