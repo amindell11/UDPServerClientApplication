@@ -6,11 +6,10 @@ protoc --java_out=comp %src%
 setlocal
 :PROMPT
 SET /P AREYOUSURE=Should we retry?(Y/[N])
-IF /I "%AREYOUSURE%" NEQ "Y" GOTO END
+IF /I "%AREYOUSURE%" NEQ "Y" GOTO ENDO
 
 goto:sub_0
-
-:END
+:ENDO
 @echo off
 setlocal
 :PROMPT
