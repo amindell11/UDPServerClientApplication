@@ -70,7 +70,7 @@ public class ServerThread extends Thread {
     }
 
     public void update() throws IOException {
-
+	
 	// Receive a packet
 	DatagramPacket packet = ConnectionUtil.receivePacket(socket);
 
