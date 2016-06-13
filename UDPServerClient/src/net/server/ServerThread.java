@@ -7,14 +7,18 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
+import hooks.HookManager;
+import hooks.UnhandledMessageHook;
 import net.Config;
 import net.SimpleExchangePacket;
 import net.communication.SimpleExchangeComm.simpleExchange;
 import net.connectionutil.ConnectionUtil;
 
 public class ServerThread extends Thread {
+    private HookManager hookManager;
     protected ServerInfo info;
     private ServerSecretary secretary;
     protected DatagramSocket socket;
@@ -36,6 +40,7 @@ public class ServerThread extends Thread {
 	    e.printStackTrace();
 	}
 	secretary = new ServerSecretary(this);
+	hookManager=new HookManager();
     }
 
     /**
@@ -70,7 +75,7 @@ public class ServerThread extends Thread {
     }
 
     public void update() throws IOException {
-	
+
 	// Receive a packet
 	DatagramPacket packet = ConnectionUtil.receivePacket(socket);
 
@@ -85,7 +90,7 @@ public class ServerThread extends Thread {
 	} else {
 	    secretary.handleRequest(msg.getRequest(), packet);
 	}
-	info.numClients=clients.size();
+	info.numClients = clients.size();
     }
 
     @Override
@@ -107,5 +112,8 @@ public class ServerThread extends Thread {
 
     public static void main(String[] args) {
 	new ServerThread("test", Config.PORT).start();
+    }
+    public HookManager getHookManager(){
+	return hookManager;
     }
 }
