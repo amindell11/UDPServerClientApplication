@@ -2,7 +2,7 @@ syntax = "proto2";
 
 option java_package = "net.proto";
 option java_outer_classname = "ExchangeProto";
-message exchange {
+message Exchange {
 	optional int32 id = 1;
 	optional int32 time_stamp = 2;
 	optional int32 packet_number = 3;

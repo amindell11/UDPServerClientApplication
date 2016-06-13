@@ -6,7 +6,7 @@ option java_outer_classname = "SimpleExchangeProto";
 import "proto/Exchange.proto";
 
 message SimpleExchange {
-	extend exchange{
+	extend Exchange{
 		optional SimpleExchange simple_exchange=4;
 	}
 	optional SimpleExchangeRequest request = 1;

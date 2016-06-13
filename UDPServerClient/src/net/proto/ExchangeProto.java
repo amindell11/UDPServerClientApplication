@@ -8,10 +8,10 @@ public final class ExchangeProto {
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistry registry) {
   }
-  public interface exchangeOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:exchange)
+  public interface ExchangeOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Exchange)
       com.google.protobuf.GeneratedMessage.
-          ExtendableMessageOrBuilder<exchange> {
+          ExtendableMessageOrBuilder<Exchange> {
 
     /**
      * <code>optional int32 id = 1;</code>
@@ -41,18 +41,18 @@ public final class ExchangeProto {
     int getPacketNumber();
   }
   /**
-   * Protobuf type {@code exchange}
+   * Protobuf type {@code Exchange}
    */
-  public  static final class exchange extends
+  public  static final class Exchange extends
       com.google.protobuf.GeneratedMessage.ExtendableMessage<
-        exchange> implements
-      // @@protoc_insertion_point(message_implements:exchange)
-      exchangeOrBuilder {
-    // Use exchange.newBuilder() to construct.
-    private exchange(com.google.protobuf.GeneratedMessage.ExtendableBuilder<net.proto.ExchangeProto.exchange, ?> builder) {
+        Exchange> implements
+      // @@protoc_insertion_point(message_implements:Exchange)
+      ExchangeOrBuilder {
+    // Use Exchange.newBuilder() to construct.
+    private Exchange(com.google.protobuf.GeneratedMessage.ExtendableBuilder<net.proto.ExchangeProto.Exchange, ?> builder) {
       super(builder);
     }
-    private exchange() {
+    private Exchange() {
       id_ = 0;
       timeStamp_ = 0;
       packetNumber_ = 0;
@@ -63,7 +63,7 @@ public final class ExchangeProto {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private exchange(
+    private Exchange(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry) {
       this();
@@ -115,14 +115,14 @@ public final class ExchangeProto {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return net.proto.ExchangeProto.internal_static_exchange_descriptor;
+      return net.proto.ExchangeProto.internal_static_Exchange_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return net.proto.ExchangeProto.internal_static_exchange_fieldAccessorTable
+      return net.proto.ExchangeProto.internal_static_Exchange_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              net.proto.ExchangeProto.exchange.class, net.proto.ExchangeProto.exchange.Builder.class);
+              net.proto.ExchangeProto.Exchange.class, net.proto.ExchangeProto.Exchange.Builder.class);
     }
 
     private int bitField0_;
@@ -188,7 +188,7 @@ public final class ExchangeProto {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       com.google.protobuf.GeneratedMessage
-        .ExtendableMessage<net.proto.ExchangeProto.exchange>.ExtensionWriter
+        .ExtendableMessage<net.proto.ExchangeProto.Exchange>.ExtensionWriter
           extensionWriter = newExtensionWriter();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeInt32(1, id_);
@@ -227,53 +227,53 @@ public final class ExchangeProto {
     }
 
     private static final long serialVersionUID = 0L;
-    public static net.proto.ExchangeProto.exchange parseFrom(
+    public static net.proto.ExchangeProto.Exchange parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static net.proto.ExchangeProto.exchange parseFrom(
+    public static net.proto.ExchangeProto.Exchange parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static net.proto.ExchangeProto.exchange parseFrom(byte[] data)
+    public static net.proto.ExchangeProto.Exchange parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static net.proto.ExchangeProto.exchange parseFrom(
+    public static net.proto.ExchangeProto.Exchange parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static net.proto.ExchangeProto.exchange parseFrom(java.io.InputStream input)
+    public static net.proto.ExchangeProto.Exchange parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static net.proto.ExchangeProto.exchange parseFrom(
+    public static net.proto.ExchangeProto.Exchange parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static net.proto.ExchangeProto.exchange parseDelimitedFrom(java.io.InputStream input)
+    public static net.proto.ExchangeProto.Exchange parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static net.proto.ExchangeProto.exchange parseDelimitedFrom(
+    public static net.proto.ExchangeProto.Exchange parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static net.proto.ExchangeProto.exchange parseFrom(
+    public static net.proto.ExchangeProto.Exchange parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static net.proto.ExchangeProto.exchange parseFrom(
+    public static net.proto.ExchangeProto.Exchange parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -284,7 +284,7 @@ public final class ExchangeProto {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(net.proto.ExchangeProto.exchange prototype) {
+    public static Builder newBuilder(net.proto.ExchangeProto.Exchange prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -299,26 +299,26 @@ public final class ExchangeProto {
       return builder;
     }
     /**
-     * Protobuf type {@code exchange}
+     * Protobuf type {@code Exchange}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.ExtendableBuilder<
-          net.proto.ExchangeProto.exchange, Builder> implements
-        // @@protoc_insertion_point(builder_implements:exchange)
-        net.proto.ExchangeProto.exchangeOrBuilder {
+          net.proto.ExchangeProto.Exchange, Builder> implements
+        // @@protoc_insertion_point(builder_implements:Exchange)
+        net.proto.ExchangeProto.ExchangeOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return net.proto.ExchangeProto.internal_static_exchange_descriptor;
+        return net.proto.ExchangeProto.internal_static_Exchange_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return net.proto.ExchangeProto.internal_static_exchange_fieldAccessorTable
+        return net.proto.ExchangeProto.internal_static_Exchange_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                net.proto.ExchangeProto.exchange.class, net.proto.ExchangeProto.exchange.Builder.class);
+                net.proto.ExchangeProto.Exchange.class, net.proto.ExchangeProto.Exchange.Builder.class);
       }
 
-      // Construct using net.proto.ExchangeProto.exchange.newBuilder()
+      // Construct using net.proto.ExchangeProto.Exchange.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -345,23 +345,23 @@ public final class ExchangeProto {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return net.proto.ExchangeProto.internal_static_exchange_descriptor;
+        return net.proto.ExchangeProto.internal_static_Exchange_descriptor;
       }
 
-      public net.proto.ExchangeProto.exchange getDefaultInstanceForType() {
-        return net.proto.ExchangeProto.exchange.getDefaultInstance();
+      public net.proto.ExchangeProto.Exchange getDefaultInstanceForType() {
+        return net.proto.ExchangeProto.Exchange.getDefaultInstance();
       }
 
-      public net.proto.ExchangeProto.exchange build() {
-        net.proto.ExchangeProto.exchange result = buildPartial();
+      public net.proto.ExchangeProto.Exchange build() {
+        net.proto.ExchangeProto.Exchange result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public net.proto.ExchangeProto.exchange buildPartial() {
-        net.proto.ExchangeProto.exchange result = new net.proto.ExchangeProto.exchange(this);
+      public net.proto.ExchangeProto.Exchange buildPartial() {
+        net.proto.ExchangeProto.Exchange result = new net.proto.ExchangeProto.Exchange(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -382,16 +382,16 @@ public final class ExchangeProto {
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof net.proto.ExchangeProto.exchange) {
-          return mergeFrom((net.proto.ExchangeProto.exchange)other);
+        if (other instanceof net.proto.ExchangeProto.Exchange) {
+          return mergeFrom((net.proto.ExchangeProto.Exchange)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(net.proto.ExchangeProto.exchange other) {
-        if (other == net.proto.ExchangeProto.exchange.getDefaultInstance()) return this;
+      public Builder mergeFrom(net.proto.ExchangeProto.Exchange other) {
+        if (other == net.proto.ExchangeProto.Exchange.getDefaultInstance()) return this;
         if (other.hasId()) {
           setId(other.getId());
         }
@@ -418,11 +418,11 @@ public final class ExchangeProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        net.proto.ExchangeProto.exchange parsedMessage = null;
+        net.proto.ExchangeProto.Exchange parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (net.proto.ExchangeProto.exchange) e.getUnfinishedMessage();
+          parsedMessage = (net.proto.ExchangeProto.Exchange) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -529,27 +529,27 @@ public final class ExchangeProto {
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:exchange)
+      // @@protoc_insertion_point(builder_scope:Exchange)
     }
 
-    // @@protoc_insertion_point(class_scope:exchange)
-    private static final net.proto.ExchangeProto.exchange DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:Exchange)
+    private static final net.proto.ExchangeProto.Exchange DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new net.proto.ExchangeProto.exchange();
+      DEFAULT_INSTANCE = new net.proto.ExchangeProto.Exchange();
     }
 
-    public static net.proto.ExchangeProto.exchange getDefaultInstance() {
+    public static net.proto.ExchangeProto.Exchange getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    @java.lang.Deprecated public static final com.google.protobuf.Parser<exchange>
-        PARSER = new com.google.protobuf.AbstractParser<exchange>() {
-      public exchange parsePartialFrom(
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<Exchange>
+        PARSER = new com.google.protobuf.AbstractParser<Exchange>() {
+      public Exchange parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         try {
-          return new exchange(input, extensionRegistry);
+          return new Exchange(input, extensionRegistry);
         } catch (RuntimeException e) {
           if (e.getCause() instanceof
               com.google.protobuf.InvalidProtocolBufferException) {
@@ -561,26 +561,26 @@ public final class ExchangeProto {
       }
     };
 
-    public static com.google.protobuf.Parser<exchange> parser() {
+    public static com.google.protobuf.Parser<Exchange> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<exchange> getParserForType() {
+    public com.google.protobuf.Parser<Exchange> getParserForType() {
       return PARSER;
     }
 
-    public net.proto.ExchangeProto.exchange getDefaultInstanceForType() {
+    public net.proto.ExchangeProto.Exchange getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_exchange_descriptor;
+    internal_static_Exchange_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_exchange_fieldAccessorTable;
+      internal_static_Exchange_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -590,7 +590,7 @@ public final class ExchangeProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\024proto/Exchange.proto\"K\n\010exchange\022\n\n\002id" +
+      "\n\024proto/Exchange.proto\"K\n\010Exchange\022\n\n\002id" +
       "\030\001 \001(\005\022\022\n\ntime_stamp\030\002 \001(\005\022\025\n\rpacket_num" +
       "ber\030\003 \001(\005*\010\010\004\020\200\200\200\200\002B\032\n\tnet.protoB\rExchan" +
       "geProto"
@@ -607,11 +607,11 @@ public final class ExchangeProto {
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         }, assigner);
-    internal_static_exchange_descriptor =
+    internal_static_Exchange_descriptor =
       getDescriptor().getMessageTypes().get(0);
-    internal_static_exchange_fieldAccessorTable = new
+    internal_static_Exchange_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-        internal_static_exchange_descriptor,
+        internal_static_Exchange_descriptor,
         new java.lang.String[] { "Id", "TimeStamp", "PacketNumber", });
   }
 

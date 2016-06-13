@@ -1,8 +1,8 @@
 package hooks;
 
-import net.proto.ExchangeProto.exchange;
+import net.proto.ExchangeProto.Exchange;
 
 public interface UnhandledMessageHook {
     
-    public void handleMessage(exchange message);
+    public void handleMessage(Exchange message);
 }
