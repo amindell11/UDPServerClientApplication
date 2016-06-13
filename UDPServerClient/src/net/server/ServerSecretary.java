@@ -3,13 +3,17 @@ package net.server;
 import java.io.IOException;
 import java.net.DatagramPacket;
 
-import com.google.gson.Gson;
-
 import net.Config;
 import net.SimpleExchangePacket;
 import net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeRequest;
-import net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeResponse.ResponseType;
 import net.connectionutil.ConnectionUtil;
+import net.proto.ExchangeProto.Exchange;
+import net.proto.SimpleExchangeProto.SimpleExchange;
+import net.proto.SimpleExchangeProto.SimpleExchange.SimpleExchangeRequest;
+import net.proto.SimpleExchangeProto.SimpleExchange.SimpleExchangeRequest.RequestType;
+import net.proto.SimpleExchangeProto.SimpleExchange.SimpleExchangeResponse.ResponseType;
+
+import com.google.gson.Gson;
 
 public class ServerSecretary {
 	ServerThread parent;
@@ -23,11 +27,10 @@ public class ServerSecretary {
 		int port=packet.getPort();
 		switch (req.getRequestType()) {
 		case PROBE:
-			ConnectionUtil.sendMessage(new SimpleExchangePacket(ResponseType.PROBE, "").getMessage(), parent.socket, address, port);
+			ConnectionUtil.sendResponse(ResponseType.PROBE,"", parent.socket, address, port);
 			break;
 
 		case SERVER_NAME:
-			ConnectionUtil.sendMessage(new SimpleExchangePacket(ResponseType.SERVER_NAME, parent.info.name).getMessage(), parent.socket, address, port);
 			break;
 
 		case SERVER_INFO:

@@ -14,13 +14,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.gson.Gson;
-
 import net.Config;
 import net.SimpleExchangePacket;
-import net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeRequest.RequestType;
-import net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeResponse.ResponseType;
+import net.proto.ExchangeProto.Exchange;
+import net.proto.SimpleExchangeProto.SimpleExchange;
+import net.proto.SimpleExchangeProto.SimpleExchange.SimpleExchangeRequest;
+import net.proto.SimpleExchangeProto.SimpleExchange.SimpleExchangeRequest.RequestType;
+import net.proto.SimpleExchangeProto.SimpleExchange.SimpleExchangeResponse.ResponseType;
 import net.server.ServerInfo;
+
+import com.google.gson.Gson;
 
 public class ServerDiscoveryUtil extends ConnectionUtil {
 
@@ -52,7 +55,14 @@ public class ServerDiscoveryUtil extends ConnectionUtil {
 	}
 
 	public static String getServerName(String serverAddress, int port) throws IOException {
-		ConnectionUtil.sendMessage(new SimpleExchangePacket(RequestType.SERVER_NAME, "").getMessage(), getUtilSocket(), serverAddress, port);
+	    	Exchange message=Exchange.newBuilder()
+	    				.setExtension(SimpleExchange.simpleExchange,SimpleExchange.newBuilder()
+	    										.setRequest(SimpleExchangeRequest.newBuilder()
+	    											.setRequestType(RequestType.SERVER_NAME)
+	    											.build())
+	    										.build())
+	    									.build();
+		ConnectionUtil.sendMessage(message, getUtilSocket(), serverAddress, port);
 		DatagramPacket response = receivePacket(getUtilSocket());
 		return new SimpleExchangePacket(response.getData()).getResponse().getResponseNote();
 	}
