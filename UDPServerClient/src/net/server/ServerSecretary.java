@@ -31,11 +31,12 @@ public class ServerSecretary {
 			break;
 
 		case SERVER_NAME:
+			ConnectionUtil.sendResponse(ResponseType.SERVER_NAME,parent.info.name, parent.socket, address, port);
 			break;
 
 		case SERVER_INFO:
 			String msg = new Gson().toJson(parent.info);
-			ConnectionUtil.sendMessage(new SimpleExchangePacket(ResponseType.SERVER_INFO, msg).getMessage(), parent.socket, address, port);
+			ConnectionUtil.sendResponse(ResponseType.SERVER_INFO,msg, parent.socket, address, port);
 			break;
 		case CLUSTER_MEMBERSHIP_REQUEST:
 			handleClusterMembershipRequest(req, packet);
@@ -85,7 +86,7 @@ public class ServerSecretary {
 		    	Client.usedIds.remove(Integer.valueOf(proposedClient.getClientId()));
 			decision = ResponseType.CLUSTER_MEMBERSHIP_DENIED;
 		}
-		ConnectionUtil.sendMessage(new SimpleExchangePacket(decision, note,proposedClient.getClientId()).getMessage(), parent.socket, address, packet.getPort());
+		ConnectionUtil.sendMessage(decision, note, parent.socket, address, packet.getPort());
 
 	}
 
