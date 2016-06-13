@@ -62,8 +62,12 @@ public class ConnectionUtil {
 	    sendMessage(message,sourceSocket,address,port);
 	}
 	public static Exchange buildSimpleExchangeRequest(RequestType request,String note){
+	    buildSimpleExchangeRe
+	}
+	public static Exchange buildSimpleExchangeRequest(RequestType request,String note,int id){
 	    Exchange message=
 		Exchange.newBuilder()
+			.setId(id)
 			.setExtension(SimpleExchange.simpleExchange,
 				SimpleExchange.newBuilder()
 					.setRequest(
@@ -75,9 +79,10 @@ public class ConnectionUtil {
 		.build();
 	    return message;
 	}
-	public static Exchange buildSimpleExchangeResponse(ResponseType response,String note){
+	public static Exchange buildSimpleExchangeResponse(ResponseType response,String note,int id){
 	    Exchange message=
 		Exchange.newBuilder()
+			.setId(id)
 			.setExtension(SimpleExchange.simpleExchange,
 				SimpleExchange.newBuilder()
 					.setResponse(
