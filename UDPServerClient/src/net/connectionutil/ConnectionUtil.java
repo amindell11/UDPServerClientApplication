@@ -16,7 +16,16 @@ import net.proto.SimpleExchangeProto.SimpleExchange.SimpleExchangeResponse.Respo
 
 public class ConnectionUtil {
 	private static DatagramSocket socket;
-
+	public static Exchange receiveMessage(DatagramSocket socket) throws IOException{
+	    DatagramPacket receivePacket=receivePacket(socket);
+	    Exchange message=Exchange.parseFrom(receivePacket.getData());
+	    return message;
+	}
+	public static Exchange receiveMessage(DatagramSocket socket,int timeout) throws IOException{
+	    DatagramPacket receivePacket=receivePacket(socket,timeout);
+	    Exchange message=Exchange.parseFrom(receivePacket.getData());
+	    return message;
+	}
 	public static DatagramPacket receivePacket(DatagramSocket socket) throws IOException {
 		byte[] recvBuf = new byte[15000];
 		DatagramPacket receivePacket = new DatagramPacket(recvBuf, recvBuf.length);
@@ -53,16 +62,13 @@ public class ConnectionUtil {
 		message.writeDelimitedTo(aOutput);
 		sendBytes(aOutput.toByteArray(),sourceSocket, address, port);
 	}
-	public static void sendRequest(RequestType req,String note,DatagramSocket sourceSocket,String address,int port) throws IOException{
-	    Exchange message=buildSimpleExchangeRequest(req,note);
+	public static void sendRequest(RequestType req,String note,int id,DatagramSocket sourceSocket,String address,int port) throws IOException{
+	    Exchange message=buildSimpleExchangeRequest(req,note,id);
 	    sendMessage(message,sourceSocket,address,port);
 	}
-	public static void sendResponse(ResponseType resp,String note,DatagramSocket sourceSocket,String address,int port) throws IOException{
-	    Exchange message=buildSimpleExchangeResponse(resp,note);
+	public static void sendResponse(ResponseType resp,String note,int id,DatagramSocket sourceSocket,String address,int port) throws IOException{
+	    Exchange message=buildSimpleExchangeResponse(resp,note,id);
 	    sendMessage(message,sourceSocket,address,port);
-	}
-	public static Exchange buildSimpleExchangeRequest(RequestType request,String note){
-	    buildSimpleExchangeRe
 	}
 	public static Exchange buildSimpleExchangeRequest(RequestType request,String note,int id){
 	    Exchange message=

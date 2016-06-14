@@ -1,7 +1,6 @@
 package net.client;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
@@ -9,12 +8,12 @@ import java.net.UnknownHostException;
 
 import hooks.HookManager;
 import net.Config;
-import net.SimpleExchangePacket;
-import net.communication.SimpleExchangeComm.simpleExchange;
-import net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeRequest.RequestType;
-import net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeResponse;
-import net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeResponse.ResponseType;
 import net.connectionutil.ConnectionUtil;
+import net.proto.ExchangeProto.Exchange;
+import net.proto.SimpleExchangeProto.SimpleExchange;
+import net.proto.SimpleExchangeProto.SimpleExchange.SimpleExchangeRequest.RequestType;
+import net.proto.SimpleExchangeProto.SimpleExchange.SimpleExchangeResponse;
+import net.proto.SimpleExchangeProto.SimpleExchange.SimpleExchangeResponse.ResponseType;
 
 public class ClientThread extends Thread {
     HookManager hookManager;
@@ -73,17 +72,17 @@ public class ClientThread extends Thread {
     }
 
     public void update() throws IOException {
-	DatagramPacket receive = ConnectionUtil.receivePacket(socket);
-	handlePacket(receive);
+	Exchange receive = ConnectionUtil.receiveMessage(socket);
+	handleMessage(receive);
     }
 
-    public void handlePacket(DatagramPacket packet) {
-	simpleExchange message = new SimpleExchangePacket(packet.getData()).getMessage();
+    public void handleMessage(Exchange exchange) {
+	SimpleExchange message = exchange.getExtension(SimpleExchange.simpleExchange);
 	System.out.println(message);
 	if (message.hasRequest() && message.getRequest().getRequestType().equals(RequestType.CLIENT_PING)) {
 	    try {
 		System.out.println("ping recieved from server. responding");
-		ConnectionUtil.sendMessage(new SimpleExchangePacket(ResponseType.CLIENT_PING, "", id).getMessage(), socket, serverAddress, serverPort);
+		ConnectionUtil.sendResponse(ResponseType.CLIENT_PING, "", id, socket, serverAddress, serverPort);
 
 	    } catch (IOException e) {
 		e.printStackTrace();
@@ -92,21 +91,20 @@ public class ClientThread extends Thread {
     }
 
     public boolean requestClusterMembership(String serverAddress, int port) throws MembershipRequestDeniedException {
-	DatagramPacket responsePacket = null;
+	Exchange responseMessage = null;
 	try {
-	    ConnectionUtil.sendMessage(new SimpleExchangePacket(RequestType.CLUSTER_MEMBERSHIP_REQUEST, username).getMessage(), socket, serverAddress, port);
-	    responsePacket = ConnectionUtil.receivePacket(socket, Config.DEFAULT_TIMEOUT);
+	    ConnectionUtil.sendRequest(RequestType.CLUSTER_MEMBERSHIP_REQUEST, username,0, socket, serverAddress, port);
+	    responseMessage = ConnectionUtil.receiveMessage(socket, Config.DEFAULT_TIMEOUT);
 	} catch (IOException e) {
 
 	}
-	if (responsePacket == null) {
+	if (responseMessage== null) {
 	    throw new MembershipRequestDeniedException("Packet timed out. Server unavailable");
 	}
 
-	simpleExchange responseMsg = new SimpleExchangePacket(responsePacket.getData()).getMessage();
-	simpleExchangeResponse response = responseMsg.getResponse();
+	SimpleExchangeResponse response = responseMessage.getExtension(SimpleExchange.simpleExchange).getResponse();
 	if (response.getResponseType().equals(ResponseType.CLUSTER_MEMBERSHIP_ACCEPT)) {
-	    int id = responseMsg.getId();
+	    int id = responseMessage.getId();
 	    this.id = id;
 	    this.serverAddress = serverAddress;
 	    this.serverPort = port;
