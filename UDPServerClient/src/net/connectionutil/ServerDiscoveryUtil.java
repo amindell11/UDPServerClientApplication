@@ -39,6 +39,7 @@ public class ServerDiscoveryUtil extends ConnectionUtil {
 	} catch (SocketException e) {
 	    e.printStackTrace();
 	}
+	System.out.println();
 	return availableServerIPs;
     }
 
@@ -66,7 +67,7 @@ public class ServerDiscoveryUtil extends ConnectionUtil {
 	while (true) {
 	    try {
 		DatagramPacket receivePacket=receivePacket(getUtilSocket(),timeout);
-		Exchange receiveMessage=Exchange.parseFrom(receivePacket.getData());
+		Exchange receiveMessage=convertMessage(receivePacket.getData());
 		if (receiveMessage.getExtension(SimpleExchange.simpleExchange).getResponse().getResponseType().equals(ResponseType.PROBE)) {
 		    servers.add(receivePacket.getAddress().getHostAddress());
 		}

@@ -1,5 +1,6 @@
 package net.connectionutil;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -18,8 +19,19 @@ public class ConnectionUtil {
 	private static DatagramSocket socket;
 	public static Exchange receiveMessage(DatagramSocket socket) throws IOException{
 	    DatagramPacket receivePacket=receivePacket(socket);
-	    Exchange message=Exchange.parseFrom(receivePacket.getData());
+	    Exchange message=convertMessage(receivePacket.getData());
 	    return message;
+	}
+	public static Exchange convertMessage(byte[] data){
+		ByteArrayInputStream aInput = new ByteArrayInputStream(data);
+		Exchange comm = null;
+		try {
+		    comm = Exchange.parseDelimitedFrom(aInput);
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
+		return comm;
+
 	}
 	public static Exchange receiveMessage(DatagramSocket socket,int timeout) throws IOException{
 	    DatagramPacket receivePacket=receivePacket(socket,timeout);

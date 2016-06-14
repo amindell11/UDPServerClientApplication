@@ -76,12 +76,13 @@ public class ServerThread extends Thread {
 
 	// Receive a packet
 	DatagramPacket packet = ConnectionUtil.receivePacket(socket);
-	Exchange exchange=Exchange.parseFrom(packet.getData());
+	System.out.println("packet recived");
+	Exchange exchange=ConnectionUtil.convertMessage(packet.getData());
 	SimpleExchange msg=exchange.getExtension(SimpleExchange.simpleExchange);
 	// Packet received
 	System.out.println(msg);
 
-	if (exchange.hasId()) {
+	if (exchange.hasId()&&exchange.getId()!=0) {
 	    System.out.println("message intended for client " + exchange.getId() + ": forwarding packet to client handle method");
 	    clients.get(exchange.getId()).handleMessage(exchange);
 	} else {
