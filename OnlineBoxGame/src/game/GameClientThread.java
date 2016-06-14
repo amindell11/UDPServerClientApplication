@@ -1,7 +1,5 @@
 package game;
 
-import game_object.GameObject;
-
 public class GameClientThread extends Thread {
 	GameManager game;
 
