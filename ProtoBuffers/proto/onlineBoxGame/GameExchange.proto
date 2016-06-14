@@ -1,0 +1,15 @@
+syntax="proto2";
+import "proto/Exchange.proto";
+option java_package = "proto";
+option java_outer_classname = "GameStateExchangeProto";
+
+message GameStateExchange{
+	extend Exchange{
+		 optional GameStateExchange game_update=5;
+	}
+	repeated GameObjectMessage objects = 1;
+	message GameObjectMessage{
+		optional int32 posX = 1;
+		optional int32 posY = 2;
+	}
+}
