@@ -78,17 +78,26 @@ public class ServerThread extends Thread {
 	DatagramPacket packet = ConnectionUtil.receivePacket(socket);
 	System.out.println("packet recived");
 	Exchange exchange=ConnectionUtil.convertMessage(packet.getData());
-	SimpleExchange msg=exchange.getExtension(SimpleExchange.simpleExchange);
-	// Packet received
-	System.out.println(msg);
+	
+	//Handles simpleExchanges, otherwise sends it to UnhandledMessageHook 
+	if(exchange.hasExtension(SimpleExchange.simpleExchange)){
+	    SimpleExchange msg=exchange.getExtension(SimpleExchange.simpleExchange);
+	    // Packet received
+	    System.out.println(msg);
 
-	if (exchange.hasId()&&exchange.getId()!=0) {
-	    System.out.println("message intended for client " + exchange.getId() + ": forwarding packet to client handle method");
-	    clients.get(exchange.getId()).handleMessage(exchange);
-	} else {
-	    secretary.handleMessage(exchange, packet);
+	    if (exchange.hasId()&&exchange.getId()!=0) {
+		System.out.println("message intended for client " + exchange.getId() + ": forwarding packet to client handle method");
+		clients.get(exchange.getId()).handleMessage(exchange);
+	    } else {
+		secretary.handleMessage(exchange, packet);
+	    }
+	    info.numClients = clients.size();
 	}
-	info.numClients = clients.size();
+	else{
+	    hookManager.handleMessage(exchange);
+	}
+
+
     }
 
     @Override
