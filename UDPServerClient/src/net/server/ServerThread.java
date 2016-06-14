@@ -7,15 +7,13 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 import hooks.HookManager;
-import hooks.UnhandledMessageHook;
 import net.Config;
-import net.SimpleExchangePacket;
-import net.communication.SimpleExchangeComm.simpleExchange;
 import net.connectionutil.ConnectionUtil;
+import net.proto.ExchangeProto.Exchange;
+import net.proto.SimpleExchangeProto.SimpleExchange;
 
 public class ServerThread extends Thread {
     private HookManager hookManager;
@@ -40,7 +38,7 @@ public class ServerThread extends Thread {
 	    e.printStackTrace();
 	}
 	secretary = new ServerSecretary(this);
-	hookManager=new HookManager();
+	hookManager = new HookManager();
     }
 
     /**
@@ -78,19 +76,27 @@ public class ServerThread extends Thread {
 
 	// Receive a packet
 	DatagramPacket packet = ConnectionUtil.receivePacket(socket);
+	System.out.println("packet recived");
+	Exchange exchange = ConnectionUtil.convertMessage(packet.getData());
+	// Handles simpleExchanges, otherwise sends it to UnhandledMessageHook
+	if (exchange.hasExtension(SimpleExchange.simpleExchange)) {
+	    SimpleExchange msg = exchange.getExtension(SimpleExchange.simpleExchange);
+	    // Packet received
+	    System.out.println(msg);
 
-	// Packet received
-	System.out.println(getClass().getName() + ">>>Packet received from: " + packet.getAddress().getHostAddress());
-	simpleExchange msg = new SimpleExchangePacket(packet.getData()).getMessage();
-	System.out.println(msg);
-
-	if (msg.hasId()) {
-	    System.out.println("message intended for client " + msg.getId() + ": forwarding packet to client handle method");
-	    clients.get(msg.getId()).handleMessage(msg);
+	    if (exchange.hasId() && exchange.getId() != 0) {
+		System.out.println(exchange.getId());
+		System.out.println("message intended for client " + exchange.getId() + ": forwarding packet to client handle method");
+		clients.get(exchange.getId()).handleMessage(exchange);
+	    } else {
+		System.out.println("asking secretary to handle it");
+		secretary.handleMessage(exchange, packet);
+	    }
+	    info.numClients = clients.size();
 	} else {
-	    secretary.handleRequest(msg.getRequest(), packet);
+	    hookManager.handleMessage(exchange);
 	}
-	info.numClients = clients.size();
+
     }
 
     @Override
@@ -113,7 +119,8 @@ public class ServerThread extends Thread {
     public static void main(String[] args) {
 	new ServerThread("test", Config.PORT).start();
     }
-    public HookManager getHookManager(){
+
+    public HookManager getHookManager() {
 	return hookManager;
     }
 }

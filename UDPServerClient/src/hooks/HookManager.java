@@ -2,7 +2,7 @@ package hooks;
 
 import java.util.HashSet;
 
-import net.proto.ExchangeProto.exchange;
+import net.proto.ExchangeProto.Exchange;
 
 public class HookManager{
     public HookManager(){
@@ -14,7 +14,7 @@ public class HookManager{
 	    hooks.add(hook);
 	}
     }
-    public void handleMessage(exchange message){
+    public void handleMessage(Exchange message){
 	for(UnhandledMessageHook hook:hooks){
 	    hook.handleMessage(message);
 	}

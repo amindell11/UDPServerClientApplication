@@ -7,7 +7,7 @@
 package panel.serverselect;
 
 import java.awt.FlowLayout;
-import java.net.SocketException;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JPanel;
@@ -44,6 +44,7 @@ public class ServerSelectPanel extends javax.swing.JPanel {
 	}
 
 	public void updateServerList() {
+		servers = new HashMap<>();
 		removeAll();
 		add(loadingSubPanel);
 		revalidate();
@@ -51,13 +52,10 @@ public class ServerSelectPanel extends javax.swing.JPanel {
 		SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
 			@Override
 			public Void doInBackground() {
-				try {
-					servers = ServerDiscoveryUtil.getAvailableServers(1000);
-				} catch (SocketException e) {
-					e.printStackTrace();
-				}
+				servers = ServerDiscoveryUtil.getAvailableServers(1000);
 				return null;
 			}
+
 			@Override
 			public void done() {
 				removeAll();

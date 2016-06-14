@@ -2,7 +2,7 @@
 // source: proto/SimpleExchange.proto
 
 package net.proto;
-
+@SuppressWarnings(value = { "all" })
 public final class SimpleExchangeProto {
   private SimpleExchangeProto() {}
   public static void registerAllExtensions(
@@ -2100,11 +2100,11 @@ public final class SimpleExchangeProto {
 
     public static final int SIMPLE_EXCHANGE_FIELD_NUMBER = 4;
     /**
-     * <code>extend .exchange { ... }</code>
+     * <code>extend .Exchange { ... }</code>
      */
     public static final
       com.google.protobuf.GeneratedMessage.GeneratedExtension<
-        net.proto.ExchangeProto.exchange,
+        net.proto.ExchangeProto.Exchange,
         net.proto.SimpleExchangeProto.SimpleExchange> simpleExchange = com.google.protobuf.GeneratedMessage
             .newMessageScopedGeneratedExtension(
           net.proto.SimpleExchangeProto.SimpleExchange.getDefaultInstance(),
@@ -2154,7 +2154,7 @@ public final class SimpleExchangeProto {
       "PROBE\020\000\022\035\n\031CLUSTER_MEMBERSHIP_ACCEPT\020\001\022\035" +
       "\n\031CLUSTER_MEMBERSHIP_DENIED\020\002\022\017\n\013SERVER_" +
       "NAME\020\003\022\017\n\013SERVER_INFO\020\004\022\017\n\013CLIENT_PING\020\005" +
-      "23\n\017simple_exchange\022\t.exchange\030\004 \001(\0132\017.S" +
+      "23\n\017simple_exchange\022\t.Exchange\030\004 \001(\0132\017.S" +
       "impleExchangeB \n\tnet.protoB\023SimpleExchan" +
       "geProto"
     };

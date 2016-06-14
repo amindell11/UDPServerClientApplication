@@ -5,10 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.Config;
-import net.SimpleExchangePacket;
-import net.communication.SimpleExchangeComm.simpleExchange;
-import net.communication.SimpleExchangeComm.simpleExchange.simpleExchangeRequest.RequestType;
 import net.connectionutil.ConnectionUtil;
+import net.proto.ExchangeProto.Exchange;
+import net.proto.SimpleExchangeProto.SimpleExchange.SimpleExchangeRequest.RequestType;
 
 /**
  * Code to handle client's on the server. The server's representation of a client.
@@ -54,7 +53,7 @@ public class Client extends Thread {
 	 * Handles a message from the client represented by this object
 	 * @param msg The simple exchange message the client sent 
 	 */
-	public void handleMessage(simpleExchange msg) {
+	public void handleMessage(Exchange msg) {
 		lastCommTimestamp = System.currentTimeMillis();
 	}
 
@@ -108,7 +107,7 @@ public class Client extends Thread {
 		else if (timeSinceLastComm > Config.PingSettings.CLIENT_MAX_DEAD_TIME && currentTime - lastSentPingTimestamp > Config.PingSettings.TIME_BETWEEN_PINGS) {
 			lastSentPingTimestamp = currentTime;
 			try {
-				ConnectionUtil.sendMessage(new SimpleExchangePacket(RequestType.CLIENT_PING, "").getMessage(), parent.socket, address, port);
+				ConnectionUtil.sendRequest(RequestType.CLIENT_PING, "",0, parent.socket, address, port);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

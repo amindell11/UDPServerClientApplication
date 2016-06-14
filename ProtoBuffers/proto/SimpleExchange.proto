@@ -6,7 +6,7 @@ option java_outer_classname = "SimpleExchangeProto";
 import "proto/Exchange.proto";
 
 message SimpleExchange {
-	extend exchange{
+	extend Exchange{
 		optional SimpleExchange simple_exchange=4;
 	}
 	optional SimpleExchangeRequest request = 1;
@@ -29,6 +29,7 @@ message SimpleExchange {
 		optional string response_note = 2;
 		enum ResponseType {
 			PROBE = 0;
+			
 			CLUSTER_MEMBERSHIP_ACCEPT = 1;
 			CLUSTER_MEMBERSHIP_DENIED = 2;
 			SERVER_NAME = 3;
