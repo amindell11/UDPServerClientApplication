@@ -2,7 +2,7 @@
 // source: proto/SimpleExchange.proto
 
 package net.proto;
-
+@SuppressWarnings(value = { "all" })
 public final class SimpleExchangeProto {
   private SimpleExchangeProto() {}
   public static void registerAllExtensions(

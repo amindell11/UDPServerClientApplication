@@ -9,8 +9,6 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.protobuf.ExtensionRegistry;
-
 import hooks.HookManager;
 import net.Config;
 import net.connectionutil.ConnectionUtil;

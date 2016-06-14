@@ -13,7 +13,6 @@ import hooks.GameHooks;
 import multiplayergamelauncher.AppState;
 import multiplayergamelauncher.ApplicationManager;
 import net.Config;
-import net.client.ClientThread;
 import net.server.ServerThread;
 
 /**

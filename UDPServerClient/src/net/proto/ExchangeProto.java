@@ -2,7 +2,7 @@
 // source: proto/Exchange.proto
 
 package net.proto;
-
+@SuppressWarnings(value = { "all" })
 public final class ExchangeProto {
   private ExchangeProto() {}
   public static void registerAllExtensions(

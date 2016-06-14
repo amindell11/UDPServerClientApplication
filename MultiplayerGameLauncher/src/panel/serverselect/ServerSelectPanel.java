@@ -7,7 +7,6 @@
 package panel.serverselect;
 
 import java.awt.FlowLayout;
-import java.net.SocketException;
 import java.util.HashMap;
 import java.util.Map;
 

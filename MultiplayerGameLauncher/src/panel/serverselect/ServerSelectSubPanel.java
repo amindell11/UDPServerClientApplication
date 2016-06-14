@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import hooks.GameHooks;
 import multiplayergamelauncher.AppState;
 import net.Config;
-import net.client.ClientThread;
 
 /**
  *
