@@ -39,7 +39,7 @@ public class ConnectionUtil {
 	}
 	public static Exchange receiveMessage(DatagramSocket socket,int timeout) throws IOException{
 	    DatagramPacket receivePacket=receivePacket(socket,timeout);
-	    Exchange message=Exchange.parseFrom(receivePacket.getData());
+	    Exchange message=convertMessage(receivePacket.getData());
 	    return message;
 	}
 	public static DatagramPacket receivePacket(DatagramSocket socket) throws IOException {
@@ -51,11 +51,7 @@ public class ConnectionUtil {
 	public static DatagramPacket receivePacket(DatagramSocket socket,int timeout) throws IOException {
 		socket.setSoTimeout(timeout);
 		DatagramPacket receivePacket=null;
-		try {
-			receivePacket = receivePacket(socket);
-		} catch (IOException e) {
-			System.out.println("recieve timed out.");
-		}
+		receivePacket = receivePacket(socket);
 		socket.setSoTimeout(0);
 		return receivePacket;
 	}

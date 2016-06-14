@@ -27,14 +27,17 @@ import net.server.ServerInfo;
 
 public class ServerDiscoveryUtil extends ConnectionUtil {
 
-    public static Map<String, String> getAvailableServers(int timeout) throws SocketException {
-	return getServerNames(getAvailableServerIPs(timeout, Config.PORT), Config.PORT);
+    public static Map<String, String> getAvailableServers(int timeout) {
+	List<String> availableServerIPs = getAvailableServerIPs(timeout, Config.PORT);
+	System.out.println(availableServerIPs);
+	System.out.println(getServerNames(availableServerIPs, Config.PORT));
+	return getServerNames(availableServerIPs, Config.PORT);
     }
 
     public static List<String> getAvailableServerIPs(int timeout, int port) {
 	List<String> availableServerIPs = new ArrayList<>();
 	try {
-	    sendProbePacket(getBroadcastAddresses(), port);
+	    sendProbePackets(getBroadcastAddresses(), port);
 	    availableServerIPs = waitForServerResponses(timeout);
 	} catch (SocketException e) {
 	    e.printStackTrace();
@@ -62,13 +65,16 @@ public class ServerDiscoveryUtil extends ConnectionUtil {
 	return response.getResponseNote();
     }
 
-    public static List<String> waitForServerResponses(int timeout) throws SocketException {
+    public static List<String> waitForServerResponses(int timeout) {
 	Set<String> servers = new HashSet<>();
 	while (true) {
 	    try {
 		DatagramPacket receivePacket=receivePacket(getUtilSocket(),timeout);
 		Exchange receiveMessage=convertMessage(receivePacket.getData());
+		System.out.println("someone responded ");
+		System.out.println(receiveMessage.getExtension(SimpleExchange.simpleExchange));
 		if (receiveMessage.getExtension(SimpleExchange.simpleExchange).getResponse().getResponseType().equals(ResponseType.PROBE)) {
+		    System.out.println(true);
 		    servers.add(receivePacket.getAddress().getHostAddress());
 		}
 	    } catch (IOException e) {
@@ -77,6 +83,7 @@ public class ServerDiscoveryUtil extends ConnectionUtil {
 		break;
 	    }
 	}
+	System.out.println(servers);
 	return new ArrayList<>(servers);
     }
 
@@ -88,7 +95,7 @@ public class ServerDiscoveryUtil extends ConnectionUtil {
 	}
     }
 
-    public static void sendProbePacket(List<String> broadcastAddresses, int portToProbe) {
+    public static void sendProbePackets(List<String> broadcastAddresses, int portToProbe) {
 	for (String address : broadcastAddresses) {
 	    sendProbePacket(address, portToProbe);
 	}
