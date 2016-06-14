@@ -8,6 +8,8 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 
+import com.google.protobuf.ExtensionRegistry;
+
 import net.proto.ExchangeProto.Exchange;
 import net.proto.SimpleExchangeProto.SimpleExchange;
 import net.proto.SimpleExchangeProto.SimpleExchange.SimpleExchangeRequest;
@@ -23,10 +25,12 @@ public class ConnectionUtil {
 	    return message;
 	}
 	public static Exchange convertMessage(byte[] data){
+		ExtensionRegistry registry = ExtensionRegistry.newInstance();
+		registry.add(SimpleExchange.simpleExchange);
 		ByteArrayInputStream aInput = new ByteArrayInputStream(data);
 		Exchange comm = null;
 		try {
-		    comm = Exchange.parseDelimitedFrom(aInput);
+		    comm = Exchange.parseDelimitedFrom(aInput,registry);
 		} catch (IOException e) {
 		    e.printStackTrace();
 		}

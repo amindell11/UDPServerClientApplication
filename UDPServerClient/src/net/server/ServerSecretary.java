@@ -21,6 +21,8 @@ public class ServerSecretary {
 
     protected void handleMessage(Exchange message, DatagramPacket packet) throws IOException {
 	SimpleExchangeRequest req=message.getExtension(SimpleExchange.simpleExchange).getRequest();
+	System.err.println("secretary handling request");
+	System.out.println(req);
 	String address = packet.getAddress().getHostAddress();
 	int port = packet.getPort();
 	switch (req.getRequestType()) {

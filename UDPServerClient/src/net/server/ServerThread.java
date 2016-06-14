@@ -9,6 +9,8 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.protobuf.ExtensionRegistry;
+
 import hooks.HookManager;
 import net.Config;
 import net.connectionutil.ConnectionUtil;
@@ -38,7 +40,7 @@ public class ServerThread extends Thread {
 	    e.printStackTrace();
 	}
 	secretary = new ServerSecretary(this);
-	hookManager=new HookManager();
+	hookManager = new HookManager();
     }
 
     /**
@@ -77,26 +79,25 @@ public class ServerThread extends Thread {
 	// Receive a packet
 	DatagramPacket packet = ConnectionUtil.receivePacket(socket);
 	System.out.println("packet recived");
-	Exchange exchange=ConnectionUtil.convertMessage(packet.getData());
-	
-	//Handles simpleExchanges, otherwise sends it to UnhandledMessageHook 
-	if(exchange.hasExtension(SimpleExchange.simpleExchange)){
-	    SimpleExchange msg=exchange.getExtension(SimpleExchange.simpleExchange);
+	Exchange exchange = ConnectionUtil.convertMessage(packet.getData());
+	// Handles simpleExchanges, otherwise sends it to UnhandledMessageHook
+	if (exchange.hasExtension(SimpleExchange.simpleExchange)) {
+	    SimpleExchange msg = exchange.getExtension(SimpleExchange.simpleExchange);
 	    // Packet received
 	    System.out.println(msg);
 
-	    if (exchange.hasId()&&exchange.getId()!=0) {
+	    if (exchange.hasId() && exchange.getId() != 0) {
+		System.out.println(exchange.getId());
 		System.out.println("message intended for client " + exchange.getId() + ": forwarding packet to client handle method");
 		clients.get(exchange.getId()).handleMessage(exchange);
 	    } else {
+		System.out.println("asking secretary to handle it");
 		secretary.handleMessage(exchange, packet);
 	    }
 	    info.numClients = clients.size();
-	}
-	else{
+	} else {
 	    hookManager.handleMessage(exchange);
 	}
-
 
     }
 
@@ -120,7 +121,8 @@ public class ServerThread extends Thread {
     public static void main(String[] args) {
 	new ServerThread("test", Config.PORT).start();
     }
-    public HookManager getHookManager(){
+
+    public HookManager getHookManager() {
 	return hookManager;
     }
 }
