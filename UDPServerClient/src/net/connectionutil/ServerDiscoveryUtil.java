@@ -29,8 +29,6 @@ public class ServerDiscoveryUtil extends ConnectionUtil {
 
     public static Map<String, String> getAvailableServers(int timeout) {
 	List<String> availableServerIPs = getAvailableServerIPs(timeout, Config.PORT);
-	System.out.println(availableServerIPs);
-	System.out.println(getServerNames(availableServerIPs, Config.PORT));
 	return getServerNames(availableServerIPs, Config.PORT);
     }
 
@@ -42,7 +40,6 @@ public class ServerDiscoveryUtil extends ConnectionUtil {
 	} catch (SocketException e) {
 	    e.printStackTrace();
 	}
-	System.out.println();
 	return availableServerIPs;
     }
 
@@ -68,22 +65,16 @@ public class ServerDiscoveryUtil extends ConnectionUtil {
     public static List<String> waitForServerResponses(int timeout) {
 	Set<String> servers = new HashSet<>();
 	while (true) {
-	    try {
-		DatagramPacket receivePacket=receivePacket(getUtilSocket(),timeout);
-		Exchange receiveMessage=convertMessage(receivePacket.getData());
-		System.out.println("someone responded ");
-		System.out.println(receiveMessage.getExtension(SimpleExchange.simpleExchange));
-		if (receiveMessage.getExtension(SimpleExchange.simpleExchange).getResponse().getResponseType().equals(ResponseType.PROBE)) {
-		    System.out.println(true);
-		    servers.add(receivePacket.getAddress().getHostAddress());
-		}
-	    } catch (IOException e) {
+	    DatagramPacket receivePacket = receivePacket(getUtilSocket(), timeout);
+	    if (receivePacket == null) {
 		System.out.println("time out reached. returning");
-		System.out.println(servers);
 		break;
 	    }
+	    Exchange receiveMessage = convertMessage(receivePacket.getData());
+	    if (receiveMessage.getExtension(SimpleExchange.simpleExchange).getResponse().getResponseType().equals(ResponseType.PROBE)) {
+		servers.add(receivePacket.getAddress().getHostAddress());
+	    }
 	}
-	System.out.println(servers);
 	return new ArrayList<>(servers);
     }
 
@@ -135,11 +126,7 @@ public class ServerDiscoveryUtil extends ConnectionUtil {
     public static boolean checkAddressForServer(String address, int port, int timeout) {
 	sendProbePacket(address, port);
 	Exchange receiveMessage = null;
-	try {
-	    receiveMessage = receiveMessage(getUtilSocket(), timeout);
-	} catch (IOException e1) {
-	    e1.printStackTrace();
-	}
+	receiveMessage = receiveMessage(getUtilSocket(), timeout);
 	if (receiveMessage == null)
 	    return false;
 	return receiveMessage.getExtension(SimpleExchange.simpleExchange).getResponse().getResponseType().equals(ResponseType.PROBE);
