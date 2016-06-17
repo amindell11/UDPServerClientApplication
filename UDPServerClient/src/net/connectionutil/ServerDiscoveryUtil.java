@@ -70,7 +70,7 @@ public class ServerDiscoveryUtil extends ConnectionUtil {
 		System.out.println("time out reached. returning");
 		break;
 	    }
-	    Exchange receiveMessage = convertMessage(receivePacket.getData());
+	    Exchange receiveMessage = convertMessage(receivePacket.getData(),getSimpleExchangeRegistry());
 	    if (receiveMessage.getExtension(SimpleExchange.simpleExchange).getResponse().getResponseType().equals(ResponseType.PROBE)) {
 		servers.add(receivePacket.getAddress().getHostAddress());
 	    }

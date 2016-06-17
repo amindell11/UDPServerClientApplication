@@ -6,6 +6,9 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
+import com.google.protobuf.Extension;
+import com.google.protobuf.ExtensionRegistry;
+
 import hooks.HookManager;
 import net.Config;
 import net.connectionutil.ConnectionUtil;
@@ -17,6 +20,8 @@ import net.proto.SimpleExchangeProto.SimpleExchange.SimpleExchangeResponse.Respo
 
 public class ClientThread extends Thread {
     HookManager hookManager;
+    ExtensionRegistry knownMessageTypes;
+    
     String username;
     int id;
     String address;
@@ -40,6 +45,8 @@ public class ClientThread extends Thread {
 	open = false;
 	this.address = address;
 	hookManager = new HookManager();
+	knownMessageTypes=ExtensionRegistry.newInstance();
+	addKnownMessageType(SimpleExchange.simpleExchange);
     }
 
     public String getUsername() {
@@ -72,7 +79,7 @@ public class ClientThread extends Thread {
     }
 
     public void update() throws IOException {
-	Exchange receive = ConnectionUtil.receiveMessage(socket);
+	Exchange receive = ConnectionUtil.receiveMessage(socket,knownMessageTypes);
 	handleMessage(receive);
     }
 
@@ -101,7 +108,7 @@ public class ClientThread extends Thread {
 	Exchange responseMessage = null;
 	try {
 	    ConnectionUtil.sendRequest(RequestType.CLUSTER_MEMBERSHIP_REQUEST, username,0, socket, serverAddress, port);
-	    responseMessage = ConnectionUtil.receiveMessage(socket, Config.DEFAULT_TIMEOUT);
+	    responseMessage = ConnectionUtil.receiveMessage(socket, Config.DEFAULT_TIMEOUT,knownMessageTypes);
 	} catch (IOException e) {
 
 	}
@@ -129,7 +136,9 @@ public class ClientThread extends Thread {
     public HookManager getHookManager() {
 	return hookManager;
     }
-
+    public void addKnownMessageType(Extension<?,?> extension){
+	knownMessageTypes.add(extension);
+    }
     public static void main(String[] args) throws UnknownHostException {
 	String username = "  ";
 	String address = InetAddress.getLocalHost().getHostAddress();
