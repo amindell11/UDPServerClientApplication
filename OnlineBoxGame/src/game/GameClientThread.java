@@ -1,5 +1,9 @@
 package game;
 
+import hooks.UnhandledMessageHook;
+import net.client.ClientThread;
+import net.proto.ExchangeProto.Exchange;
+
 public class GameClientThread extends Thread {
 	GameManager game;
 
@@ -7,10 +11,17 @@ public class GameClientThread extends Thread {
 		return game;
 	}
 
-	public GameClientThread() {
+	public GameClientThread(ClientThread client) {
 		game = new GameManager();
-	}
+		client.getHookManager().addHook(new UnhandledMessageHook(){
 
+			@Override
+			public void handleMessage(Exchange message) {
+				System.out.println("hessaesda");
+			}
+			
+		});
+	}
 	@Override
 	public void run() {
 		new ClientDisplayWindow(game).start();
@@ -21,6 +32,6 @@ public class GameClientThread extends Thread {
 	}
 
 	public static void main(String[] args) {
-		new GameClientThread().start();
+		new GameClientThread(new ClientThread(null, null)).start();
 	}
 }
