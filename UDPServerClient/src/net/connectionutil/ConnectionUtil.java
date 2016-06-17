@@ -21,15 +21,17 @@ import net.proto.SimpleExchangeProto.SimpleExchange.SimpleExchangeResponse.Respo
 public class ConnectionUtil {
     private static DatagramSocket socket;
 
-    public static Exchange receiveMessage(DatagramSocket socket) throws IOException {
+    protected static Exchange receiveMessage(DatagramSocket socket) throws IOException {
+	return receiveMessage(socket, getSimpleExchangeRegistry());
+    }
+
+    public static Exchange receiveMessage(DatagramSocket socket, ExtensionRegistry registry) throws IOException {
 	DatagramPacket receivePacket = receivePacket(socket);
-	Exchange message = convertMessage(receivePacket.getData());
+	Exchange message = convertMessage(receivePacket.getData(), registry);
 	return message;
     }
 
-    public static Exchange convertMessage(byte[] data) {
-	ExtensionRegistry registry = ExtensionRegistry.newInstance();
-	registry.add(SimpleExchange.simpleExchange);
+    public static Exchange convertMessage(byte[] data, ExtensionRegistry registry) {
 	ByteArrayInputStream aInput = new ByteArrayInputStream(data);
 	Exchange comm = null;
 	try {
@@ -41,16 +43,19 @@ public class ConnectionUtil {
 
     }
 
-    public static Exchange receiveMessage(DatagramSocket socket, int timeout) {
+    public static Exchange receiveMessage(DatagramSocket socket, int timeout,ExtensionRegistry registry) {
 	DatagramPacket receivePacket = receivePacket(socket, timeout);
-	Exchange message = convertMessage(receivePacket.getData());
+	Exchange message = convertMessage(receivePacket.getData(), registry);
 	return message;
+    }
+    protected static Exchange receiveMessage(DatagramSocket socket, int timeout) {
+	return receiveMessage(socket,timeout,getSimpleExchangeRegistry());
     }
 
     public static DatagramPacket receivePacket(DatagramSocket socket) throws IOException {
 	byte[] recvBuf = new byte[15000];
 	DatagramPacket receivePacket = new DatagramPacket(recvBuf, recvBuf.length);
-	    socket.receive(receivePacket);
+	socket.receive(receivePacket);
 	return receivePacket;
     }
 
@@ -78,7 +83,12 @@ public class ConnectionUtil {
 	}
 	return socket;
     }
+    protected static ExtensionRegistry getSimpleExchangeRegistry(){
+	ExtensionRegistry registry = ExtensionRegistry.newInstance();
+	registry.add(SimpleExchange.simpleExchange);
+	return registry;
 
+    }
     private static void sendBytes(byte[] bytes, DatagramSocket sourceSocket, String address, int port) throws IOException {
 	InetAddress netAddress = InetAddress.getByName(address);
 	sourceSocket.send(new DatagramPacket(bytes, bytes.length, netAddress, port));

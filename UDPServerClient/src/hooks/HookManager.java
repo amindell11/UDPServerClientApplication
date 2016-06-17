@@ -10,9 +10,7 @@ public class HookManager{
     }
     private HashSet<UnhandledMessageHook> hooks;
     public void addHook(UnhandledMessageHook hook){
-	if(hooks!=null){
-	    hooks.add(hook);
-	}
+	hooks.add(hook);
     }
     public void handleMessage(Exchange message){
 	for(UnhandledMessageHook hook:hooks){

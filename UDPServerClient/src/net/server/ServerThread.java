@@ -9,6 +9,9 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.protobuf.Extension;
+import com.google.protobuf.ExtensionRegistry;
+
 import hooks.HookManager;
 import net.Config;
 import net.connectionutil.ConnectionUtil;
@@ -17,6 +20,8 @@ import net.proto.SimpleExchangeProto.SimpleExchange;
 
 public class ServerThread extends Thread {
     private HookManager hookManager;
+    private ExtensionRegistry knownMessageTypes;
+    
     protected ServerInfo info;
     private ServerSecretary secretary;
     protected DatagramSocket socket;
@@ -39,6 +44,9 @@ public class ServerThread extends Thread {
 	}
 	secretary = new ServerSecretary(this);
 	hookManager = new HookManager();
+	knownMessageTypes=ExtensionRegistry.newInstance();
+	addKnownMessageType(SimpleExchange.simpleExchange);
+	
     }
 
     /**
@@ -77,7 +85,7 @@ public class ServerThread extends Thread {
 	// Receive a packet
 	DatagramPacket packet = ConnectionUtil.receivePacket(socket);
 	System.out.println("packet recived");
-	Exchange exchange = ConnectionUtil.convertMessage(packet.getData());
+	Exchange exchange = ConnectionUtil.convertMessage(packet.getData(),knownMessageTypes);
 	// Handles simpleExchanges, otherwise sends it to UnhandledMessageHook
 	if (exchange.hasExtension(SimpleExchange.simpleExchange)) {
 	    SimpleExchange msg = exchange.getExtension(SimpleExchange.simpleExchange);
@@ -98,7 +106,9 @@ public class ServerThread extends Thread {
 	}
 
     }
-
+    public void addKnownMessageType(Extension<?,?> extension){
+	knownMessageTypes.add(extension);
+    }
     @Override
     public void run() {
 	init();
