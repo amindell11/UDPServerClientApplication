@@ -20,6 +20,7 @@ public class GameServer implements UnhandledMessageHook{
     GameServer(ServerThread server){
 	this.server = server;
 	server.getHookManager().addHook(this);
+	
     }
 
 
