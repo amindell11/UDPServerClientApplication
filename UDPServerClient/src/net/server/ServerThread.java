@@ -21,7 +21,7 @@ import net.proto.SimpleExchangeProto.SimpleExchange;
 public class ServerThread extends Thread {
     private HookManager hookManager;
     private ExtensionRegistry knownMessageTypes;
-    
+
     protected ServerInfo info;
     private ServerSecretary secretary;
     protected DatagramSocket socket;
@@ -46,7 +46,7 @@ public class ServerThread extends Thread {
 	hookManager = new HookManager();
 	knownMessageTypes=ExtensionRegistry.newInstance();
 	addKnownMessageType(SimpleExchange.simpleExchange);
-	
+
     }
 
     /**
@@ -79,7 +79,9 @@ public class ServerThread extends Thread {
     public ServerThread(int port) {
 	this("default", port);
     }
-
+    public boolean isOpen(){
+	return open;
+    }
     public void update() throws IOException {
 
 	// Receive a packet
@@ -133,4 +135,14 @@ public class ServerThread extends Thread {
     public HookManager getHookManager() {
 	return hookManager;
     }
+
+    public Client[] getClients(){
+	if(clients != null){
+	    return (Client[]) clients.values().toArray();
+	}
+	else{
+	    return new Client[0];
+	}
+    }
+
 }
