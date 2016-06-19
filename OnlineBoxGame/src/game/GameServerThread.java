@@ -10,20 +10,28 @@ import net.server.ServerThread;
  * @author Josh
  *
  */
-public class GameServer implements UnhandledMessageHook{
+public class GameServerThread extends Thread implements UnhandledMessageHook{
 
     private ServerThread server;
     
     /**
      * @param server The object running the server thread
      */
-    GameServer(ServerThread server){
+    GameServerThread(ServerThread server){
 	this.server = server;
 	server.getHookManager().addHook(this);
 	
     }
 
-
+    public void update(){
+    	
+    }
+    public void run(){
+    	while(server.isOpen()){
+    		update();
+    	}
+    }
+    
     @Override
     public void handleMessage(Exchange message) {
 	
