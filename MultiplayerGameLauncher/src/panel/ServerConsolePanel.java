@@ -22,6 +22,12 @@ public class ServerConsolePanel extends javax.swing.JPanel {
 	private static final long serialVersionUID = -6614669411295781391L;
 	// Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ClearButton;
+	public ServerThread getServer() {
+		return server;
+	}
+	public boolean hasServer(){
+		return server!=null;
+	}
 	private javax.swing.JButton CloseServerButton;
     private javax.swing.JLabel ipLabel;
     private javax.swing.JComboBox<?> jComboBox1;

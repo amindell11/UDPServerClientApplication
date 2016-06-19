@@ -79,7 +79,9 @@ public class ServerThread extends Thread {
     public ServerThread(int port) {
 	this("default", port);
     }
-
+    public boolean isOpen(){
+	return open;
+    }
     public void update() throws IOException {
 
 	// Receive a packet
