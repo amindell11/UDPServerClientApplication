@@ -5,36 +5,47 @@ import net.proto.ExchangeProto.Exchange;
 import net.server.ServerThread;
 
 /**
- * This class manages the game update messages sent from clients. It recieves messages from clients and decides what to send to other
- * clients as updates.
+ * This class manages the game update messages sent from clients. It recieves
+ * messages from clients and decides what to send to other clients as updates.
+ * 
  * @author Josh
  *
  */
-public class GameServerThread extends Thread implements UnhandledMessageHook{
+public class GameServerThread extends Thread implements UnhandledMessageHook {
 
-    private ServerThread server;
-    
-    /**
-     * @param server The object running the server thread
-     */
-    GameServerThread(ServerThread server){
-	this.server = server;
-	server.getHookManager().addHook(this);
-	
-    }
+	private ServerThread server;
+	static int serverSendRate = 30;
 
-    public void update(){
-    	
-    }
-    public void run(){
-    	while(server.isOpen()){
-    		update();
-    	}
-    }
-    
-    @Override
-    public void handleMessage(Exchange message) {
-	
-    }
+	/**
+	 * @param server
+	 *            The object running the server thread
+	 */
+	GameServerThread(ServerThread server) {
+		this.server = server;
+		server.getHookManager().addHook(this);
+
+	}
+
+	public void update() {
+
+	}
+
+	public void run() {
+		long startTime = System.currentTimeMillis();
+		while (server.isOpen()) {
+			long currentTime = System.currentTimeMillis();
+			if (currentTime - startTime > 1000 / serverSendRate) {
+				startTime = currentTime;
+				update();
+			}
+
+		}
+
+	}
+
+	@Override
+	public void handleMessage(Exchange message) {
+
+	}
 
 }
