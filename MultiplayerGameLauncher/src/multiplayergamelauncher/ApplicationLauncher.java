@@ -1,8 +1,5 @@
 package multiplayergamelauncher;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
 import hooks.ClientCreatedHook;
 import hooks.GameHooks;
 import hooks.ServerCreatedHook;
@@ -18,15 +15,12 @@ public class ApplicationLauncher extends Launcher {
 			@Override
 			public void clientCreated(ClientThread client) {
 				if (client.isActiveMember()) {
-					try {
-						if(client.getServerAddress().equals(InetAddress.getLocalHost().getHostAddress())){
-							getApplication().serverConsolePanel.setClient(client);
-						}else{
-							getApplication().clientConsolePanel.onEnter(client);
-							getApplication().progressTo(AppState.CLIENT_CONSOLE);
-						}
-					} catch (UnknownHostException e) {
-						e.printStackTrace();
+					if (getApplication().serverConsolePanel.hasServer()
+							&& getApplication().serverConsolePanel.getServer().isOpen()) {
+						getApplication().serverConsolePanel.setClient(client);
+					} else {
+						getApplication().clientConsolePanel.onEnter(client);
+						getApplication().progressTo(AppState.CLIENT_CONSOLE);
 					}
 				}
 			}
@@ -37,7 +31,7 @@ public class ApplicationLauncher extends Launcher {
 			@Override
 			public void serverCreated(ServerThread server) {
 				getApplication().serverConsolePanel.onEnter(server);
-		    	getApplication().progressTo(AppState.SERVER_CONSOLE);
+				getApplication().progressTo(AppState.SERVER_CONSOLE);
 			}
 
 		});
