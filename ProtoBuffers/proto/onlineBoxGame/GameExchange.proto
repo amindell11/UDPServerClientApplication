@@ -1,15 +1,41 @@
-syntax="proto2";
+syntax = "proto2";
+
 import "proto/Exchange.proto";
 option java_package = "proto";
 option java_outer_classname = "GameStateExchangeProto";
+message GameStateExchange {
+	extend Exchange {
+		optional GameStateExchange game_update = 5;
+	}
+	enum StateExchangeType {
+		NEW_OBJECT = 1;
+		OBJECT_UPDATE = 2;
+		STALE_OBJECT = 3;
+	}
 
-message GameStateExchange{
-	extend Exchange{
-		 optional GameStateExchange game_update=5;
+	required StateExchangeType purpose = 1;
+	oneof content {
+		ObjectCreatedNotice new_object = 2;
+		GroupObjectUpdate updated_object_group = 3;
+		ObjectRemovedNotice stale_object = 4;
 	}
-	repeated GameObjectMessage objects = 1;
-	message GameObjectMessage{
-		optional int32 posX = 1;
-		optional int32 posY = 2;
+	message ObjectCreatedNotice {
+		optional string schema = 1;
+		optional int32 object_id = 2;
 	}
+
+	message GroupObjectUpdate {
+		repeated ObjectUpdate objects = 2;
+		message ObjectUpdate {
+			optional int32 object_id = 3;
+			optional int32 pos_x = 1;
+			optional int32 pos_y = 2;
+		}
+
+	}
+
+	message ObjectRemovedNotice {
+		optional int32 object_id = 1;
+	}
+
 }

@@ -14,28 +14,54 @@ public final class GameStateExchangeProto {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>repeated .GameStateExchange.GameObjectMessage objects = 1;</code>
+     * <code>required .GameStateExchange.StateExchangeType purpose = 1;</code>
      */
-    java.util.List<proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage> 
-        getObjectsList();
+    boolean hasPurpose();
     /**
-     * <code>repeated .GameStateExchange.GameObjectMessage objects = 1;</code>
+     * <code>required .GameStateExchange.StateExchangeType purpose = 1;</code>
      */
-    proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage getObjects(int index);
+    proto.GameStateExchangeProto.GameStateExchange.StateExchangeType getPurpose();
+
     /**
-     * <code>repeated .GameStateExchange.GameObjectMessage objects = 1;</code>
+     * <code>optional .GameStateExchange.ObjectCreatedNotice new_object = 2;</code>
      */
-    int getObjectsCount();
+    boolean hasNewObject();
     /**
-     * <code>repeated .GameStateExchange.GameObjectMessage objects = 1;</code>
+     * <code>optional .GameStateExchange.ObjectCreatedNotice new_object = 2;</code>
      */
-    java.util.List<? extends proto.GameStateExchangeProto.GameStateExchange.GameObjectMessageOrBuilder> 
-        getObjectsOrBuilderList();
+    proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice getNewObject();
     /**
-     * <code>repeated .GameStateExchange.GameObjectMessage objects = 1;</code>
+     * <code>optional .GameStateExchange.ObjectCreatedNotice new_object = 2;</code>
      */
-    proto.GameStateExchangeProto.GameStateExchange.GameObjectMessageOrBuilder getObjectsOrBuilder(
-        int index);
+    proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNoticeOrBuilder getNewObjectOrBuilder();
+
+    /**
+     * <code>optional .GameStateExchange.GroupObjectUpdate updated_object_group = 3;</code>
+     */
+    boolean hasUpdatedObjectGroup();
+    /**
+     * <code>optional .GameStateExchange.GroupObjectUpdate updated_object_group = 3;</code>
+     */
+    proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate getUpdatedObjectGroup();
+    /**
+     * <code>optional .GameStateExchange.GroupObjectUpdate updated_object_group = 3;</code>
+     */
+    proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdateOrBuilder getUpdatedObjectGroupOrBuilder();
+
+    /**
+     * <code>optional .GameStateExchange.ObjectRemovedNotice stale_object = 4;</code>
+     */
+    boolean hasStaleObject();
+    /**
+     * <code>optional .GameStateExchange.ObjectRemovedNotice stale_object = 4;</code>
+     */
+    proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice getStaleObject();
+    /**
+     * <code>optional .GameStateExchange.ObjectRemovedNotice stale_object = 4;</code>
+     */
+    proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNoticeOrBuilder getStaleObjectOrBuilder();
+
+    public proto.GameStateExchangeProto.GameStateExchange.ContentCase getContentCase();
   }
   /**
    * Protobuf type {@code GameStateExchange}
@@ -49,7 +75,7 @@ public final class GameStateExchangeProto {
       super(builder);
     }
     private GameStateExchange() {
-      objects_ = java.util.Collections.emptyList();
+      purpose_ = 1;
     }
 
     @java.lang.Override
@@ -79,12 +105,57 @@ public final class GameStateExchangeProto {
               }
               break;
             }
-            case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                objects_ = new java.util.ArrayList<proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage>();
-                mutable_bitField0_ |= 0x00000001;
+            case 8: {
+              int rawValue = input.readEnum();
+              proto.GameStateExchangeProto.GameStateExchange.StateExchangeType value = proto.GameStateExchangeProto.GameStateExchange.StateExchangeType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                purpose_ = rawValue;
               }
-              objects_.add(input.readMessage(proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage.parser(), extensionRegistry));
+              break;
+            }
+            case 18: {
+              proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice.Builder subBuilder = null;
+              if (contentCase_ == 2) {
+                subBuilder = ((proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice) content_).toBuilder();
+              }
+              content_ =
+                  input.readMessage(proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice) content_);
+                content_ = subBuilder.buildPartial();
+              }
+              contentCase_ = 2;
+              break;
+            }
+            case 26: {
+              proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.Builder subBuilder = null;
+              if (contentCase_ == 3) {
+                subBuilder = ((proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate) content_).toBuilder();
+              }
+              content_ =
+                  input.readMessage(proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate) content_);
+                content_ = subBuilder.buildPartial();
+              }
+              contentCase_ = 3;
+              break;
+            }
+            case 34: {
+              proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice.Builder subBuilder = null;
+              if (contentCase_ == 4) {
+                subBuilder = ((proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice) content_).toBuilder();
+              }
+              content_ =
+                  input.readMessage(proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice) content_);
+                content_ = subBuilder.buildPartial();
+              }
+              contentCase_ = 4;
               break;
             }
           }
@@ -96,9 +167,6 @@ public final class GameStateExchangeProto {
             new com.google.protobuf.InvalidProtocolBufferException(
                 e.getMessage()).setUnfinishedMessage(this));
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-          objects_ = java.util.Collections.unmodifiableList(objects_);
-        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -115,42 +183,140 @@ public final class GameStateExchangeProto {
               proto.GameStateExchangeProto.GameStateExchange.class, proto.GameStateExchangeProto.GameStateExchange.Builder.class);
     }
 
-    public interface GameObjectMessageOrBuilder extends
-        // @@protoc_insertion_point(interface_extends:GameStateExchange.GameObjectMessage)
+    /**
+     * Protobuf enum {@code GameStateExchange.StateExchangeType}
+     */
+    public enum StateExchangeType
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>NEW_OBJECT = 1;</code>
+       */
+      NEW_OBJECT(0, 1),
+      /**
+       * <code>OBJECT_UPDATE = 2;</code>
+       */
+      OBJECT_UPDATE(1, 2),
+      /**
+       * <code>STALE_OBJECT = 3;</code>
+       */
+      STALE_OBJECT(2, 3),
+      ;
+
+      /**
+       * <code>NEW_OBJECT = 1;</code>
+       */
+      public static final int NEW_OBJECT_VALUE = 1;
+      /**
+       * <code>OBJECT_UPDATE = 2;</code>
+       */
+      public static final int OBJECT_UPDATE_VALUE = 2;
+      /**
+       * <code>STALE_OBJECT = 3;</code>
+       */
+      public static final int STALE_OBJECT_VALUE = 3;
+
+
+      public final int getNumber() {
+        return value;
+      }
+
+      public static StateExchangeType valueOf(int value) {
+        switch (value) {
+          case 1: return NEW_OBJECT;
+          case 2: return OBJECT_UPDATE;
+          case 3: return STALE_OBJECT;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<StateExchangeType>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          StateExchangeType> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<StateExchangeType>() {
+              public StateExchangeType findValueByNumber(int number) {
+                return StateExchangeType.valueOf(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(index);
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return proto.GameStateExchangeProto.GameStateExchange.getDescriptor().getEnumTypes().get(0);
+      }
+
+      private static final StateExchangeType[] VALUES = values();
+
+      public static StateExchangeType valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int index;
+      private final int value;
+
+      private StateExchangeType(int index, int value) {
+        this.index = index;
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:GameStateExchange.StateExchangeType)
+    }
+
+    public interface ObjectCreatedNoticeOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:GameStateExchange.ObjectCreatedNotice)
         com.google.protobuf.MessageOrBuilder {
 
       /**
-       * <code>optional int32 posX = 1;</code>
+       * <code>optional string schema = 1;</code>
        */
-      boolean hasPosX();
+      boolean hasSchema();
       /**
-       * <code>optional int32 posX = 1;</code>
+       * <code>optional string schema = 1;</code>
        */
-      int getPosX();
+      java.lang.String getSchema();
+      /**
+       * <code>optional string schema = 1;</code>
+       */
+      com.google.protobuf.ByteString
+          getSchemaBytes();
 
       /**
-       * <code>optional int32 posY = 2;</code>
+       * <code>optional int32 object_id = 2;</code>
        */
-      boolean hasPosY();
+      boolean hasObjectId();
       /**
-       * <code>optional int32 posY = 2;</code>
+       * <code>optional int32 object_id = 2;</code>
        */
-      int getPosY();
+      int getObjectId();
     }
     /**
-     * Protobuf type {@code GameStateExchange.GameObjectMessage}
+     * Protobuf type {@code GameStateExchange.ObjectCreatedNotice}
      */
-    public  static final class GameObjectMessage extends
+    public  static final class ObjectCreatedNotice extends
         com.google.protobuf.GeneratedMessage implements
-        // @@protoc_insertion_point(message_implements:GameStateExchange.GameObjectMessage)
-        GameObjectMessageOrBuilder {
-      // Use GameObjectMessage.newBuilder() to construct.
-      private GameObjectMessage(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+        // @@protoc_insertion_point(message_implements:GameStateExchange.ObjectCreatedNotice)
+        ObjectCreatedNoticeOrBuilder {
+      // Use ObjectCreatedNotice.newBuilder() to construct.
+      private ObjectCreatedNotice(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
         super(builder);
       }
-      private GameObjectMessage() {
-        posX_ = 0;
-        posY_ = 0;
+      private ObjectCreatedNotice() {
+        schema_ = "";
+        objectId_ = 0;
       }
 
       @java.lang.Override
@@ -158,7 +324,1771 @@ public final class GameStateExchangeProto {
       getUnknownFields() {
         return this.unknownFields;
       }
-      private GameObjectMessage(
+      private ObjectCreatedNotice(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry) {
+        this();
+        int mutable_bitField0_ = 0;
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+            com.google.protobuf.UnknownFieldSet.newBuilder();
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!parseUnknownField(input, unknownFields,
+                                       extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
+              case 10: {
+                com.google.protobuf.ByteString bs = input.readBytes();
+                bitField0_ |= 0x00000001;
+                schema_ = bs;
+                break;
+              }
+              case 16: {
+                bitField0_ |= 0x00000002;
+                objectId_ = input.readInt32();
+                break;
+              }
+            }
+          }
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw new RuntimeException(e.setUnfinishedMessage(this));
+        } catch (java.io.IOException e) {
+          throw new RuntimeException(
+              new com.google.protobuf.InvalidProtocolBufferException(
+                  e.getMessage()).setUnfinishedMessage(this));
+        } finally {
+          this.unknownFields = unknownFields.build();
+          makeExtensionsImmutable();
+        }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return proto.GameStateExchangeProto.internal_static_GameStateExchange_ObjectCreatedNotice_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return proto.GameStateExchangeProto.internal_static_GameStateExchange_ObjectCreatedNotice_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice.class, proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice.Builder.class);
+      }
+
+      private int bitField0_;
+      public static final int SCHEMA_FIELD_NUMBER = 1;
+      private volatile java.lang.Object schema_;
+      /**
+       * <code>optional string schema = 1;</code>
+       */
+      public boolean hasSchema() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional string schema = 1;</code>
+       */
+      public java.lang.String getSchema() {
+        java.lang.Object ref = schema_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            schema_ = s;
+          }
+          return s;
+        }
+      }
+      /**
+       * <code>optional string schema = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getSchemaBytes() {
+        java.lang.Object ref = schema_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          schema_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      public static final int OBJECT_ID_FIELD_NUMBER = 2;
+      private int objectId_;
+      /**
+       * <code>optional int32 object_id = 2;</code>
+       */
+      public boolean hasObjectId() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional int32 object_id = 2;</code>
+       */
+      public int getObjectId() {
+        return objectId_;
+      }
+
+      private byte memoizedIsInitialized = -1;
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          com.google.protobuf.GeneratedMessage.writeString(output, 1, schema_);
+        }
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          output.writeInt32(2, objectId_);
+        }
+        unknownFields.writeTo(output);
+      }
+
+      public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          size += com.google.protobuf.GeneratedMessage.computeStringSize(1, schema_);
+        }
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeInt32Size(2, objectId_);
+        }
+        size += unknownFields.getSerializedSize();
+        memoizedSize = size;
+        return size;
+      }
+
+      private static final long serialVersionUID = 0L;
+      public static proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input);
+      }
+      public static proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input, extensionRegistry);
+      }
+      public static proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return PARSER.parseDelimitedFrom(input);
+      }
+      public static proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      }
+      public static proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input);
+      }
+      public static proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input, extensionRegistry);
+      }
+
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * Protobuf type {@code GameStateExchange.ObjectCreatedNotice}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:GameStateExchange.ObjectCreatedNotice)
+          proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNoticeOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return proto.GameStateExchangeProto.internal_static_GameStateExchange_ObjectCreatedNotice_descriptor;
+        }
+
+        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return proto.GameStateExchangeProto.internal_static_GameStateExchange_ObjectCreatedNotice_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice.class, proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice.Builder.class);
+        }
+
+        // Construct using proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice.newBuilder()
+        private Builder() {
+          maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          super(parent);
+          maybeForceBuilderInitialization();
+        }
+        private void maybeForceBuilderInitialization() {
+          if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          }
+        }
+        public Builder clear() {
+          super.clear();
+          schema_ = "";
+          bitField0_ = (bitField0_ & ~0x00000001);
+          objectId_ = 0;
+          bitField0_ = (bitField0_ & ~0x00000002);
+          return this;
+        }
+
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return proto.GameStateExchangeProto.internal_static_GameStateExchange_ObjectCreatedNotice_descriptor;
+        }
+
+        public proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice getDefaultInstanceForType() {
+          return proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice.getDefaultInstance();
+        }
+
+        public proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice build() {
+          proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        public proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice buildPartial() {
+          proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice result = new proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice(this);
+          int from_bitField0_ = bitField0_;
+          int to_bitField0_ = 0;
+          if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+            to_bitField0_ |= 0x00000001;
+          }
+          result.schema_ = schema_;
+          if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+            to_bitField0_ |= 0x00000002;
+          }
+          result.objectId_ = objectId_;
+          result.bitField0_ = to_bitField0_;
+          onBuilt();
+          return result;
+        }
+
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice) {
+            return mergeFrom((proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice other) {
+          if (other == proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice.getDefaultInstance()) return this;
+          if (other.hasSchema()) {
+            bitField0_ |= 0x00000001;
+            schema_ = other.schema_;
+            onChanged();
+          }
+          if (other.hasObjectId()) {
+            setObjectId(other.getObjectId());
+          }
+          this.mergeUnknownFields(other.unknownFields);
+          onChanged();
+          return this;
+        }
+
+        public final boolean isInitialized() {
+          return true;
+        }
+
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice parsedMessage = null;
+          try {
+            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            parsedMessage = (proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice) e.getUnfinishedMessage();
+            throw e;
+          } finally {
+            if (parsedMessage != null) {
+              mergeFrom(parsedMessage);
+            }
+          }
+          return this;
+        }
+        private int bitField0_;
+
+        private java.lang.Object schema_ = "";
+        /**
+         * <code>optional string schema = 1;</code>
+         */
+        public boolean hasSchema() {
+          return ((bitField0_ & 0x00000001) == 0x00000001);
+        }
+        /**
+         * <code>optional string schema = 1;</code>
+         */
+        public java.lang.String getSchema() {
+          java.lang.Object ref = schema_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            if (bs.isValidUtf8()) {
+              schema_ = s;
+            }
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>optional string schema = 1;</code>
+         */
+        public com.google.protobuf.ByteString
+            getSchemaBytes() {
+          java.lang.Object ref = schema_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            schema_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>optional string schema = 1;</code>
+         */
+        public Builder setSchema(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+          schema_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional string schema = 1;</code>
+         */
+        public Builder clearSchema() {
+          bitField0_ = (bitField0_ & ~0x00000001);
+          schema_ = getDefaultInstance().getSchema();
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional string schema = 1;</code>
+         */
+        public Builder setSchemaBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+          schema_ = value;
+          onChanged();
+          return this;
+        }
+
+        private int objectId_ ;
+        /**
+         * <code>optional int32 object_id = 2;</code>
+         */
+        public boolean hasObjectId() {
+          return ((bitField0_ & 0x00000002) == 0x00000002);
+        }
+        /**
+         * <code>optional int32 object_id = 2;</code>
+         */
+        public int getObjectId() {
+          return objectId_;
+        }
+        /**
+         * <code>optional int32 object_id = 2;</code>
+         */
+        public Builder setObjectId(int value) {
+          bitField0_ |= 0x00000002;
+          objectId_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional int32 object_id = 2;</code>
+         */
+        public Builder clearObjectId() {
+          bitField0_ = (bitField0_ & ~0x00000002);
+          objectId_ = 0;
+          onChanged();
+          return this;
+        }
+
+        // @@protoc_insertion_point(builder_scope:GameStateExchange.ObjectCreatedNotice)
+      }
+
+      // @@protoc_insertion_point(class_scope:GameStateExchange.ObjectCreatedNotice)
+      private static final proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice();
+      }
+
+      public static proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      @java.lang.Deprecated public static final com.google.protobuf.Parser<ObjectCreatedNotice>
+          PARSER = new com.google.protobuf.AbstractParser<ObjectCreatedNotice>() {
+        public ObjectCreatedNotice parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          try {
+            return new ObjectCreatedNotice(input, extensionRegistry);
+          } catch (RuntimeException e) {
+            if (e.getCause() instanceof
+                com.google.protobuf.InvalidProtocolBufferException) {
+              throw (com.google.protobuf.InvalidProtocolBufferException)
+                  e.getCause();
+            }
+            throw e;
+          }
+        }
+      };
+
+      public static com.google.protobuf.Parser<ObjectCreatedNotice> parser() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<ObjectCreatedNotice> getParserForType() {
+        return PARSER;
+      }
+
+      public proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
+    }
+
+    public interface GroupObjectUpdateOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:GameStateExchange.GroupObjectUpdate)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <code>repeated .GameStateExchange.GroupObjectUpdate.ObjectUpdate objects = 2;</code>
+       */
+      java.util.List<proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate> 
+          getObjectsList();
+      /**
+       * <code>repeated .GameStateExchange.GroupObjectUpdate.ObjectUpdate objects = 2;</code>
+       */
+      proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate getObjects(int index);
+      /**
+       * <code>repeated .GameStateExchange.GroupObjectUpdate.ObjectUpdate objects = 2;</code>
+       */
+      int getObjectsCount();
+      /**
+       * <code>repeated .GameStateExchange.GroupObjectUpdate.ObjectUpdate objects = 2;</code>
+       */
+      java.util.List<? extends proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdateOrBuilder> 
+          getObjectsOrBuilderList();
+      /**
+       * <code>repeated .GameStateExchange.GroupObjectUpdate.ObjectUpdate objects = 2;</code>
+       */
+      proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdateOrBuilder getObjectsOrBuilder(
+          int index);
+    }
+    /**
+     * Protobuf type {@code GameStateExchange.GroupObjectUpdate}
+     */
+    public  static final class GroupObjectUpdate extends
+        com.google.protobuf.GeneratedMessage implements
+        // @@protoc_insertion_point(message_implements:GameStateExchange.GroupObjectUpdate)
+        GroupObjectUpdateOrBuilder {
+      // Use GroupObjectUpdate.newBuilder() to construct.
+      private GroupObjectUpdate(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+        super(builder);
+      }
+      private GroupObjectUpdate() {
+        objects_ = java.util.Collections.emptyList();
+      }
+
+      @java.lang.Override
+      public final com.google.protobuf.UnknownFieldSet
+      getUnknownFields() {
+        return this.unknownFields;
+      }
+      private GroupObjectUpdate(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry) {
+        this();
+        int mutable_bitField0_ = 0;
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+            com.google.protobuf.UnknownFieldSet.newBuilder();
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!parseUnknownField(input, unknownFields,
+                                       extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
+              case 18: {
+                if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                  objects_ = new java.util.ArrayList<proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate>();
+                  mutable_bitField0_ |= 0x00000001;
+                }
+                objects_.add(input.readMessage(proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate.parser(), extensionRegistry));
+                break;
+              }
+            }
+          }
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw new RuntimeException(e.setUnfinishedMessage(this));
+        } catch (java.io.IOException e) {
+          throw new RuntimeException(
+              new com.google.protobuf.InvalidProtocolBufferException(
+                  e.getMessage()).setUnfinishedMessage(this));
+        } finally {
+          if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+            objects_ = java.util.Collections.unmodifiableList(objects_);
+          }
+          this.unknownFields = unknownFields.build();
+          makeExtensionsImmutable();
+        }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return proto.GameStateExchangeProto.internal_static_GameStateExchange_GroupObjectUpdate_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return proto.GameStateExchangeProto.internal_static_GameStateExchange_GroupObjectUpdate_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.class, proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.Builder.class);
+      }
+
+      public interface ObjectUpdateOrBuilder extends
+          // @@protoc_insertion_point(interface_extends:GameStateExchange.GroupObjectUpdate.ObjectUpdate)
+          com.google.protobuf.MessageOrBuilder {
+
+        /**
+         * <code>optional int32 object_id = 3;</code>
+         */
+        boolean hasObjectId();
+        /**
+         * <code>optional int32 object_id = 3;</code>
+         */
+        int getObjectId();
+
+        /**
+         * <code>optional int32 pos_x = 1;</code>
+         */
+        boolean hasPosX();
+        /**
+         * <code>optional int32 pos_x = 1;</code>
+         */
+        int getPosX();
+
+        /**
+         * <code>optional int32 pos_y = 2;</code>
+         */
+        boolean hasPosY();
+        /**
+         * <code>optional int32 pos_y = 2;</code>
+         */
+        int getPosY();
+      }
+      /**
+       * Protobuf type {@code GameStateExchange.GroupObjectUpdate.ObjectUpdate}
+       */
+      public  static final class ObjectUpdate extends
+          com.google.protobuf.GeneratedMessage implements
+          // @@protoc_insertion_point(message_implements:GameStateExchange.GroupObjectUpdate.ObjectUpdate)
+          ObjectUpdateOrBuilder {
+        // Use ObjectUpdate.newBuilder() to construct.
+        private ObjectUpdate(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+          super(builder);
+        }
+        private ObjectUpdate() {
+          objectId_ = 0;
+          posX_ = 0;
+          posY_ = 0;
+        }
+
+        @java.lang.Override
+        public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+          return this.unknownFields;
+        }
+        private ObjectUpdate(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry) {
+          this();
+          int mutable_bitField0_ = 0;
+          com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+              com.google.protobuf.UnknownFieldSet.newBuilder();
+          try {
+            boolean done = false;
+            while (!done) {
+              int tag = input.readTag();
+              switch (tag) {
+                case 0:
+                  done = true;
+                  break;
+                default: {
+                  if (!parseUnknownField(input, unknownFields,
+                                         extensionRegistry, tag)) {
+                    done = true;
+                  }
+                  break;
+                }
+                case 8: {
+                  bitField0_ |= 0x00000002;
+                  posX_ = input.readInt32();
+                  break;
+                }
+                case 16: {
+                  bitField0_ |= 0x00000004;
+                  posY_ = input.readInt32();
+                  break;
+                }
+                case 24: {
+                  bitField0_ |= 0x00000001;
+                  objectId_ = input.readInt32();
+                  break;
+                }
+              }
+            }
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            throw new RuntimeException(e.setUnfinishedMessage(this));
+          } catch (java.io.IOException e) {
+            throw new RuntimeException(
+                new com.google.protobuf.InvalidProtocolBufferException(
+                    e.getMessage()).setUnfinishedMessage(this));
+          } finally {
+            this.unknownFields = unknownFields.build();
+            makeExtensionsImmutable();
+          }
+        }
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return proto.GameStateExchangeProto.internal_static_GameStateExchange_GroupObjectUpdate_ObjectUpdate_descriptor;
+        }
+
+        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return proto.GameStateExchangeProto.internal_static_GameStateExchange_GroupObjectUpdate_ObjectUpdate_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate.class, proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate.Builder.class);
+        }
+
+        private int bitField0_;
+        public static final int OBJECT_ID_FIELD_NUMBER = 3;
+        private int objectId_;
+        /**
+         * <code>optional int32 object_id = 3;</code>
+         */
+        public boolean hasObjectId() {
+          return ((bitField0_ & 0x00000001) == 0x00000001);
+        }
+        /**
+         * <code>optional int32 object_id = 3;</code>
+         */
+        public int getObjectId() {
+          return objectId_;
+        }
+
+        public static final int POS_X_FIELD_NUMBER = 1;
+        private int posX_;
+        /**
+         * <code>optional int32 pos_x = 1;</code>
+         */
+        public boolean hasPosX() {
+          return ((bitField0_ & 0x00000002) == 0x00000002);
+        }
+        /**
+         * <code>optional int32 pos_x = 1;</code>
+         */
+        public int getPosX() {
+          return posX_;
+        }
+
+        public static final int POS_Y_FIELD_NUMBER = 2;
+        private int posY_;
+        /**
+         * <code>optional int32 pos_y = 2;</code>
+         */
+        public boolean hasPosY() {
+          return ((bitField0_ & 0x00000004) == 0x00000004);
+        }
+        /**
+         * <code>optional int32 pos_y = 2;</code>
+         */
+        public int getPosY() {
+          return posY_;
+        }
+
+        private byte memoizedIsInitialized = -1;
+        public final boolean isInitialized() {
+          byte isInitialized = memoizedIsInitialized;
+          if (isInitialized == 1) return true;
+          if (isInitialized == 0) return false;
+
+          memoizedIsInitialized = 1;
+          return true;
+        }
+
+        public void writeTo(com.google.protobuf.CodedOutputStream output)
+                            throws java.io.IOException {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            output.writeInt32(1, posX_);
+          }
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+            output.writeInt32(2, posY_);
+          }
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            output.writeInt32(3, objectId_);
+          }
+          unknownFields.writeTo(output);
+        }
+
+        public int getSerializedSize() {
+          int size = memoizedSize;
+          if (size != -1) return size;
+
+          size = 0;
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            size += com.google.protobuf.CodedOutputStream
+              .computeInt32Size(1, posX_);
+          }
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+            size += com.google.protobuf.CodedOutputStream
+              .computeInt32Size(2, posY_);
+          }
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            size += com.google.protobuf.CodedOutputStream
+              .computeInt32Size(3, objectId_);
+          }
+          size += unknownFields.getSerializedSize();
+          memoizedSize = size;
+          return size;
+        }
+
+        private static final long serialVersionUID = 0L;
+        public static proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate parseFrom(
+            com.google.protobuf.ByteString data)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data);
+        }
+        public static proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate parseFrom(
+            com.google.protobuf.ByteString data,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data, extensionRegistry);
+        }
+        public static proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate parseFrom(byte[] data)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data);
+        }
+        public static proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate parseFrom(
+            byte[] data,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data, extensionRegistry);
+        }
+        public static proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate parseFrom(java.io.InputStream input)
+            throws java.io.IOException {
+          return PARSER.parseFrom(input);
+        }
+        public static proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate parseFrom(
+            java.io.InputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          return PARSER.parseFrom(input, extensionRegistry);
+        }
+        public static proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate parseDelimitedFrom(java.io.InputStream input)
+            throws java.io.IOException {
+          return PARSER.parseDelimitedFrom(input);
+        }
+        public static proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate parseDelimitedFrom(
+            java.io.InputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          return PARSER.parseDelimitedFrom(input, extensionRegistry);
+        }
+        public static proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate parseFrom(
+            com.google.protobuf.CodedInputStream input)
+            throws java.io.IOException {
+          return PARSER.parseFrom(input);
+        }
+        public static proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate parseFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          return PARSER.parseFrom(input, extensionRegistry);
+        }
+
+        public Builder newBuilderForType() { return newBuilder(); }
+        public static Builder newBuilder() {
+          return DEFAULT_INSTANCE.toBuilder();
+        }
+        public static Builder newBuilder(proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate prototype) {
+          return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+        }
+        public Builder toBuilder() {
+          return this == DEFAULT_INSTANCE
+              ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        @java.lang.Override
+        protected Builder newBuilderForType(
+            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          Builder builder = new Builder(parent);
+          return builder;
+        }
+        /**
+         * Protobuf type {@code GameStateExchange.GroupObjectUpdate.ObjectUpdate}
+         */
+        public static final class Builder extends
+            com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+            // @@protoc_insertion_point(builder_implements:GameStateExchange.GroupObjectUpdate.ObjectUpdate)
+            proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdateOrBuilder {
+          public static final com.google.protobuf.Descriptors.Descriptor
+              getDescriptor() {
+            return proto.GameStateExchangeProto.internal_static_GameStateExchange_GroupObjectUpdate_ObjectUpdate_descriptor;
+          }
+
+          protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+              internalGetFieldAccessorTable() {
+            return proto.GameStateExchangeProto.internal_static_GameStateExchange_GroupObjectUpdate_ObjectUpdate_fieldAccessorTable
+                .ensureFieldAccessorsInitialized(
+                    proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate.class, proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate.Builder.class);
+          }
+
+          // Construct using proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate.newBuilder()
+          private Builder() {
+            maybeForceBuilderInitialization();
+          }
+
+          private Builder(
+              com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+            super(parent);
+            maybeForceBuilderInitialization();
+          }
+          private void maybeForceBuilderInitialization() {
+            if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+            }
+          }
+          public Builder clear() {
+            super.clear();
+            objectId_ = 0;
+            bitField0_ = (bitField0_ & ~0x00000001);
+            posX_ = 0;
+            bitField0_ = (bitField0_ & ~0x00000002);
+            posY_ = 0;
+            bitField0_ = (bitField0_ & ~0x00000004);
+            return this;
+          }
+
+          public com.google.protobuf.Descriptors.Descriptor
+              getDescriptorForType() {
+            return proto.GameStateExchangeProto.internal_static_GameStateExchange_GroupObjectUpdate_ObjectUpdate_descriptor;
+          }
+
+          public proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate getDefaultInstanceForType() {
+            return proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate.getDefaultInstance();
+          }
+
+          public proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate build() {
+            proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate result = buildPartial();
+            if (!result.isInitialized()) {
+              throw newUninitializedMessageException(result);
+            }
+            return result;
+          }
+
+          public proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate buildPartial() {
+            proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate result = new proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate(this);
+            int from_bitField0_ = bitField0_;
+            int to_bitField0_ = 0;
+            if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+              to_bitField0_ |= 0x00000001;
+            }
+            result.objectId_ = objectId_;
+            if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+              to_bitField0_ |= 0x00000002;
+            }
+            result.posX_ = posX_;
+            if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+              to_bitField0_ |= 0x00000004;
+            }
+            result.posY_ = posY_;
+            result.bitField0_ = to_bitField0_;
+            onBuilt();
+            return result;
+          }
+
+          public Builder mergeFrom(com.google.protobuf.Message other) {
+            if (other instanceof proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate) {
+              return mergeFrom((proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate)other);
+            } else {
+              super.mergeFrom(other);
+              return this;
+            }
+          }
+
+          public Builder mergeFrom(proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate other) {
+            if (other == proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate.getDefaultInstance()) return this;
+            if (other.hasObjectId()) {
+              setObjectId(other.getObjectId());
+            }
+            if (other.hasPosX()) {
+              setPosX(other.getPosX());
+            }
+            if (other.hasPosY()) {
+              setPosY(other.getPosY());
+            }
+            this.mergeUnknownFields(other.unknownFields);
+            onChanged();
+            return this;
+          }
+
+          public final boolean isInitialized() {
+            return true;
+          }
+
+          public Builder mergeFrom(
+              com.google.protobuf.CodedInputStream input,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws java.io.IOException {
+            proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate parsedMessage = null;
+            try {
+              parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+              parsedMessage = (proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate) e.getUnfinishedMessage();
+              throw e;
+            } finally {
+              if (parsedMessage != null) {
+                mergeFrom(parsedMessage);
+              }
+            }
+            return this;
+          }
+          private int bitField0_;
+
+          private int objectId_ ;
+          /**
+           * <code>optional int32 object_id = 3;</code>
+           */
+          public boolean hasObjectId() {
+            return ((bitField0_ & 0x00000001) == 0x00000001);
+          }
+          /**
+           * <code>optional int32 object_id = 3;</code>
+           */
+          public int getObjectId() {
+            return objectId_;
+          }
+          /**
+           * <code>optional int32 object_id = 3;</code>
+           */
+          public Builder setObjectId(int value) {
+            bitField0_ |= 0x00000001;
+            objectId_ = value;
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>optional int32 object_id = 3;</code>
+           */
+          public Builder clearObjectId() {
+            bitField0_ = (bitField0_ & ~0x00000001);
+            objectId_ = 0;
+            onChanged();
+            return this;
+          }
+
+          private int posX_ ;
+          /**
+           * <code>optional int32 pos_x = 1;</code>
+           */
+          public boolean hasPosX() {
+            return ((bitField0_ & 0x00000002) == 0x00000002);
+          }
+          /**
+           * <code>optional int32 pos_x = 1;</code>
+           */
+          public int getPosX() {
+            return posX_;
+          }
+          /**
+           * <code>optional int32 pos_x = 1;</code>
+           */
+          public Builder setPosX(int value) {
+            bitField0_ |= 0x00000002;
+            posX_ = value;
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>optional int32 pos_x = 1;</code>
+           */
+          public Builder clearPosX() {
+            bitField0_ = (bitField0_ & ~0x00000002);
+            posX_ = 0;
+            onChanged();
+            return this;
+          }
+
+          private int posY_ ;
+          /**
+           * <code>optional int32 pos_y = 2;</code>
+           */
+          public boolean hasPosY() {
+            return ((bitField0_ & 0x00000004) == 0x00000004);
+          }
+          /**
+           * <code>optional int32 pos_y = 2;</code>
+           */
+          public int getPosY() {
+            return posY_;
+          }
+          /**
+           * <code>optional int32 pos_y = 2;</code>
+           */
+          public Builder setPosY(int value) {
+            bitField0_ |= 0x00000004;
+            posY_ = value;
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>optional int32 pos_y = 2;</code>
+           */
+          public Builder clearPosY() {
+            bitField0_ = (bitField0_ & ~0x00000004);
+            posY_ = 0;
+            onChanged();
+            return this;
+          }
+
+          // @@protoc_insertion_point(builder_scope:GameStateExchange.GroupObjectUpdate.ObjectUpdate)
+        }
+
+        // @@protoc_insertion_point(class_scope:GameStateExchange.GroupObjectUpdate.ObjectUpdate)
+        private static final proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate DEFAULT_INSTANCE;
+        static {
+          DEFAULT_INSTANCE = new proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate();
+        }
+
+        public static proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate getDefaultInstance() {
+          return DEFAULT_INSTANCE;
+        }
+
+        @java.lang.Deprecated public static final com.google.protobuf.Parser<ObjectUpdate>
+            PARSER = new com.google.protobuf.AbstractParser<ObjectUpdate>() {
+          public ObjectUpdate parsePartialFrom(
+              com.google.protobuf.CodedInputStream input,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws com.google.protobuf.InvalidProtocolBufferException {
+            try {
+              return new ObjectUpdate(input, extensionRegistry);
+            } catch (RuntimeException e) {
+              if (e.getCause() instanceof
+                  com.google.protobuf.InvalidProtocolBufferException) {
+                throw (com.google.protobuf.InvalidProtocolBufferException)
+                    e.getCause();
+              }
+              throw e;
+            }
+          }
+        };
+
+        public static com.google.protobuf.Parser<ObjectUpdate> parser() {
+          return PARSER;
+        }
+
+        @java.lang.Override
+        public com.google.protobuf.Parser<ObjectUpdate> getParserForType() {
+          return PARSER;
+        }
+
+        public proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate getDefaultInstanceForType() {
+          return DEFAULT_INSTANCE;
+        }
+
+      }
+
+      public static final int OBJECTS_FIELD_NUMBER = 2;
+      private java.util.List<proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate> objects_;
+      /**
+       * <code>repeated .GameStateExchange.GroupObjectUpdate.ObjectUpdate objects = 2;</code>
+       */
+      public java.util.List<proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate> getObjectsList() {
+        return objects_;
+      }
+      /**
+       * <code>repeated .GameStateExchange.GroupObjectUpdate.ObjectUpdate objects = 2;</code>
+       */
+      public java.util.List<? extends proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdateOrBuilder> 
+          getObjectsOrBuilderList() {
+        return objects_;
+      }
+      /**
+       * <code>repeated .GameStateExchange.GroupObjectUpdate.ObjectUpdate objects = 2;</code>
+       */
+      public int getObjectsCount() {
+        return objects_.size();
+      }
+      /**
+       * <code>repeated .GameStateExchange.GroupObjectUpdate.ObjectUpdate objects = 2;</code>
+       */
+      public proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate getObjects(int index) {
+        return objects_.get(index);
+      }
+      /**
+       * <code>repeated .GameStateExchange.GroupObjectUpdate.ObjectUpdate objects = 2;</code>
+       */
+      public proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdateOrBuilder getObjectsOrBuilder(
+          int index) {
+        return objects_.get(index);
+      }
+
+      private byte memoizedIsInitialized = -1;
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        for (int i = 0; i < objects_.size(); i++) {
+          output.writeMessage(2, objects_.get(i));
+        }
+        unknownFields.writeTo(output);
+      }
+
+      public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        for (int i = 0; i < objects_.size(); i++) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeMessageSize(2, objects_.get(i));
+        }
+        size += unknownFields.getSerializedSize();
+        memoizedSize = size;
+        return size;
+      }
+
+      private static final long serialVersionUID = 0L;
+      public static proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input);
+      }
+      public static proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input, extensionRegistry);
+      }
+      public static proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return PARSER.parseDelimitedFrom(input);
+      }
+      public static proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      }
+      public static proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input);
+      }
+      public static proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input, extensionRegistry);
+      }
+
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * Protobuf type {@code GameStateExchange.GroupObjectUpdate}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:GameStateExchange.GroupObjectUpdate)
+          proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdateOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return proto.GameStateExchangeProto.internal_static_GameStateExchange_GroupObjectUpdate_descriptor;
+        }
+
+        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return proto.GameStateExchangeProto.internal_static_GameStateExchange_GroupObjectUpdate_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.class, proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.Builder.class);
+        }
+
+        // Construct using proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.newBuilder()
+        private Builder() {
+          maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          super(parent);
+          maybeForceBuilderInitialization();
+        }
+        private void maybeForceBuilderInitialization() {
+          if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+            getObjectsFieldBuilder();
+          }
+        }
+        public Builder clear() {
+          super.clear();
+          if (objectsBuilder_ == null) {
+            objects_ = java.util.Collections.emptyList();
+            bitField0_ = (bitField0_ & ~0x00000001);
+          } else {
+            objectsBuilder_.clear();
+          }
+          return this;
+        }
+
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return proto.GameStateExchangeProto.internal_static_GameStateExchange_GroupObjectUpdate_descriptor;
+        }
+
+        public proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate getDefaultInstanceForType() {
+          return proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.getDefaultInstance();
+        }
+
+        public proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate build() {
+          proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        public proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate buildPartial() {
+          proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate result = new proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate(this);
+          int from_bitField0_ = bitField0_;
+          if (objectsBuilder_ == null) {
+            if (((bitField0_ & 0x00000001) == 0x00000001)) {
+              objects_ = java.util.Collections.unmodifiableList(objects_);
+              bitField0_ = (bitField0_ & ~0x00000001);
+            }
+            result.objects_ = objects_;
+          } else {
+            result.objects_ = objectsBuilder_.build();
+          }
+          onBuilt();
+          return result;
+        }
+
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate) {
+            return mergeFrom((proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate other) {
+          if (other == proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.getDefaultInstance()) return this;
+          if (objectsBuilder_ == null) {
+            if (!other.objects_.isEmpty()) {
+              if (objects_.isEmpty()) {
+                objects_ = other.objects_;
+                bitField0_ = (bitField0_ & ~0x00000001);
+              } else {
+                ensureObjectsIsMutable();
+                objects_.addAll(other.objects_);
+              }
+              onChanged();
+            }
+          } else {
+            if (!other.objects_.isEmpty()) {
+              if (objectsBuilder_.isEmpty()) {
+                objectsBuilder_.dispose();
+                objectsBuilder_ = null;
+                objects_ = other.objects_;
+                bitField0_ = (bitField0_ & ~0x00000001);
+                objectsBuilder_ = 
+                  com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                     getObjectsFieldBuilder() : null;
+              } else {
+                objectsBuilder_.addAllMessages(other.objects_);
+              }
+            }
+          }
+          this.mergeUnknownFields(other.unknownFields);
+          onChanged();
+          return this;
+        }
+
+        public final boolean isInitialized() {
+          return true;
+        }
+
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate parsedMessage = null;
+          try {
+            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            parsedMessage = (proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate) e.getUnfinishedMessage();
+            throw e;
+          } finally {
+            if (parsedMessage != null) {
+              mergeFrom(parsedMessage);
+            }
+          }
+          return this;
+        }
+        private int bitField0_;
+
+        private java.util.List<proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate> objects_ =
+          java.util.Collections.emptyList();
+        private void ensureObjectsIsMutable() {
+          if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+            objects_ = new java.util.ArrayList<proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate>(objects_);
+            bitField0_ |= 0x00000001;
+           }
+        }
+
+        private com.google.protobuf.RepeatedFieldBuilder<
+            proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate, proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate.Builder, proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdateOrBuilder> objectsBuilder_;
+
+        /**
+         * <code>repeated .GameStateExchange.GroupObjectUpdate.ObjectUpdate objects = 2;</code>
+         */
+        public java.util.List<proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate> getObjectsList() {
+          if (objectsBuilder_ == null) {
+            return java.util.Collections.unmodifiableList(objects_);
+          } else {
+            return objectsBuilder_.getMessageList();
+          }
+        }
+        /**
+         * <code>repeated .GameStateExchange.GroupObjectUpdate.ObjectUpdate objects = 2;</code>
+         */
+        public int getObjectsCount() {
+          if (objectsBuilder_ == null) {
+            return objects_.size();
+          } else {
+            return objectsBuilder_.getCount();
+          }
+        }
+        /**
+         * <code>repeated .GameStateExchange.GroupObjectUpdate.ObjectUpdate objects = 2;</code>
+         */
+        public proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate getObjects(int index) {
+          if (objectsBuilder_ == null) {
+            return objects_.get(index);
+          } else {
+            return objectsBuilder_.getMessage(index);
+          }
+        }
+        /**
+         * <code>repeated .GameStateExchange.GroupObjectUpdate.ObjectUpdate objects = 2;</code>
+         */
+        public Builder setObjects(
+            int index, proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate value) {
+          if (objectsBuilder_ == null) {
+            if (value == null) {
+              throw new NullPointerException();
+            }
+            ensureObjectsIsMutable();
+            objects_.set(index, value);
+            onChanged();
+          } else {
+            objectsBuilder_.setMessage(index, value);
+          }
+          return this;
+        }
+        /**
+         * <code>repeated .GameStateExchange.GroupObjectUpdate.ObjectUpdate objects = 2;</code>
+         */
+        public Builder setObjects(
+            int index, proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate.Builder builderForValue) {
+          if (objectsBuilder_ == null) {
+            ensureObjectsIsMutable();
+            objects_.set(index, builderForValue.build());
+            onChanged();
+          } else {
+            objectsBuilder_.setMessage(index, builderForValue.build());
+          }
+          return this;
+        }
+        /**
+         * <code>repeated .GameStateExchange.GroupObjectUpdate.ObjectUpdate objects = 2;</code>
+         */
+        public Builder addObjects(proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate value) {
+          if (objectsBuilder_ == null) {
+            if (value == null) {
+              throw new NullPointerException();
+            }
+            ensureObjectsIsMutable();
+            objects_.add(value);
+            onChanged();
+          } else {
+            objectsBuilder_.addMessage(value);
+          }
+          return this;
+        }
+        /**
+         * <code>repeated .GameStateExchange.GroupObjectUpdate.ObjectUpdate objects = 2;</code>
+         */
+        public Builder addObjects(
+            int index, proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate value) {
+          if (objectsBuilder_ == null) {
+            if (value == null) {
+              throw new NullPointerException();
+            }
+            ensureObjectsIsMutable();
+            objects_.add(index, value);
+            onChanged();
+          } else {
+            objectsBuilder_.addMessage(index, value);
+          }
+          return this;
+        }
+        /**
+         * <code>repeated .GameStateExchange.GroupObjectUpdate.ObjectUpdate objects = 2;</code>
+         */
+        public Builder addObjects(
+            proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate.Builder builderForValue) {
+          if (objectsBuilder_ == null) {
+            ensureObjectsIsMutable();
+            objects_.add(builderForValue.build());
+            onChanged();
+          } else {
+            objectsBuilder_.addMessage(builderForValue.build());
+          }
+          return this;
+        }
+        /**
+         * <code>repeated .GameStateExchange.GroupObjectUpdate.ObjectUpdate objects = 2;</code>
+         */
+        public Builder addObjects(
+            int index, proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate.Builder builderForValue) {
+          if (objectsBuilder_ == null) {
+            ensureObjectsIsMutable();
+            objects_.add(index, builderForValue.build());
+            onChanged();
+          } else {
+            objectsBuilder_.addMessage(index, builderForValue.build());
+          }
+          return this;
+        }
+        /**
+         * <code>repeated .GameStateExchange.GroupObjectUpdate.ObjectUpdate objects = 2;</code>
+         */
+        public Builder addAllObjects(
+            java.lang.Iterable<? extends proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate> values) {
+          if (objectsBuilder_ == null) {
+            ensureObjectsIsMutable();
+            com.google.protobuf.AbstractMessageLite.Builder.addAll(
+                values, objects_);
+            onChanged();
+          } else {
+            objectsBuilder_.addAllMessages(values);
+          }
+          return this;
+        }
+        /**
+         * <code>repeated .GameStateExchange.GroupObjectUpdate.ObjectUpdate objects = 2;</code>
+         */
+        public Builder clearObjects() {
+          if (objectsBuilder_ == null) {
+            objects_ = java.util.Collections.emptyList();
+            bitField0_ = (bitField0_ & ~0x00000001);
+            onChanged();
+          } else {
+            objectsBuilder_.clear();
+          }
+          return this;
+        }
+        /**
+         * <code>repeated .GameStateExchange.GroupObjectUpdate.ObjectUpdate objects = 2;</code>
+         */
+        public Builder removeObjects(int index) {
+          if (objectsBuilder_ == null) {
+            ensureObjectsIsMutable();
+            objects_.remove(index);
+            onChanged();
+          } else {
+            objectsBuilder_.remove(index);
+          }
+          return this;
+        }
+        /**
+         * <code>repeated .GameStateExchange.GroupObjectUpdate.ObjectUpdate objects = 2;</code>
+         */
+        public proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate.Builder getObjectsBuilder(
+            int index) {
+          return getObjectsFieldBuilder().getBuilder(index);
+        }
+        /**
+         * <code>repeated .GameStateExchange.GroupObjectUpdate.ObjectUpdate objects = 2;</code>
+         */
+        public proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdateOrBuilder getObjectsOrBuilder(
+            int index) {
+          if (objectsBuilder_ == null) {
+            return objects_.get(index);  } else {
+            return objectsBuilder_.getMessageOrBuilder(index);
+          }
+        }
+        /**
+         * <code>repeated .GameStateExchange.GroupObjectUpdate.ObjectUpdate objects = 2;</code>
+         */
+        public java.util.List<? extends proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdateOrBuilder> 
+             getObjectsOrBuilderList() {
+          if (objectsBuilder_ != null) {
+            return objectsBuilder_.getMessageOrBuilderList();
+          } else {
+            return java.util.Collections.unmodifiableList(objects_);
+          }
+        }
+        /**
+         * <code>repeated .GameStateExchange.GroupObjectUpdate.ObjectUpdate objects = 2;</code>
+         */
+        public proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate.Builder addObjectsBuilder() {
+          return getObjectsFieldBuilder().addBuilder(
+              proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate.getDefaultInstance());
+        }
+        /**
+         * <code>repeated .GameStateExchange.GroupObjectUpdate.ObjectUpdate objects = 2;</code>
+         */
+        public proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate.Builder addObjectsBuilder(
+            int index) {
+          return getObjectsFieldBuilder().addBuilder(
+              index, proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate.getDefaultInstance());
+        }
+        /**
+         * <code>repeated .GameStateExchange.GroupObjectUpdate.ObjectUpdate objects = 2;</code>
+         */
+        public java.util.List<proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate.Builder> 
+             getObjectsBuilderList() {
+          return getObjectsFieldBuilder().getBuilderList();
+        }
+        private com.google.protobuf.RepeatedFieldBuilder<
+            proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate, proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate.Builder, proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdateOrBuilder> 
+            getObjectsFieldBuilder() {
+          if (objectsBuilder_ == null) {
+            objectsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+                proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate, proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate.Builder, proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdateOrBuilder>(
+                    objects_,
+                    ((bitField0_ & 0x00000001) == 0x00000001),
+                    getParentForChildren(),
+                    isClean());
+            objects_ = null;
+          }
+          return objectsBuilder_;
+        }
+
+        // @@protoc_insertion_point(builder_scope:GameStateExchange.GroupObjectUpdate)
+      }
+
+      // @@protoc_insertion_point(class_scope:GameStateExchange.GroupObjectUpdate)
+      private static final proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate();
+      }
+
+      public static proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      @java.lang.Deprecated public static final com.google.protobuf.Parser<GroupObjectUpdate>
+          PARSER = new com.google.protobuf.AbstractParser<GroupObjectUpdate>() {
+        public GroupObjectUpdate parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          try {
+            return new GroupObjectUpdate(input, extensionRegistry);
+          } catch (RuntimeException e) {
+            if (e.getCause() instanceof
+                com.google.protobuf.InvalidProtocolBufferException) {
+              throw (com.google.protobuf.InvalidProtocolBufferException)
+                  e.getCause();
+            }
+            throw e;
+          }
+        }
+      };
+
+      public static com.google.protobuf.Parser<GroupObjectUpdate> parser() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<GroupObjectUpdate> getParserForType() {
+        return PARSER;
+      }
+
+      public proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
+    }
+
+    public interface ObjectRemovedNoticeOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:GameStateExchange.ObjectRemovedNotice)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <code>optional int32 object_id = 1;</code>
+       */
+      boolean hasObjectId();
+      /**
+       * <code>optional int32 object_id = 1;</code>
+       */
+      int getObjectId();
+    }
+    /**
+     * Protobuf type {@code GameStateExchange.ObjectRemovedNotice}
+     */
+    public  static final class ObjectRemovedNotice extends
+        com.google.protobuf.GeneratedMessage implements
+        // @@protoc_insertion_point(message_implements:GameStateExchange.ObjectRemovedNotice)
+        ObjectRemovedNoticeOrBuilder {
+      // Use ObjectRemovedNotice.newBuilder() to construct.
+      private ObjectRemovedNotice(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+        super(builder);
+      }
+      private ObjectRemovedNotice() {
+        objectId_ = 0;
+      }
+
+      @java.lang.Override
+      public final com.google.protobuf.UnknownFieldSet
+      getUnknownFields() {
+        return this.unknownFields;
+      }
+      private ObjectRemovedNotice(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry) {
         this();
@@ -182,12 +2112,7 @@ public final class GameStateExchangeProto {
               }
               case 8: {
                 bitField0_ |= 0x00000001;
-                posX_ = input.readInt32();
-                break;
-              }
-              case 16: {
-                bitField0_ |= 0x00000002;
-                posY_ = input.readInt32();
+                objectId_ = input.readInt32();
                 break;
               }
             }
@@ -205,45 +2130,30 @@ public final class GameStateExchangeProto {
       }
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return proto.GameStateExchangeProto.internal_static_GameStateExchange_GameObjectMessage_descriptor;
+        return proto.GameStateExchangeProto.internal_static_GameStateExchange_ObjectRemovedNotice_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return proto.GameStateExchangeProto.internal_static_GameStateExchange_GameObjectMessage_fieldAccessorTable
+        return proto.GameStateExchangeProto.internal_static_GameStateExchange_ObjectRemovedNotice_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage.class, proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage.Builder.class);
+                proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice.class, proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice.Builder.class);
       }
 
       private int bitField0_;
-      public static final int POSX_FIELD_NUMBER = 1;
-      private int posX_;
+      public static final int OBJECT_ID_FIELD_NUMBER = 1;
+      private int objectId_;
       /**
-       * <code>optional int32 posX = 1;</code>
+       * <code>optional int32 object_id = 1;</code>
        */
-      public boolean hasPosX() {
+      public boolean hasObjectId() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional int32 posX = 1;</code>
+       * <code>optional int32 object_id = 1;</code>
        */
-      public int getPosX() {
-        return posX_;
-      }
-
-      public static final int POSY_FIELD_NUMBER = 2;
-      private int posY_;
-      /**
-       * <code>optional int32 posY = 2;</code>
-       */
-      public boolean hasPosY() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>optional int32 posY = 2;</code>
-       */
-      public int getPosY() {
-        return posY_;
+      public int getObjectId() {
+        return objectId_;
       }
 
       private byte memoizedIsInitialized = -1;
@@ -259,10 +2169,7 @@ public final class GameStateExchangeProto {
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         if (((bitField0_ & 0x00000001) == 0x00000001)) {
-          output.writeInt32(1, posX_);
-        }
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          output.writeInt32(2, posY_);
+          output.writeInt32(1, objectId_);
         }
         unknownFields.writeTo(output);
       }
@@ -274,11 +2181,7 @@ public final class GameStateExchangeProto {
         size = 0;
         if (((bitField0_ & 0x00000001) == 0x00000001)) {
           size += com.google.protobuf.CodedOutputStream
-            .computeInt32Size(1, posX_);
-        }
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          size += com.google.protobuf.CodedOutputStream
-            .computeInt32Size(2, posY_);
+            .computeInt32Size(1, objectId_);
         }
         size += unknownFields.getSerializedSize();
         memoizedSize = size;
@@ -286,53 +2189,53 @@ public final class GameStateExchangeProto {
       }
 
       private static final long serialVersionUID = 0L;
-      public static proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage parseFrom(
+      public static proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice parseFrom(
           com.google.protobuf.ByteString data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage parseFrom(
+      public static proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice parseFrom(
           com.google.protobuf.ByteString data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage parseFrom(byte[] data)
+      public static proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice parseFrom(byte[] data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage parseFrom(
+      public static proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice parseFrom(
           byte[] data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage parseFrom(java.io.InputStream input)
+      public static proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice parseFrom(java.io.InputStream input)
           throws java.io.IOException {
         return PARSER.parseFrom(input);
       }
-      public static proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage parseFrom(
+      public static proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice parseFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
         return PARSER.parseFrom(input, extensionRegistry);
       }
-      public static proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage parseDelimitedFrom(java.io.InputStream input)
+      public static proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice parseDelimitedFrom(java.io.InputStream input)
           throws java.io.IOException {
         return PARSER.parseDelimitedFrom(input);
       }
-      public static proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage parseDelimitedFrom(
+      public static proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice parseDelimitedFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
         return PARSER.parseDelimitedFrom(input, extensionRegistry);
       }
-      public static proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage parseFrom(
+      public static proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice parseFrom(
           com.google.protobuf.CodedInputStream input)
           throws java.io.IOException {
         return PARSER.parseFrom(input);
       }
-      public static proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage parseFrom(
+      public static proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice parseFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
@@ -343,7 +2246,7 @@ public final class GameStateExchangeProto {
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
       }
-      public static Builder newBuilder(proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage prototype) {
+      public static Builder newBuilder(proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
       public Builder toBuilder() {
@@ -358,25 +2261,25 @@ public final class GameStateExchangeProto {
         return builder;
       }
       /**
-       * Protobuf type {@code GameStateExchange.GameObjectMessage}
+       * Protobuf type {@code GameStateExchange.ObjectRemovedNotice}
        */
       public static final class Builder extends
           com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-          // @@protoc_insertion_point(builder_implements:GameStateExchange.GameObjectMessage)
-          proto.GameStateExchangeProto.GameStateExchange.GameObjectMessageOrBuilder {
+          // @@protoc_insertion_point(builder_implements:GameStateExchange.ObjectRemovedNotice)
+          proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNoticeOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
-          return proto.GameStateExchangeProto.internal_static_GameStateExchange_GameObjectMessage_descriptor;
+          return proto.GameStateExchangeProto.internal_static_GameStateExchange_ObjectRemovedNotice_descriptor;
         }
 
         protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
             internalGetFieldAccessorTable() {
-          return proto.GameStateExchangeProto.internal_static_GameStateExchange_GameObjectMessage_fieldAccessorTable
+          return proto.GameStateExchangeProto.internal_static_GameStateExchange_ObjectRemovedNotice_fieldAccessorTable
               .ensureFieldAccessorsInitialized(
-                  proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage.class, proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage.Builder.class);
+                  proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice.class, proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice.Builder.class);
         }
 
-        // Construct using proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage.newBuilder()
+        // Construct using proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice.newBuilder()
         private Builder() {
           maybeForceBuilderInitialization();
         }
@@ -392,63 +2295,54 @@ public final class GameStateExchangeProto {
         }
         public Builder clear() {
           super.clear();
-          posX_ = 0;
+          objectId_ = 0;
           bitField0_ = (bitField0_ & ~0x00000001);
-          posY_ = 0;
-          bitField0_ = (bitField0_ & ~0x00000002);
           return this;
         }
 
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
-          return proto.GameStateExchangeProto.internal_static_GameStateExchange_GameObjectMessage_descriptor;
+          return proto.GameStateExchangeProto.internal_static_GameStateExchange_ObjectRemovedNotice_descriptor;
         }
 
-        public proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage getDefaultInstanceForType() {
-          return proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage.getDefaultInstance();
+        public proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice getDefaultInstanceForType() {
+          return proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice.getDefaultInstance();
         }
 
-        public proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage build() {
-          proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage result = buildPartial();
+        public proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice build() {
+          proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice result = buildPartial();
           if (!result.isInitialized()) {
             throw newUninitializedMessageException(result);
           }
           return result;
         }
 
-        public proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage buildPartial() {
-          proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage result = new proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage(this);
+        public proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice buildPartial() {
+          proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice result = new proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice(this);
           int from_bitField0_ = bitField0_;
           int to_bitField0_ = 0;
           if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
             to_bitField0_ |= 0x00000001;
           }
-          result.posX_ = posX_;
-          if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-            to_bitField0_ |= 0x00000002;
-          }
-          result.posY_ = posY_;
+          result.objectId_ = objectId_;
           result.bitField0_ = to_bitField0_;
           onBuilt();
           return result;
         }
 
         public Builder mergeFrom(com.google.protobuf.Message other) {
-          if (other instanceof proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage) {
-            return mergeFrom((proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage)other);
+          if (other instanceof proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice) {
+            return mergeFrom((proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice)other);
           } else {
             super.mergeFrom(other);
             return this;
           }
         }
 
-        public Builder mergeFrom(proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage other) {
-          if (other == proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage.getDefaultInstance()) return this;
-          if (other.hasPosX()) {
-            setPosX(other.getPosX());
-          }
-          if (other.hasPosY()) {
-            setPosY(other.getPosY());
+        public Builder mergeFrom(proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice other) {
+          if (other == proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice.getDefaultInstance()) return this;
+          if (other.hasObjectId()) {
+            setObjectId(other.getObjectId());
           }
           this.mergeUnknownFields(other.unknownFields);
           onChanged();
@@ -463,11 +2357,11 @@ public final class GameStateExchangeProto {
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws java.io.IOException {
-          proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage parsedMessage = null;
+          proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice parsedMessage = null;
           try {
             parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
           } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-            parsedMessage = (proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage) e.getUnfinishedMessage();
+            parsedMessage = (proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice) e.getUnfinishedMessage();
             throw e;
           } finally {
             if (parsedMessage != null) {
@@ -478,91 +2372,59 @@ public final class GameStateExchangeProto {
         }
         private int bitField0_;
 
-        private int posX_ ;
+        private int objectId_ ;
         /**
-         * <code>optional int32 posX = 1;</code>
+         * <code>optional int32 object_id = 1;</code>
          */
-        public boolean hasPosX() {
+        public boolean hasObjectId() {
           return ((bitField0_ & 0x00000001) == 0x00000001);
         }
         /**
-         * <code>optional int32 posX = 1;</code>
+         * <code>optional int32 object_id = 1;</code>
          */
-        public int getPosX() {
-          return posX_;
+        public int getObjectId() {
+          return objectId_;
         }
         /**
-         * <code>optional int32 posX = 1;</code>
+         * <code>optional int32 object_id = 1;</code>
          */
-        public Builder setPosX(int value) {
+        public Builder setObjectId(int value) {
           bitField0_ |= 0x00000001;
-          posX_ = value;
+          objectId_ = value;
           onChanged();
           return this;
         }
         /**
-         * <code>optional int32 posX = 1;</code>
+         * <code>optional int32 object_id = 1;</code>
          */
-        public Builder clearPosX() {
+        public Builder clearObjectId() {
           bitField0_ = (bitField0_ & ~0x00000001);
-          posX_ = 0;
+          objectId_ = 0;
           onChanged();
           return this;
         }
 
-        private int posY_ ;
-        /**
-         * <code>optional int32 posY = 2;</code>
-         */
-        public boolean hasPosY() {
-          return ((bitField0_ & 0x00000002) == 0x00000002);
-        }
-        /**
-         * <code>optional int32 posY = 2;</code>
-         */
-        public int getPosY() {
-          return posY_;
-        }
-        /**
-         * <code>optional int32 posY = 2;</code>
-         */
-        public Builder setPosY(int value) {
-          bitField0_ |= 0x00000002;
-          posY_ = value;
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>optional int32 posY = 2;</code>
-         */
-        public Builder clearPosY() {
-          bitField0_ = (bitField0_ & ~0x00000002);
-          posY_ = 0;
-          onChanged();
-          return this;
-        }
-
-        // @@protoc_insertion_point(builder_scope:GameStateExchange.GameObjectMessage)
+        // @@protoc_insertion_point(builder_scope:GameStateExchange.ObjectRemovedNotice)
       }
 
-      // @@protoc_insertion_point(class_scope:GameStateExchange.GameObjectMessage)
-      private static final proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage DEFAULT_INSTANCE;
+      // @@protoc_insertion_point(class_scope:GameStateExchange.ObjectRemovedNotice)
+      private static final proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice DEFAULT_INSTANCE;
       static {
-        DEFAULT_INSTANCE = new proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage();
+        DEFAULT_INSTANCE = new proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice();
       }
 
-      public static proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage getDefaultInstance() {
+      public static proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice getDefaultInstance() {
         return DEFAULT_INSTANCE;
       }
 
-      @java.lang.Deprecated public static final com.google.protobuf.Parser<GameObjectMessage>
-          PARSER = new com.google.protobuf.AbstractParser<GameObjectMessage>() {
-        public GameObjectMessage parsePartialFrom(
+      @java.lang.Deprecated public static final com.google.protobuf.Parser<ObjectRemovedNotice>
+          PARSER = new com.google.protobuf.AbstractParser<ObjectRemovedNotice>() {
+        public ObjectRemovedNotice parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
           try {
-            return new GameObjectMessage(input, extensionRegistry);
+            return new ObjectRemovedNotice(input, extensionRegistry);
           } catch (RuntimeException e) {
             if (e.getCause() instanceof
                 com.google.protobuf.InvalidProtocolBufferException) {
@@ -574,54 +2436,147 @@ public final class GameStateExchangeProto {
         }
       };
 
-      public static com.google.protobuf.Parser<GameObjectMessage> parser() {
+      public static com.google.protobuf.Parser<ObjectRemovedNotice> parser() {
         return PARSER;
       }
 
       @java.lang.Override
-      public com.google.protobuf.Parser<GameObjectMessage> getParserForType() {
+      public com.google.protobuf.Parser<ObjectRemovedNotice> getParserForType() {
         return PARSER;
       }
 
-      public proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage getDefaultInstanceForType() {
+      public proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
 
     }
 
-    public static final int OBJECTS_FIELD_NUMBER = 1;
-    private java.util.List<proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage> objects_;
+    private int bitField0_;
+    private int contentCase_ = 0;
+    private java.lang.Object content_;
+    public enum ContentCase
+        implements com.google.protobuf.Internal.EnumLite {
+      NEW_OBJECT(2),
+      UPDATED_OBJECT_GROUP(3),
+      STALE_OBJECT(4),
+      CONTENT_NOT_SET(0);
+      private int value = 0;
+      private ContentCase(int value) {
+        this.value = value;
+      }
+      public static ContentCase valueOf(int value) {
+        switch (value) {
+          case 2: return NEW_OBJECT;
+          case 3: return UPDATED_OBJECT_GROUP;
+          case 4: return STALE_OBJECT;
+          case 0: return CONTENT_NOT_SET;
+          default: throw new java.lang.IllegalArgumentException(
+            "Value is undefined for this oneof enum.");
+        }
+      }
+      public int getNumber() {
+        return this.value;
+      }
+    };
+
+    public ContentCase
+    getContentCase() {
+      return ContentCase.valueOf(
+          contentCase_);
+    }
+
+    public static final int PURPOSE_FIELD_NUMBER = 1;
+    private int purpose_;
     /**
-     * <code>repeated .GameStateExchange.GameObjectMessage objects = 1;</code>
+     * <code>required .GameStateExchange.StateExchangeType purpose = 1;</code>
      */
-    public java.util.List<proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage> getObjectsList() {
-      return objects_;
+    public boolean hasPurpose() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>repeated .GameStateExchange.GameObjectMessage objects = 1;</code>
+     * <code>required .GameStateExchange.StateExchangeType purpose = 1;</code>
      */
-    public java.util.List<? extends proto.GameStateExchangeProto.GameStateExchange.GameObjectMessageOrBuilder> 
-        getObjectsOrBuilderList() {
-      return objects_;
+    public proto.GameStateExchangeProto.GameStateExchange.StateExchangeType getPurpose() {
+      proto.GameStateExchangeProto.GameStateExchange.StateExchangeType result = proto.GameStateExchangeProto.GameStateExchange.StateExchangeType.valueOf(purpose_);
+      return result == null ? proto.GameStateExchangeProto.GameStateExchange.StateExchangeType.NEW_OBJECT : result;
+    }
+
+    public static final int NEW_OBJECT_FIELD_NUMBER = 2;
+    /**
+     * <code>optional .GameStateExchange.ObjectCreatedNotice new_object = 2;</code>
+     */
+    public boolean hasNewObject() {
+      return contentCase_ == 2;
     }
     /**
-     * <code>repeated .GameStateExchange.GameObjectMessage objects = 1;</code>
+     * <code>optional .GameStateExchange.ObjectCreatedNotice new_object = 2;</code>
      */
-    public int getObjectsCount() {
-      return objects_.size();
+    public proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice getNewObject() {
+      if (contentCase_ == 2) {
+         return (proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice) content_;
+      }
+      return proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice.getDefaultInstance();
     }
     /**
-     * <code>repeated .GameStateExchange.GameObjectMessage objects = 1;</code>
+     * <code>optional .GameStateExchange.ObjectCreatedNotice new_object = 2;</code>
      */
-    public proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage getObjects(int index) {
-      return objects_.get(index);
+    public proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNoticeOrBuilder getNewObjectOrBuilder() {
+      if (contentCase_ == 2) {
+         return (proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice) content_;
+      }
+      return proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice.getDefaultInstance();
+    }
+
+    public static final int UPDATED_OBJECT_GROUP_FIELD_NUMBER = 3;
+    /**
+     * <code>optional .GameStateExchange.GroupObjectUpdate updated_object_group = 3;</code>
+     */
+    public boolean hasUpdatedObjectGroup() {
+      return contentCase_ == 3;
     }
     /**
-     * <code>repeated .GameStateExchange.GameObjectMessage objects = 1;</code>
+     * <code>optional .GameStateExchange.GroupObjectUpdate updated_object_group = 3;</code>
      */
-    public proto.GameStateExchangeProto.GameStateExchange.GameObjectMessageOrBuilder getObjectsOrBuilder(
-        int index) {
-      return objects_.get(index);
+    public proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate getUpdatedObjectGroup() {
+      if (contentCase_ == 3) {
+         return (proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate) content_;
+      }
+      return proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.getDefaultInstance();
+    }
+    /**
+     * <code>optional .GameStateExchange.GroupObjectUpdate updated_object_group = 3;</code>
+     */
+    public proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdateOrBuilder getUpdatedObjectGroupOrBuilder() {
+      if (contentCase_ == 3) {
+         return (proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate) content_;
+      }
+      return proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.getDefaultInstance();
+    }
+
+    public static final int STALE_OBJECT_FIELD_NUMBER = 4;
+    /**
+     * <code>optional .GameStateExchange.ObjectRemovedNotice stale_object = 4;</code>
+     */
+    public boolean hasStaleObject() {
+      return contentCase_ == 4;
+    }
+    /**
+     * <code>optional .GameStateExchange.ObjectRemovedNotice stale_object = 4;</code>
+     */
+    public proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice getStaleObject() {
+      if (contentCase_ == 4) {
+         return (proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice) content_;
+      }
+      return proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice.getDefaultInstance();
+    }
+    /**
+     * <code>optional .GameStateExchange.ObjectRemovedNotice stale_object = 4;</code>
+     */
+    public proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNoticeOrBuilder getStaleObjectOrBuilder() {
+      if (contentCase_ == 4) {
+         return (proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice) content_;
+      }
+      return proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice.getDefaultInstance();
     }
 
     private byte memoizedIsInitialized = -1;
@@ -630,14 +2585,27 @@ public final class GameStateExchangeProto {
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
+      if (!hasPurpose()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      for (int i = 0; i < objects_.size(); i++) {
-        output.writeMessage(1, objects_.get(i));
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeEnum(1, purpose_);
+      }
+      if (contentCase_ == 2) {
+        output.writeMessage(2, (proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice) content_);
+      }
+      if (contentCase_ == 3) {
+        output.writeMessage(3, (proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate) content_);
+      }
+      if (contentCase_ == 4) {
+        output.writeMessage(4, (proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice) content_);
       }
       unknownFields.writeTo(output);
     }
@@ -647,9 +2615,21 @@ public final class GameStateExchangeProto {
       if (size != -1) return size;
 
       size = 0;
-      for (int i = 0; i < objects_.size(); i++) {
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, objects_.get(i));
+          .computeEnumSize(1, purpose_);
+      }
+      if (contentCase_ == 2) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, (proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice) content_);
+      }
+      if (contentCase_ == 3) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, (proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate) content_);
+      }
+      if (contentCase_ == 4) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, (proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice) content_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -759,17 +2739,14 @@ public final class GameStateExchangeProto {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getObjectsFieldBuilder();
         }
       }
       public Builder clear() {
         super.clear();
-        if (objectsBuilder_ == null) {
-          objects_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
-        } else {
-          objectsBuilder_.clear();
-        }
+        purpose_ = 1;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        contentCase_ = 0;
+        content_ = null;
         return this;
       }
 
@@ -793,15 +2770,34 @@ public final class GameStateExchangeProto {
       public proto.GameStateExchangeProto.GameStateExchange buildPartial() {
         proto.GameStateExchangeProto.GameStateExchange result = new proto.GameStateExchangeProto.GameStateExchange(this);
         int from_bitField0_ = bitField0_;
-        if (objectsBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
-            objects_ = java.util.Collections.unmodifiableList(objects_);
-            bitField0_ = (bitField0_ & ~0x00000001);
-          }
-          result.objects_ = objects_;
-        } else {
-          result.objects_ = objectsBuilder_.build();
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
         }
+        result.purpose_ = purpose_;
+        if (contentCase_ == 2) {
+          if (newObjectBuilder_ == null) {
+            result.content_ = content_;
+          } else {
+            result.content_ = newObjectBuilder_.build();
+          }
+        }
+        if (contentCase_ == 3) {
+          if (updatedObjectGroupBuilder_ == null) {
+            result.content_ = content_;
+          } else {
+            result.content_ = updatedObjectGroupBuilder_.build();
+          }
+        }
+        if (contentCase_ == 4) {
+          if (staleObjectBuilder_ == null) {
+            result.content_ = content_;
+          } else {
+            result.content_ = staleObjectBuilder_.build();
+          }
+        }
+        result.bitField0_ = to_bitField0_;
+        result.contentCase_ = contentCase_;
         onBuilt();
         return result;
       }
@@ -817,30 +2813,24 @@ public final class GameStateExchangeProto {
 
       public Builder mergeFrom(proto.GameStateExchangeProto.GameStateExchange other) {
         if (other == proto.GameStateExchangeProto.GameStateExchange.getDefaultInstance()) return this;
-        if (objectsBuilder_ == null) {
-          if (!other.objects_.isEmpty()) {
-            if (objects_.isEmpty()) {
-              objects_ = other.objects_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-            } else {
-              ensureObjectsIsMutable();
-              objects_.addAll(other.objects_);
-            }
-            onChanged();
+        if (other.hasPurpose()) {
+          setPurpose(other.getPurpose());
+        }
+        switch (other.getContentCase()) {
+          case NEW_OBJECT: {
+            mergeNewObject(other.getNewObject());
+            break;
           }
-        } else {
-          if (!other.objects_.isEmpty()) {
-            if (objectsBuilder_.isEmpty()) {
-              objectsBuilder_.dispose();
-              objectsBuilder_ = null;
-              objects_ = other.objects_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-              objectsBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getObjectsFieldBuilder() : null;
-            } else {
-              objectsBuilder_.addAllMessages(other.objects_);
-            }
+          case UPDATED_OBJECT_GROUP: {
+            mergeUpdatedObjectGroup(other.getUpdatedObjectGroup());
+            break;
+          }
+          case STALE_OBJECT: {
+            mergeStaleObject(other.getStaleObject());
+            break;
+          }
+          case CONTENT_NOT_SET: {
+            break;
           }
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -849,6 +2839,9 @@ public final class GameStateExchangeProto {
       }
 
       public final boolean isInitialized() {
+        if (!hasPurpose()) {
+          return false;
+        }
         return true;
       }
 
@@ -869,246 +2862,465 @@ public final class GameStateExchangeProto {
         }
         return this;
       }
+      private int contentCase_ = 0;
+      private java.lang.Object content_;
+      public ContentCase
+          getContentCase() {
+        return ContentCase.valueOf(
+            contentCase_);
+      }
+
+      public Builder clearContent() {
+        contentCase_ = 0;
+        content_ = null;
+        onChanged();
+        return this;
+      }
+
       private int bitField0_;
 
-      private java.util.List<proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage> objects_ =
-        java.util.Collections.emptyList();
-      private void ensureObjectsIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-          objects_ = new java.util.ArrayList<proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage>(objects_);
-          bitField0_ |= 0x00000001;
-         }
+      private int purpose_ = 1;
+      /**
+       * <code>required .GameStateExchange.StateExchangeType purpose = 1;</code>
+       */
+      public boolean hasPurpose() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .GameStateExchange.StateExchangeType purpose = 1;</code>
+       */
+      public proto.GameStateExchangeProto.GameStateExchange.StateExchangeType getPurpose() {
+        proto.GameStateExchangeProto.GameStateExchange.StateExchangeType result = proto.GameStateExchangeProto.GameStateExchange.StateExchangeType.valueOf(purpose_);
+        return result == null ? proto.GameStateExchangeProto.GameStateExchange.StateExchangeType.NEW_OBJECT : result;
+      }
+      /**
+       * <code>required .GameStateExchange.StateExchangeType purpose = 1;</code>
+       */
+      public Builder setPurpose(proto.GameStateExchangeProto.GameStateExchange.StateExchangeType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        purpose_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .GameStateExchange.StateExchangeType purpose = 1;</code>
+       */
+      public Builder clearPurpose() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        purpose_ = 1;
+        onChanged();
+        return this;
       }
 
-      private com.google.protobuf.RepeatedFieldBuilder<
-          proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage, proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage.Builder, proto.GameStateExchangeProto.GameStateExchange.GameObjectMessageOrBuilder> objectsBuilder_;
-
+      private com.google.protobuf.SingleFieldBuilder<
+          proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice, proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice.Builder, proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNoticeOrBuilder> newObjectBuilder_;
       /**
-       * <code>repeated .GameStateExchange.GameObjectMessage objects = 1;</code>
+       * <code>optional .GameStateExchange.ObjectCreatedNotice new_object = 2;</code>
        */
-      public java.util.List<proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage> getObjectsList() {
-        if (objectsBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(objects_);
+      public boolean hasNewObject() {
+        return contentCase_ == 2;
+      }
+      /**
+       * <code>optional .GameStateExchange.ObjectCreatedNotice new_object = 2;</code>
+       */
+      public proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice getNewObject() {
+        if (newObjectBuilder_ == null) {
+          if (contentCase_ == 2) {
+            return (proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice) content_;
+          }
+          return proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice.getDefaultInstance();
         } else {
-          return objectsBuilder_.getMessageList();
+          if (contentCase_ == 2) {
+            return newObjectBuilder_.getMessage();
+          }
+          return proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice.getDefaultInstance();
         }
       }
       /**
-       * <code>repeated .GameStateExchange.GameObjectMessage objects = 1;</code>
+       * <code>optional .GameStateExchange.ObjectCreatedNotice new_object = 2;</code>
        */
-      public int getObjectsCount() {
-        if (objectsBuilder_ == null) {
-          return objects_.size();
-        } else {
-          return objectsBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .GameStateExchange.GameObjectMessage objects = 1;</code>
-       */
-      public proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage getObjects(int index) {
-        if (objectsBuilder_ == null) {
-          return objects_.get(index);
-        } else {
-          return objectsBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .GameStateExchange.GameObjectMessage objects = 1;</code>
-       */
-      public Builder setObjects(
-          int index, proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage value) {
-        if (objectsBuilder_ == null) {
+      public Builder setNewObject(proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice value) {
+        if (newObjectBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensureObjectsIsMutable();
-          objects_.set(index, value);
+          content_ = value;
           onChanged();
         } else {
-          objectsBuilder_.setMessage(index, value);
+          newObjectBuilder_.setMessage(value);
         }
+        contentCase_ = 2;
         return this;
       }
       /**
-       * <code>repeated .GameStateExchange.GameObjectMessage objects = 1;</code>
+       * <code>optional .GameStateExchange.ObjectCreatedNotice new_object = 2;</code>
        */
-      public Builder setObjects(
-          int index, proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage.Builder builderForValue) {
-        if (objectsBuilder_ == null) {
-          ensureObjectsIsMutable();
-          objects_.set(index, builderForValue.build());
+      public Builder setNewObject(
+          proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice.Builder builderForValue) {
+        if (newObjectBuilder_ == null) {
+          content_ = builderForValue.build();
           onChanged();
         } else {
-          objectsBuilder_.setMessage(index, builderForValue.build());
+          newObjectBuilder_.setMessage(builderForValue.build());
         }
+        contentCase_ = 2;
         return this;
       }
       /**
-       * <code>repeated .GameStateExchange.GameObjectMessage objects = 1;</code>
+       * <code>optional .GameStateExchange.ObjectCreatedNotice new_object = 2;</code>
        */
-      public Builder addObjects(proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage value) {
-        if (objectsBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
+      public Builder mergeNewObject(proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice value) {
+        if (newObjectBuilder_ == null) {
+          if (contentCase_ == 2 &&
+              content_ != proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice.getDefaultInstance()) {
+            content_ = proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice.newBuilder((proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice) content_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            content_ = value;
           }
-          ensureObjectsIsMutable();
-          objects_.add(value);
           onChanged();
         } else {
-          objectsBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .GameStateExchange.GameObjectMessage objects = 1;</code>
-       */
-      public Builder addObjects(
-          int index, proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage value) {
-        if (objectsBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
+          if (contentCase_ == 2) {
+            newObjectBuilder_.mergeFrom(value);
           }
-          ensureObjectsIsMutable();
-          objects_.add(index, value);
-          onChanged();
+          newObjectBuilder_.setMessage(value);
+        }
+        contentCase_ = 2;
+        return this;
+      }
+      /**
+       * <code>optional .GameStateExchange.ObjectCreatedNotice new_object = 2;</code>
+       */
+      public Builder clearNewObject() {
+        if (newObjectBuilder_ == null) {
+          if (contentCase_ == 2) {
+            contentCase_ = 0;
+            content_ = null;
+            onChanged();
+          }
         } else {
-          objectsBuilder_.addMessage(index, value);
+          if (contentCase_ == 2) {
+            contentCase_ = 0;
+            content_ = null;
+          }
+          newObjectBuilder_.clear();
         }
         return this;
       }
       /**
-       * <code>repeated .GameStateExchange.GameObjectMessage objects = 1;</code>
+       * <code>optional .GameStateExchange.ObjectCreatedNotice new_object = 2;</code>
        */
-      public Builder addObjects(
-          proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage.Builder builderForValue) {
-        if (objectsBuilder_ == null) {
-          ensureObjectsIsMutable();
-          objects_.add(builderForValue.build());
-          onChanged();
+      public proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice.Builder getNewObjectBuilder() {
+        return getNewObjectFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .GameStateExchange.ObjectCreatedNotice new_object = 2;</code>
+       */
+      public proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNoticeOrBuilder getNewObjectOrBuilder() {
+        if ((contentCase_ == 2) && (newObjectBuilder_ != null)) {
+          return newObjectBuilder_.getMessageOrBuilder();
         } else {
-          objectsBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .GameStateExchange.GameObjectMessage objects = 1;</code>
-       */
-      public Builder addObjects(
-          int index, proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage.Builder builderForValue) {
-        if (objectsBuilder_ == null) {
-          ensureObjectsIsMutable();
-          objects_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          objectsBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .GameStateExchange.GameObjectMessage objects = 1;</code>
-       */
-      public Builder addAllObjects(
-          java.lang.Iterable<? extends proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage> values) {
-        if (objectsBuilder_ == null) {
-          ensureObjectsIsMutable();
-          com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, objects_);
-          onChanged();
-        } else {
-          objectsBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .GameStateExchange.GameObjectMessage objects = 1;</code>
-       */
-      public Builder clearObjects() {
-        if (objectsBuilder_ == null) {
-          objects_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
-          onChanged();
-        } else {
-          objectsBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .GameStateExchange.GameObjectMessage objects = 1;</code>
-       */
-      public Builder removeObjects(int index) {
-        if (objectsBuilder_ == null) {
-          ensureObjectsIsMutable();
-          objects_.remove(index);
-          onChanged();
-        } else {
-          objectsBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .GameStateExchange.GameObjectMessage objects = 1;</code>
-       */
-      public proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage.Builder getObjectsBuilder(
-          int index) {
-        return getObjectsFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .GameStateExchange.GameObjectMessage objects = 1;</code>
-       */
-      public proto.GameStateExchangeProto.GameStateExchange.GameObjectMessageOrBuilder getObjectsOrBuilder(
-          int index) {
-        if (objectsBuilder_ == null) {
-          return objects_.get(index);  } else {
-          return objectsBuilder_.getMessageOrBuilder(index);
+          if (contentCase_ == 2) {
+            return (proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice) content_;
+          }
+          return proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice.getDefaultInstance();
         }
       }
       /**
-       * <code>repeated .GameStateExchange.GameObjectMessage objects = 1;</code>
+       * <code>optional .GameStateExchange.ObjectCreatedNotice new_object = 2;</code>
        */
-      public java.util.List<? extends proto.GameStateExchangeProto.GameStateExchange.GameObjectMessageOrBuilder> 
-           getObjectsOrBuilderList() {
-        if (objectsBuilder_ != null) {
-          return objectsBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(objects_);
-        }
-      }
-      /**
-       * <code>repeated .GameStateExchange.GameObjectMessage objects = 1;</code>
-       */
-      public proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage.Builder addObjectsBuilder() {
-        return getObjectsFieldBuilder().addBuilder(
-            proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .GameStateExchange.GameObjectMessage objects = 1;</code>
-       */
-      public proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage.Builder addObjectsBuilder(
-          int index) {
-        return getObjectsFieldBuilder().addBuilder(
-            index, proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .GameStateExchange.GameObjectMessage objects = 1;</code>
-       */
-      public java.util.List<proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage.Builder> 
-           getObjectsBuilderList() {
-        return getObjectsFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage, proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage.Builder, proto.GameStateExchangeProto.GameStateExchange.GameObjectMessageOrBuilder> 
-          getObjectsFieldBuilder() {
-        if (objectsBuilder_ == null) {
-          objectsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage, proto.GameStateExchangeProto.GameStateExchange.GameObjectMessage.Builder, proto.GameStateExchangeProto.GameStateExchange.GameObjectMessageOrBuilder>(
-                  objects_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+      private com.google.protobuf.SingleFieldBuilder<
+          proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice, proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice.Builder, proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNoticeOrBuilder> 
+          getNewObjectFieldBuilder() {
+        if (newObjectBuilder_ == null) {
+          if (!(contentCase_ == 2)) {
+            content_ = proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice.getDefaultInstance();
+          }
+          newObjectBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice, proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice.Builder, proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNoticeOrBuilder>(
+                  (proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice) content_,
                   getParentForChildren(),
                   isClean());
-          objects_ = null;
+          content_ = null;
         }
-        return objectsBuilder_;
+        contentCase_ = 2;
+        onChanged();;
+        return newObjectBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate, proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.Builder, proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdateOrBuilder> updatedObjectGroupBuilder_;
+      /**
+       * <code>optional .GameStateExchange.GroupObjectUpdate updated_object_group = 3;</code>
+       */
+      public boolean hasUpdatedObjectGroup() {
+        return contentCase_ == 3;
+      }
+      /**
+       * <code>optional .GameStateExchange.GroupObjectUpdate updated_object_group = 3;</code>
+       */
+      public proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate getUpdatedObjectGroup() {
+        if (updatedObjectGroupBuilder_ == null) {
+          if (contentCase_ == 3) {
+            return (proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate) content_;
+          }
+          return proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.getDefaultInstance();
+        } else {
+          if (contentCase_ == 3) {
+            return updatedObjectGroupBuilder_.getMessage();
+          }
+          return proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .GameStateExchange.GroupObjectUpdate updated_object_group = 3;</code>
+       */
+      public Builder setUpdatedObjectGroup(proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate value) {
+        if (updatedObjectGroupBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          content_ = value;
+          onChanged();
+        } else {
+          updatedObjectGroupBuilder_.setMessage(value);
+        }
+        contentCase_ = 3;
+        return this;
+      }
+      /**
+       * <code>optional .GameStateExchange.GroupObjectUpdate updated_object_group = 3;</code>
+       */
+      public Builder setUpdatedObjectGroup(
+          proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.Builder builderForValue) {
+        if (updatedObjectGroupBuilder_ == null) {
+          content_ = builderForValue.build();
+          onChanged();
+        } else {
+          updatedObjectGroupBuilder_.setMessage(builderForValue.build());
+        }
+        contentCase_ = 3;
+        return this;
+      }
+      /**
+       * <code>optional .GameStateExchange.GroupObjectUpdate updated_object_group = 3;</code>
+       */
+      public Builder mergeUpdatedObjectGroup(proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate value) {
+        if (updatedObjectGroupBuilder_ == null) {
+          if (contentCase_ == 3 &&
+              content_ != proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.getDefaultInstance()) {
+            content_ = proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.newBuilder((proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate) content_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            content_ = value;
+          }
+          onChanged();
+        } else {
+          if (contentCase_ == 3) {
+            updatedObjectGroupBuilder_.mergeFrom(value);
+          }
+          updatedObjectGroupBuilder_.setMessage(value);
+        }
+        contentCase_ = 3;
+        return this;
+      }
+      /**
+       * <code>optional .GameStateExchange.GroupObjectUpdate updated_object_group = 3;</code>
+       */
+      public Builder clearUpdatedObjectGroup() {
+        if (updatedObjectGroupBuilder_ == null) {
+          if (contentCase_ == 3) {
+            contentCase_ = 0;
+            content_ = null;
+            onChanged();
+          }
+        } else {
+          if (contentCase_ == 3) {
+            contentCase_ = 0;
+            content_ = null;
+          }
+          updatedObjectGroupBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>optional .GameStateExchange.GroupObjectUpdate updated_object_group = 3;</code>
+       */
+      public proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.Builder getUpdatedObjectGroupBuilder() {
+        return getUpdatedObjectGroupFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .GameStateExchange.GroupObjectUpdate updated_object_group = 3;</code>
+       */
+      public proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdateOrBuilder getUpdatedObjectGroupOrBuilder() {
+        if ((contentCase_ == 3) && (updatedObjectGroupBuilder_ != null)) {
+          return updatedObjectGroupBuilder_.getMessageOrBuilder();
+        } else {
+          if (contentCase_ == 3) {
+            return (proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate) content_;
+          }
+          return proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .GameStateExchange.GroupObjectUpdate updated_object_group = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate, proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.Builder, proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdateOrBuilder> 
+          getUpdatedObjectGroupFieldBuilder() {
+        if (updatedObjectGroupBuilder_ == null) {
+          if (!(contentCase_ == 3)) {
+            content_ = proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.getDefaultInstance();
+          }
+          updatedObjectGroupBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate, proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.Builder, proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdateOrBuilder>(
+                  (proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate) content_,
+                  getParentForChildren(),
+                  isClean());
+          content_ = null;
+        }
+        contentCase_ = 3;
+        onChanged();;
+        return updatedObjectGroupBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice, proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice.Builder, proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNoticeOrBuilder> staleObjectBuilder_;
+      /**
+       * <code>optional .GameStateExchange.ObjectRemovedNotice stale_object = 4;</code>
+       */
+      public boolean hasStaleObject() {
+        return contentCase_ == 4;
+      }
+      /**
+       * <code>optional .GameStateExchange.ObjectRemovedNotice stale_object = 4;</code>
+       */
+      public proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice getStaleObject() {
+        if (staleObjectBuilder_ == null) {
+          if (contentCase_ == 4) {
+            return (proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice) content_;
+          }
+          return proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice.getDefaultInstance();
+        } else {
+          if (contentCase_ == 4) {
+            return staleObjectBuilder_.getMessage();
+          }
+          return proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .GameStateExchange.ObjectRemovedNotice stale_object = 4;</code>
+       */
+      public Builder setStaleObject(proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice value) {
+        if (staleObjectBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          content_ = value;
+          onChanged();
+        } else {
+          staleObjectBuilder_.setMessage(value);
+        }
+        contentCase_ = 4;
+        return this;
+      }
+      /**
+       * <code>optional .GameStateExchange.ObjectRemovedNotice stale_object = 4;</code>
+       */
+      public Builder setStaleObject(
+          proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice.Builder builderForValue) {
+        if (staleObjectBuilder_ == null) {
+          content_ = builderForValue.build();
+          onChanged();
+        } else {
+          staleObjectBuilder_.setMessage(builderForValue.build());
+        }
+        contentCase_ = 4;
+        return this;
+      }
+      /**
+       * <code>optional .GameStateExchange.ObjectRemovedNotice stale_object = 4;</code>
+       */
+      public Builder mergeStaleObject(proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice value) {
+        if (staleObjectBuilder_ == null) {
+          if (contentCase_ == 4 &&
+              content_ != proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice.getDefaultInstance()) {
+            content_ = proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice.newBuilder((proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice) content_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            content_ = value;
+          }
+          onChanged();
+        } else {
+          if (contentCase_ == 4) {
+            staleObjectBuilder_.mergeFrom(value);
+          }
+          staleObjectBuilder_.setMessage(value);
+        }
+        contentCase_ = 4;
+        return this;
+      }
+      /**
+       * <code>optional .GameStateExchange.ObjectRemovedNotice stale_object = 4;</code>
+       */
+      public Builder clearStaleObject() {
+        if (staleObjectBuilder_ == null) {
+          if (contentCase_ == 4) {
+            contentCase_ = 0;
+            content_ = null;
+            onChanged();
+          }
+        } else {
+          if (contentCase_ == 4) {
+            contentCase_ = 0;
+            content_ = null;
+          }
+          staleObjectBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>optional .GameStateExchange.ObjectRemovedNotice stale_object = 4;</code>
+       */
+      public proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice.Builder getStaleObjectBuilder() {
+        return getStaleObjectFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .GameStateExchange.ObjectRemovedNotice stale_object = 4;</code>
+       */
+      public proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNoticeOrBuilder getStaleObjectOrBuilder() {
+        if ((contentCase_ == 4) && (staleObjectBuilder_ != null)) {
+          return staleObjectBuilder_.getMessageOrBuilder();
+        } else {
+          if (contentCase_ == 4) {
+            return (proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice) content_;
+          }
+          return proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .GameStateExchange.ObjectRemovedNotice stale_object = 4;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice, proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice.Builder, proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNoticeOrBuilder> 
+          getStaleObjectFieldBuilder() {
+        if (staleObjectBuilder_ == null) {
+          if (!(contentCase_ == 4)) {
+            content_ = proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice.getDefaultInstance();
+          }
+          staleObjectBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice, proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice.Builder, proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNoticeOrBuilder>(
+                  (proto.GameStateExchangeProto.GameStateExchange.ObjectRemovedNotice) content_,
+                  getParentForChildren(),
+                  isClean());
+          content_ = null;
+        }
+        contentCase_ = 4;
+        onChanged();;
+        return staleObjectBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:GameStateExchange)
@@ -1177,10 +3389,25 @@ public final class GameStateExchangeProto {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_GameStateExchange_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_GameStateExchange_GameObjectMessage_descriptor;
+    internal_static_GameStateExchange_ObjectCreatedNotice_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_GameStateExchange_GameObjectMessage_fieldAccessorTable;
+      internal_static_GameStateExchange_ObjectCreatedNotice_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_GameStateExchange_GroupObjectUpdate_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_GameStateExchange_GroupObjectUpdate_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_GameStateExchange_GroupObjectUpdate_ObjectUpdate_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_GameStateExchange_GroupObjectUpdate_ObjectUpdate_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_GameStateExchange_ObjectRemovedNotice_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_GameStateExchange_ObjectRemovedNotice_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -1191,12 +3418,24 @@ public final class GameStateExchangeProto {
   static {
     java.lang.String[] descriptorData = {
       "\n&proto/onlineBoxGame/GameExchange.proto" +
-      "\032\024proto/Exchange.proto\"\257\001\n\021GameStateExch" +
-      "ange\0225\n\007objects\030\001 \003(\0132$.GameStateExchang" +
-      "e.GameObjectMessage\032/\n\021GameObjectMessage" +
-      "\022\014\n\004posX\030\001 \001(\005\022\014\n\004posY\030\002 \001(\00522\n\013game_upd" +
-      "ate\022\t.Exchange\030\005 \001(\0132\022.GameStateExchange" +
-      "B\037\n\005protoB\026GameStateExchangeProto"
+      "\032\024proto/Exchange.proto\"\226\005\n\021GameStateExch" +
+      "ange\0225\n\007purpose\030\001 \002(\0162$.GameStateExchang" +
+      "e.StateExchangeType\022<\n\nnew_object\030\002 \001(\0132" +
+      "&.GameStateExchange.ObjectCreatedNoticeH" +
+      "\000\022D\n\024updated_object_group\030\003 \001(\0132$.GameSt" +
+      "ateExchange.GroupObjectUpdateH\000\022>\n\014stale" +
+      "_object\030\004 \001(\0132&.GameStateExchange.Object" +
+      "RemovedNoticeH\000\0328\n\023ObjectCreatedNotice\022\016" +
+      "\n\006schema\030\001 \001(\t\022\021\n\tobject_id\030\002 \001(\005\032\230\001\n\021Gr",
+      "oupObjectUpdate\022B\n\007objects\030\002 \003(\01321.GameS" +
+      "tateExchange.GroupObjectUpdate.ObjectUpd" +
+      "ate\032?\n\014ObjectUpdate\022\021\n\tobject_id\030\003 \001(\005\022\r" +
+      "\n\005pos_x\030\001 \001(\005\022\r\n\005pos_y\030\002 \001(\005\032(\n\023ObjectRe" +
+      "movedNotice\022\021\n\tobject_id\030\001 \001(\005\"H\n\021StateE" +
+      "xchangeType\022\016\n\nNEW_OBJECT\020\001\022\021\n\rOBJECT_UP" +
+      "DATE\020\002\022\020\n\014STALE_OBJECT\020\00322\n\013game_update\022" +
+      "\t.Exchange\030\005 \001(\0132\022.GameStateExchangeB\t\n\007" +
+      "contentB\037\n\005protoB\026GameStateExchangeProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1216,13 +3455,31 @@ public final class GameStateExchangeProto {
     internal_static_GameStateExchange_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_GameStateExchange_descriptor,
-        new java.lang.String[] { "Objects", });
-    internal_static_GameStateExchange_GameObjectMessage_descriptor =
+        new java.lang.String[] { "Purpose", "NewObject", "UpdatedObjectGroup", "StaleObject", "Content", });
+    internal_static_GameStateExchange_ObjectCreatedNotice_descriptor =
       internal_static_GameStateExchange_descriptor.getNestedTypes().get(0);
-    internal_static_GameStateExchange_GameObjectMessage_fieldAccessorTable = new
+    internal_static_GameStateExchange_ObjectCreatedNotice_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-        internal_static_GameStateExchange_GameObjectMessage_descriptor,
-        new java.lang.String[] { "PosX", "PosY", });
+        internal_static_GameStateExchange_ObjectCreatedNotice_descriptor,
+        new java.lang.String[] { "Schema", "ObjectId", });
+    internal_static_GameStateExchange_GroupObjectUpdate_descriptor =
+      internal_static_GameStateExchange_descriptor.getNestedTypes().get(1);
+    internal_static_GameStateExchange_GroupObjectUpdate_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_GameStateExchange_GroupObjectUpdate_descriptor,
+        new java.lang.String[] { "Objects", });
+    internal_static_GameStateExchange_GroupObjectUpdate_ObjectUpdate_descriptor =
+      internal_static_GameStateExchange_GroupObjectUpdate_descriptor.getNestedTypes().get(0);
+    internal_static_GameStateExchange_GroupObjectUpdate_ObjectUpdate_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_GameStateExchange_GroupObjectUpdate_ObjectUpdate_descriptor,
+        new java.lang.String[] { "ObjectId", "PosX", "PosY", });
+    internal_static_GameStateExchange_ObjectRemovedNotice_descriptor =
+      internal_static_GameStateExchange_descriptor.getNestedTypes().get(2);
+    internal_static_GameStateExchange_ObjectRemovedNotice_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_GameStateExchange_ObjectRemovedNotice_descriptor,
+        new java.lang.String[] { "ObjectId", });
     net.proto.ExchangeProto.getDescriptor();
   }
 
