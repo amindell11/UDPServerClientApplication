@@ -13,6 +13,7 @@ import panel.ServerConsolePanel;
 import panel.ServerCreationPanel;
 import panel.serverselect.ServerSelectPanel;
 import profile.User;
+
 /**
  *
  * @author amind_000
@@ -26,19 +27,20 @@ public class ApplicationManager implements Runnable, ProgressListener {
 	public ClientConsolePanel clientConsolePanel;
 	DirectConnectPanel directConnectPanel;
 	public ServerConsolePanel serverConsolePanel;
-    ServerSelectPanel serverSelectPanel;
+	ServerSelectPanel serverSelectPanel;
 	ServerCreationPanel serverCreationPanel;
 	EditProfilePanel editProfilePanel;
+
 	/** Empty constructor of objects of class SomeClassUI. */
 	public ApplicationManager() {
-		loggedInUser=new User("New001");
-		homePanel = new HomePanel(this,loggedInUser);
-		clientConsolePanel=new ClientConsolePanel(this);
-		directConnectPanel=new DirectConnectPanel(this);
-		serverConsolePanel=new ServerConsolePanel(this);
-        serverSelectPanel=new ServerSelectPanel(this);
-        serverCreationPanel=new ServerCreationPanel(this);
-        editProfilePanel=new EditProfilePanel(this,loggedInUser);
+		loggedInUser = new User("New001");
+		homePanel = new HomePanel(this, loggedInUser);
+		clientConsolePanel = new ClientConsolePanel(this);
+		directConnectPanel = new DirectConnectPanel(this);
+		serverConsolePanel = new ServerConsolePanel(this);
+		serverSelectPanel = new ServerSelectPanel(this);
+		serverCreationPanel = new ServerCreationPanel(this);
+		editProfilePanel = new EditProfilePanel(this, loggedInUser);
 	}
 
 	/** Interface initialization. */
@@ -49,7 +51,7 @@ public class ApplicationManager implements Runnable, ProgressListener {
 		frame = new JFrame("Launcher");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setContentPane(homePanel);
-		state=AppState.HOME;
+		state = AppState.HOME;
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
@@ -77,8 +79,8 @@ public class ApplicationManager implements Runnable, ProgressListener {
 			setPanel(serverConsolePanel);
 			break;
 		case SERVER_SELECT:
-            setPanel(serverSelectPanel);
-            serverSelectPanel.updateServerList();
+			setPanel(serverSelectPanel);
+			serverSelectPanel.updateServerList();
 			break;
 		case CREATE_SERVER:
 			setPanel(serverCreationPanel);
@@ -87,7 +89,7 @@ public class ApplicationManager implements Runnable, ProgressListener {
 			break;
 
 		}
-		state=newState;
+		state = newState;
 		return;
 	}
 
@@ -101,11 +103,19 @@ public class ApplicationManager implements Runnable, ProgressListener {
 		SwingUtilities.invokeLater(this);
 	}
 
-	public void showMessageDialog(String message,String title,int type){
+	public void showMessageDialog(String message, String title, int type) {
 		JOptionPane.showMessageDialog(frame, message, title, type);
 
 	}
-	public User getUser(){
+
+	public User getUser() {
 		return loggedInUser;
+	}
+
+	public static void main(String[] args) {
+		ApplicationManager application;
+		application = new ApplicationManager();
+		application.go();
+
 	}
 }

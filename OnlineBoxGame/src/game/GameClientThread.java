@@ -1,6 +1,12 @@
 package game;
 
+import java.io.IOException;
+
+import com.google.gson.Gson;
+
+import game_object.GameObject;
 import hooks.UnhandledMessageHook;
+import net.GameConnectionUtil;
 import net.client.ClientThread;
 import net.proto.ExchangeProto.Exchange;
 
@@ -16,6 +22,12 @@ public class GameClientThread extends Thread implements UnhandledMessageHook {
 	public GameClientThread(ClientThread client) {
 		game = new PlayerGameManager();
 		client.getHookManager().addHook(this);
+		String schema=new Gson().toJson(game.clientObject,GameObject.class);
+		try {
+			client.sendMessage(GameConnectionUtil.buildNewObjectNotice((int)client.getId(), schema));//TODO fix the cast here
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		this.client = client;
 	}
 
@@ -45,6 +57,6 @@ public class GameClientThread extends Thread implements UnhandledMessageHook {
 
 	@Override
 	public void handleMessage(Exchange message) {
-
+		System.out.println(message);
 	}
 }

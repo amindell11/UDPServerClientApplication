@@ -14,5 +14,6 @@
 	<classpathentry kind="lib" path="/ExternalLibs/libs/slick/lib/slick.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/UDPServerClient"/>
 	<classpathentry kind="lib" path="/ExternalLibs/libs/protobuf/protobuf-java-3.0.0-beta-3.jar"/>
+	<classpathentry kind="lib" path="/ExternalLibs/libs/gson-2.6.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -101,6 +101,7 @@ public class ServerThread extends Thread {
 	DatagramPacket packet = ConnectionUtil.receivePacket(socket);
 	System.out.println("packet recived");
 	Exchange exchange = ConnectionUtil.convertMessage(packet.getData(), knownMessageTypes);
+	System.out.println(exchange);
 	// Handles simpleExchanges, otherwise sends it to UnhandledMessageHook
 	if (exchange.hasExtension(SimpleExchange.simpleExchange)) {
 	    SimpleExchange msg = exchange.getExtension(SimpleExchange.simpleExchange);
