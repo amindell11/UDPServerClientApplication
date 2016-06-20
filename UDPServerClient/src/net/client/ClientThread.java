@@ -12,6 +12,7 @@ import com.google.protobuf.ExtensionRegistry;
 import hooks.HookManager;
 import net.Config;
 import net.connectionutil.ConnectionUtil;
+import net.connectionutil.ServerDiscoveryUtil;
 import net.proto.ExchangeProto.Exchange;
 import net.proto.SimpleExchangeProto.SimpleExchange;
 import net.proto.SimpleExchangeProto.SimpleExchange.SimpleExchangeRequest.RequestType;
@@ -71,6 +72,8 @@ public class ClientThread extends Thread {
 	while (open) {
 	    try {
 		update();
+	    } catch (SocketException e) {
+		System.out.println(e.getMessage());
 	    } catch (IOException e) {
 		System.out.println("update tripped. attempting to resume.");
 	    }
@@ -78,8 +81,18 @@ public class ClientThread extends Thread {
     }
 
     public void update() throws IOException {
-	Exchange receive = ConnectionUtil.receiveMessage(socket, knownMessageTypes);
-	handleMessage(receive);
+	Exchange receive = null;
+	try {
+	    receive = ConnectionUtil.receiveMessage(socket, 10000, knownMessageTypes);
+	} catch (SocketException e) {
+	    System.out.println("recieve timed out, probing server");
+	    if (!ServerDiscoveryUtil.checkAddressForServer(serverAddress, serverPort, 1000)) {
+		close();
+	    }
+	}
+	if (receive != null) {
+	    handleMessage(receive);
+	}
     }
 
     public void sendMessage(Exchange message) throws IOException {

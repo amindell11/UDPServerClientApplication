@@ -43,12 +43,12 @@ public class ConnectionUtil {
 
     }
 
-    public static Exchange receiveMessage(DatagramSocket socket, int timeout,ExtensionRegistry registry) {
+    public static Exchange receiveMessage(DatagramSocket socket, int timeout,ExtensionRegistry registry) throws IOException{
 	DatagramPacket receivePacket = receivePacket(socket, timeout);
 	Exchange message = convertMessage(receivePacket.getData(), registry);
 	return message;
     }
-    protected static Exchange receiveMessage(DatagramSocket socket, int timeout) {
+    protected static Exchange receiveMessage(DatagramSocket socket, int timeout) throws IOException{
 	return receiveMessage(socket,timeout,getSimpleExchangeRegistry());
     }
 
@@ -59,7 +59,7 @@ public class ConnectionUtil {
 	return receivePacket;
     }
 
-    public static DatagramPacket receivePacket(DatagramSocket socket, int timeout) {
+    public static DatagramPacket receivePacket(DatagramSocket socket, int timeout) throws IOException{
 	DatagramPacket receivePacket = null;
 	try {
 	    socket.setSoTimeout(timeout);
@@ -67,8 +67,7 @@ public class ConnectionUtil {
 	    socket.setSoTimeout(0);
 	} catch (SocketTimeoutException e) {
 	    System.out.println("recieve timed out");
-	} catch (IOException e) {
-	    e.printStackTrace();
+	    throw e;
 	}
 	return receivePacket;
     }
