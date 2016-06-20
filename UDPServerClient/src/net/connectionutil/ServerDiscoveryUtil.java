@@ -65,12 +65,16 @@ public class ServerDiscoveryUtil extends ConnectionUtil {
     public static List<String> waitForServerResponses(int timeout) {
 	Set<String> servers = new HashSet<>();
 	while (true) {
-	    DatagramPacket receivePacket = receivePacket(getUtilSocket(), timeout);
+	    DatagramPacket receivePacket = null;
+	    try {
+		receivePacket = receivePacket(getUtilSocket(), timeout);
+	    } catch (IOException e) {
+	    }
 	    if (receivePacket == null) {
 		System.out.println("time out reached. returning");
 		break;
 	    }
-	    Exchange receiveMessage = convertMessage(receivePacket.getData(),getSimpleExchangeRegistry());
+	    Exchange receiveMessage = convertMessage(receivePacket.getData(), getSimpleExchangeRegistry());
 	    if (receiveMessage.getExtension(SimpleExchange.simpleExchange).getResponse().getResponseType().equals(ResponseType.PROBE)) {
 		servers.add(receivePacket.getAddress().getHostAddress());
 	    }
@@ -126,7 +130,10 @@ public class ServerDiscoveryUtil extends ConnectionUtil {
     public static boolean checkAddressForServer(String address, int port, int timeout) {
 	sendProbePacket(address, port);
 	Exchange receiveMessage = null;
-	receiveMessage = receiveMessage(getUtilSocket(), timeout);
+	try {
+	    receiveMessage = receiveMessage(getUtilSocket(), timeout);
+	} catch (IOException e) {
+	}
 	if (receiveMessage == null)
 	    return false;
 	return receiveMessage.getExtension(SimpleExchange.simpleExchange).getResponse().getResponseType().equals(ResponseType.PROBE);

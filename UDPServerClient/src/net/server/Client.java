@@ -98,11 +98,15 @@ public class Client extends Thread {
      */
     @Override
     public void run() {
-	while (open) {
+	while (parent.isOpen() && open) {
 	    open = isClientStillActive();
 	}
-	parent.killClient(id);
-	System.out.println("Client " + id + " closed.");
+	if (parent.isOpen()) {
+	    parent.killClient(id);
+	    System.out.println("Client " + id + " closed.");
+	} else {
+	    System.out.println("client closed with server");
+	}
     }
 
     /**
@@ -130,7 +134,9 @@ public class Client extends Thread {
 	else if (timeSinceLastComm > Config.PingSettings.CLIENT_MAX_DEAD_TIME && currentTime - lastSentPingTimestamp > Config.PingSettings.TIME_BETWEEN_PINGS) {
 	    lastSentPingTimestamp = currentTime;
 	    try {
-		ConnectionUtil.sendRequest(RequestType.CLIENT_PING, "", 0, parent.socket, address, port);
+		if (parent.isOpen()) {
+		    ConnectionUtil.sendRequest(RequestType.CLIENT_PING, "", 0, parent.socket, address, port);
+		}
 	    } catch (IOException e) {
 		e.printStackTrace();
 	    }

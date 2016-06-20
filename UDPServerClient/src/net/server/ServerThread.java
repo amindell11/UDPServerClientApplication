@@ -95,10 +95,17 @@ public class ServerThread extends Thread {
 	return open;
     }
 
-    public void update() throws IOException {
+    public void update() {
 
 	// Receive a packet
-	DatagramPacket packet = ConnectionUtil.receivePacket(socket);
+	DatagramPacket packet = null;
+	try {
+	    packet = ConnectionUtil.receivePacket(socket);
+	} catch( SocketException e){
+	    return;
+	} catch (IOException e) {
+	    e.printStackTrace();
+	}
 	System.out.println("packet recived");
 	Exchange exchange = ConnectionUtil.convertMessage(packet.getData(), knownMessageTypes);
 	// Handles simpleExchanges, otherwise sends it to UnhandledMessageHook
@@ -113,7 +120,11 @@ public class ServerThread extends Thread {
 		clients.get(exchange.getId()).handleMessage(exchange);
 	    } else {
 		System.out.println("asking secretary to handle it");
-		secretary.handleMessage(exchange, packet);
+		try {
+		    secretary.handleMessage(exchange, packet);
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
 	    }
 	    info.numClients = clients.size();
 	} else {
@@ -130,11 +141,7 @@ public class ServerThread extends Thread {
     public void run() {
 	init();
 	while (open) {
-	    try {
-		update();
-	    } catch (IOException e) {
-		e.printStackTrace();
-	    }
+	    update();
 	}
     }
 
