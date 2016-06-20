@@ -100,9 +100,9 @@ public class ClientThread extends Thread {
 		} catch (IOException e) {
 		    e.printStackTrace();
 		}
-	    } else {
-		hookManager.handleMessage(exchange);
 	    }
+	} else {
+	    hookManager.handleMessage(exchange);
 	}
     }
 
