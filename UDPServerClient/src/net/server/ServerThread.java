@@ -44,7 +44,7 @@ public class ServerThread extends Thread {
 	}
 	secretary = new ServerSecretary(this);
 	hookManager = new HookManager();
-	knownMessageTypes=ExtensionRegistry.newInstance();
+	knownMessageTypes = ExtensionRegistry.newInstance();
 	addKnownMessageType(SimpleExchange.simpleExchange);
 
     }
@@ -60,6 +60,17 @@ public class ServerThread extends Thread {
 	    clients.remove(id).close();
 	    Client.usedIds.remove(Integer.valueOf(id));
 	}
+    }
+
+    public void announceToClients(Exchange message) throws IOException {
+	for (int id : clients.keySet()) {
+	    sendMessage(message, id);
+	}
+    }
+
+    public void sendMessage(Exchange message, int clientId) throws IOException {
+	Client recipient = clients.get(clientId);
+	ConnectionUtil.sendMessage(message, socket, recipient.getAddress(), recipient.getPort());
     }
 
     public void init() {
@@ -79,15 +90,17 @@ public class ServerThread extends Thread {
     public ServerThread(int port) {
 	this("default", port);
     }
-    public boolean isOpen(){
+
+    public boolean isOpen() {
 	return open;
     }
+
     public void update() throws IOException {
 
 	// Receive a packet
 	DatagramPacket packet = ConnectionUtil.receivePacket(socket);
 	System.out.println("packet recived");
-	Exchange exchange = ConnectionUtil.convertMessage(packet.getData(),knownMessageTypes);
+	Exchange exchange = ConnectionUtil.convertMessage(packet.getData(), knownMessageTypes);
 	// Handles simpleExchanges, otherwise sends it to UnhandledMessageHook
 	if (exchange.hasExtension(SimpleExchange.simpleExchange)) {
 	    SimpleExchange msg = exchange.getExtension(SimpleExchange.simpleExchange);
@@ -108,9 +121,11 @@ public class ServerThread extends Thread {
 	}
 
     }
-    public void addKnownMessageType(Extension<?,?> extension){
+
+    public void addKnownMessageType(Extension<?, ?> extension) {
 	knownMessageTypes.add(extension);
     }
+
     @Override
     public void run() {
 	init();
@@ -136,11 +151,10 @@ public class ServerThread extends Thread {
 	return hookManager;
     }
 
-    public Client[] getClients(){
-	if(clients != null){
+    public Client[] getClients() {
+	if (clients != null) {
 	    return (Client[]) clients.values().toArray();
-	}
-	else{
+	} else {
 	    return new Client[0];
 	}
     }

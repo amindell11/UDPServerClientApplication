@@ -21,11 +21,10 @@ import net.proto.SimpleExchangeProto.SimpleExchange.SimpleExchangeResponse.Respo
 public class ClientThread extends Thread {
     HookManager hookManager;
     ExtensionRegistry knownMessageTypes;
-    
+
     String username;
     int id;
     String address;
-    // TODO switch these to a serverInfo object
     DatagramSocket socket;
     String serverAddress;
 
@@ -45,7 +44,7 @@ public class ClientThread extends Thread {
 	open = false;
 	this.address = address;
 	hookManager = new HookManager();
-	knownMessageTypes=ExtensionRegistry.newInstance();
+	knownMessageTypes = ExtensionRegistry.newInstance();
 	addKnownMessageType(SimpleExchange.simpleExchange);
     }
 
@@ -79,16 +78,20 @@ public class ClientThread extends Thread {
     }
 
     public void update() throws IOException {
-	Exchange receive = ConnectionUtil.receiveMessage(socket,knownMessageTypes);
+	Exchange receive = ConnectionUtil.receiveMessage(socket, knownMessageTypes);
 	handleMessage(receive);
     }
 
+    public void sendMessage(Exchange message) throws IOException {
+	ConnectionUtil.sendMessage(message, socket, serverAddress, serverPort);
+    }
+
     public void handleMessage(Exchange exchange) {
-	if(exchange.hasExtension(SimpleExchange.simpleExchange)){
+	if (exchange.hasExtension(SimpleExchange.simpleExchange)) {
 	    SimpleExchange message = exchange.getExtension(SimpleExchange.simpleExchange);
 	    System.out.println(message);
-	    
-	    //Responds to a ping from the server by sending a ping back
+
+	    // Responds to a ping from the server by sending a ping back
 	    if (message.hasRequest() && message.getRequest().getRequestType().equals(RequestType.CLIENT_PING)) {
 		try {
 		    System.out.println("ping recieved from server. responding");
@@ -97,8 +100,7 @@ public class ClientThread extends Thread {
 		} catch (IOException e) {
 		    e.printStackTrace();
 		}
-	    }
-	    else{
+	    } else {
 		hookManager.handleMessage(exchange);
 	    }
 	}
@@ -107,12 +109,12 @@ public class ClientThread extends Thread {
     public boolean requestClusterMembership(String serverAddress, int port) throws MembershipRequestDeniedException {
 	Exchange responseMessage = null;
 	try {
-	    ConnectionUtil.sendRequest(RequestType.CLUSTER_MEMBERSHIP_REQUEST, username,0, socket, serverAddress, port);
-	    responseMessage = ConnectionUtil.receiveMessage(socket, Config.DEFAULT_TIMEOUT,knownMessageTypes);
+	    ConnectionUtil.sendRequest(RequestType.CLUSTER_MEMBERSHIP_REQUEST, username, 0, socket, serverAddress, port);
+	    responseMessage = ConnectionUtil.receiveMessage(socket, Config.DEFAULT_TIMEOUT, knownMessageTypes);
 	} catch (IOException e) {
 
 	}
-	if (responseMessage== null) {
+	if (responseMessage == null) {
 	    throw new MembershipRequestDeniedException("Packet timed out. Server unavailable");
 	}
 
@@ -136,9 +138,11 @@ public class ClientThread extends Thread {
     public HookManager getHookManager() {
 	return hookManager;
     }
-    public void addKnownMessageType(Extension<?,?> extension){
+
+    public void addKnownMessageType(Extension<?, ?> extension) {
 	knownMessageTypes.add(extension);
     }
+
     public static void main(String[] args) throws UnknownHostException {
 	String username = "  ";
 	String address = InetAddress.getLocalHost().getHostAddress();
