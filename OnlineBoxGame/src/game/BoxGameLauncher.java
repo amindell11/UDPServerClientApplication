@@ -30,7 +30,7 @@ public class BoxGameLauncher extends ApplicationLauncher{
 	    @Override
 	    public void serverCreated(ServerThread server) {
 		server.addKnownMessageType(GameStateExchange.gameUpdate);
-		new GameServerThread(server);
+		new GameServerThread(server).start();
 	    }
 
 	});

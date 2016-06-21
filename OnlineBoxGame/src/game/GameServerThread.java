@@ -26,7 +26,7 @@ import proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUp
 public class GameServerThread extends Thread implements UnhandledMessageHook {
 	static List<Integer> usedIds;
 	private ServerThread server;
-	static int serverSendRate = 30;
+	static int serverSendRate = 1;
 	GameManager game;
 
 	/**
@@ -48,11 +48,16 @@ public class GameServerThread extends Thread implements UnhandledMessageHook {
 		}
 		GroupObjectUpdate myUpdate = GroupObjectUpdate.newBuilder().addAllObjects(updatedObjectList).build();
 
-		Exchange.newBuilder()
+		Exchange message=Exchange.newBuilder()
 				.setExtension(GameStateExchange.gameUpdate, GameStateExchange.newBuilder()
 						.setUpdatedObjectGroup(myUpdate).setPurpose(StateExchangeType.OBJECT_UPDATE).build())
 				.setId(0).build();
-
+		try {
+			server.announceToClients(message);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	public void run() {

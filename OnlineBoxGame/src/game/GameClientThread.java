@@ -86,14 +86,17 @@ public class GameClientThread extends Thread implements UnhandledMessageHook {
 				if (sourceClientId != client.getClientId()) {
 					GameObject object = new Gson().fromJson(update.getNewObject().getSchema(), GameObject.class);
 					game.objects.put(objectId, object);
-				}else{
+				} else {
 					game.clientObject.setId(objectId);
 				}
 				break;
 			case OBJECT_UPDATE:
 				List<ObjectUpdate> updatedObjects = update.getUpdatedObjectGroup().getObjectsList();
 				for (ObjectUpdate object : updatedObjects) {
-					game.objects.get(object.getObjectId()).recievePositionUpdate(object.getPosX(), object.getPosY());
+					if (game.objects.containsKey(object.getObjectId())) {
+						game.objects.get(object.getObjectId()).recievePositionUpdate(object.getPosX(),
+								object.getPosY());
+					}
 				}
 				break;
 			case STALE_OBJECT:
