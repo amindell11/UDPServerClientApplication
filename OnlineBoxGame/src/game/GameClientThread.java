@@ -54,10 +54,16 @@ public class GameClientThread extends Thread implements UnhandledMessageHook {
 	}
 
 	public void update() {
-		GroupObjectUpdate myUpdate=GroupObjectUpdate.newBuilder().addObjects(ObjectUpdate.newBuilder().setObjectId(value))
+		GroupObjectUpdate myUpdate=GroupObjectUpdate.newBuilder()
+										.addObjects(ObjectUpdate.newBuilder()
+												.setObjectId(game.clientObject.getId())
+												.setPosX(game.clientObject.getX())
+												.setPosY(game.clientObject.getY())
+										.build())
+										.build();
 		Exchange.newBuilder()
 		.setExtension(GameStateExchange.gameUpdate,
-				GameStateExchange.newBuilder().setUpdatedObjectGroup(value)()
+				GameStateExchange.newBuilder().setUpdatedObjectGroup(myUpdate)
 						.setPurpose(StateExchangeType.OBJECT_UPDATE).build())
 		.setId(client.getClientId()).build();
 	}

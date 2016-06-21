@@ -73,13 +73,18 @@ public class GameObject {
     public void render(GameContainer container, Graphics g) {
 	g.drawRect(pos.x, pos.y, width, height);
     }
-    public void setId(){
-    	
+    public void setId(int id){
+    	this.objectId=id;
     }
-    public void getId(){
-    	
+    public int getId(){
+    	return objectId;
     }
     public void applyForce(Vector2f force) {
 	this.force.add(force);	}
-
+    public int getX(){
+    	return (int) pos.x;
+    }
+    public int getY(){
+    	return (int) pos.y;
+    }
 }
