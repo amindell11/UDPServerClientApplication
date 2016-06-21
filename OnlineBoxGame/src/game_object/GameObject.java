@@ -7,7 +7,7 @@ import org.newdawn.slick.geom.Vector2f;
 public class GameObject {
     public static final float friction = .0001f;
     public static final float smooth = .01f;
-    
+    private transient int objectId;
     private float width;
     private float height;
     private float mass;
@@ -62,7 +62,9 @@ public class GameObject {
 	    v.y = 0;
 	}
     }
-
+    public void recievePositionUpdate(int x,int y){
+    	this.pos=new Vector2f(x,y);
+    }
 
     public void zero(Vector2f v){
 	v.scale(0);
@@ -71,7 +73,12 @@ public class GameObject {
     public void render(GameContainer container, Graphics g) {
 	g.drawRect(pos.x, pos.y, width, height);
     }
-
+    public void setId(){
+    	
+    }
+    public void getId(){
+    	
+    }
     public void applyForce(Vector2f force) {
 	this.force.add(force);	}
 

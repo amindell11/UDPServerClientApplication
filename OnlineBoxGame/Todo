@@ -1,6 +1,4 @@
--fix bug with id always being 22
 -add assignment of object ids by server (currently only assigns to zero)
--fix ClientThread.getId() returning a long
 -add client id to GameStateExchange messages sent by server
 -replace list<gameObject> in gameManager with a hasmap<id,object>
 -add code to act on object created notices by adding the attached object to the map in gameManager
