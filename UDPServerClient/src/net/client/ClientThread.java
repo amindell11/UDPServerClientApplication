@@ -155,7 +155,9 @@ public class ClientThread extends Thread {
     public void addKnownMessageType(Extension<?, ?> extension) {
 	knownMessageTypes.add(extension);
     }
-
+    public int getClientId(){
+	return id;
+    }
     public static void main(String[] args) throws UnknownHostException {
 	String username = "  ";
 	String address = InetAddress.getLocalHost().getHostAddress();
