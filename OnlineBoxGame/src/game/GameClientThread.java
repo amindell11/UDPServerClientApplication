@@ -17,7 +17,7 @@ import proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUp
 
 public class GameClientThread extends Thread implements UnhandledMessageHook {
 	PlayerGameManager game;
-	static int clientSendRate = 1;
+	static int clientSendRate = 50;
 	ClientThread client;
 
 	public PlayerGameManager getGame() {
@@ -77,10 +77,10 @@ public class GameClientThread extends Thread implements UnhandledMessageHook {
 	@Override
 	public void handleMessage(Exchange message) {
 		if (message.hasExtension(GameStateExchange.gameUpdate)) {
-			System.out.println(message);
 			GameStateExchange update = message.getExtension(GameStateExchange.gameUpdate);
 			switch (update.getPurpose()) {
 			case NEW_OBJECT:
+				System.out.println(message);
 				int sourceClientId = message.getId();
 				int objectId = update.getNewObject().getObjectId();
 				if (sourceClientId != client.getClientId()) {
