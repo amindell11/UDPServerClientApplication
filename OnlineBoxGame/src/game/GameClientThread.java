@@ -24,7 +24,7 @@ public class GameClientThread extends Thread implements UnhandledMessageHook {
 		client.getHookManager().addHook(this);
 		String schema=new Gson().toJson(game.clientObject,GameObject.class);
 		try {
-			client.sendMessage(GameConnectionUtil.buildNewObjectNotice((int)client.getId(), schema));//TODO fix the cast here
+			client.sendMessage(GameConnectionUtil.buildNewObjectNotice(client.getClientId(), schema));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
