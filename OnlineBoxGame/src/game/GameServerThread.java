@@ -11,8 +11,10 @@ import hooks.UnhandledMessageHook;
 import net.proto.ExchangeProto.Exchange;
 import net.server.ServerThread;
 import proto.GameStateExchangeProto.GameStateExchange;
+import proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate;
 import proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice;
 import proto.GameStateExchangeProto.GameStateExchange.StateExchangeType;
+import proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate;
 
 /**
  * This class manages the game update messages sent from clients. It recieves
@@ -26,6 +28,7 @@ public class GameServerThread extends Thread implements UnhandledMessageHook {
 	private ServerThread server;
 	static int serverSendRate = 30;
 	GameManager game;
+
 	/**
 	 * @param server
 	 *            The object running the server thread
@@ -33,10 +36,22 @@ public class GameServerThread extends Thread implements UnhandledMessageHook {
 	GameServerThread(ServerThread server) {
 		this.server = server;
 		server.getHookManager().addHook(this);
-		game=new SpectatorGameManager();
+		game = new SpectatorGameManager();
 	}
 
 	public void update() {
+		List<ObjectUpdate> updatedObjectList = new ArrayList<>();
+		for (int id : game.objects.keySet()) {
+			GameObject gameObject = game.objects.get(id);
+			updatedObjectList.add(ObjectUpdate.newBuilder().setObjectId(id).setPosX(gameObject.getX())
+					.setPosY(gameObject.getY()).build());
+		}
+		GroupObjectUpdate myUpdate = GroupObjectUpdate.newBuilder().addAllObjects(updatedObjectList).build();
+
+		Exchange.newBuilder()
+				.setExtension(GameStateExchange.gameUpdate, GameStateExchange.newBuilder()
+						.setUpdatedObjectGroup(myUpdate).setPurpose(StateExchangeType.OBJECT_UPDATE).build())
+				.setId(0).build();
 
 	}
 
@@ -60,10 +75,11 @@ public class GameServerThread extends Thread implements UnhandledMessageHook {
 			GameStateExchange update = message.getExtension(GameStateExchange.gameUpdate);
 			switch (update.getPurpose()) {
 			case NEW_OBJECT:
-				int objectId=assignObjectId();
-				GameObject object=new Gson().fromJson(update.getNewObject().getSchema(),GameObject.class);
+				int objectId = assignObjectId();
+				GameObject object = new Gson().fromJson(update.getNewObject().getSchema(), GameObject.class);
 				game.objects.put(objectId, object);
-				ObjectCreatedNotice ex = ObjectCreatedNotice.newBuilder(update.getNewObject()).setObjectId(objectId).build();
+				ObjectCreatedNotice ex = ObjectCreatedNotice.newBuilder(update.getNewObject()).setObjectId(objectId)
+						.build();
 				try {
 					server.announceToClients(Exchange.newBuilder()
 							.setExtension(GameStateExchange.gameUpdate,
@@ -75,6 +91,12 @@ public class GameServerThread extends Thread implements UnhandledMessageHook {
 				}
 				break;
 			case OBJECT_UPDATE:
+				List<ObjectUpdate> updatedObjects = update.getUpdatedObjectGroup().getObjectsList();
+				System.out.println(game.objects);
+				for (ObjectUpdate updatedObject : updatedObjects) {
+					game.objects.get(updatedObject.getObjectId()).recievePositionUpdate(updatedObject.getPosX(),
+							updatedObject.getPosY());
+				}
 				break;
 			case STALE_OBJECT:
 				break;
@@ -83,13 +105,14 @@ public class GameServerThread extends Thread implements UnhandledMessageHook {
 			}
 		}
 	}
-	public int assignObjectId(){
+
+	public int assignObjectId() {
 		if (usedIds == null) {
-		    usedIds = new ArrayList<>();
+			usedIds = new ArrayList<>();
 		}
 		int generatedId = 1;
 		while (usedIds.contains(generatedId)) {
-		    generatedId++;
+			generatedId++;
 		}
 		usedIds.add(generatedId);
 		return generatedId;

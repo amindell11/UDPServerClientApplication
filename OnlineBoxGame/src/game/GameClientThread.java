@@ -54,18 +54,20 @@ public class GameClientThread extends Thread implements UnhandledMessageHook {
 	}
 
 	public void update() {
-		GroupObjectUpdate myUpdate=GroupObjectUpdate.newBuilder()
-										.addObjects(ObjectUpdate.newBuilder()
-												.setObjectId(game.clientObject.getId())
-												.setPosX(game.clientObject.getX())
-												.setPosY(game.clientObject.getY())
-										.build())
-										.build();
-		Exchange.newBuilder()
-		.setExtension(GameStateExchange.gameUpdate,
-				GameStateExchange.newBuilder().setUpdatedObjectGroup(myUpdate)
-						.setPurpose(StateExchangeType.OBJECT_UPDATE).build())
-		.setId(client.getClientId()).build();
+		GroupObjectUpdate myUpdate = GroupObjectUpdate.newBuilder()
+				.addObjects(ObjectUpdate.newBuilder().setObjectId(game.clientObject.getId())
+						.setPosX(game.clientObject.getX()).setPosY(game.clientObject.getY()).build())
+				.build();
+		Exchange message = Exchange.newBuilder()
+				.setExtension(GameStateExchange.gameUpdate,
+						GameStateExchange.newBuilder().setUpdatedObjectGroup(myUpdate)
+								.setPurpose(StateExchangeType.OBJECT_UPDATE).build())
+				.setId(client.getClientId()).build();
+		try {
+			client.sendMessage(message);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void main(String[] args) {
@@ -75,14 +77,17 @@ public class GameClientThread extends Thread implements UnhandledMessageHook {
 	@Override
 	public void handleMessage(Exchange message) {
 		if (message.hasExtension(GameStateExchange.gameUpdate)) {
+			System.out.println(message);
 			GameStateExchange update = message.getExtension(GameStateExchange.gameUpdate);
 			switch (update.getPurpose()) {
 			case NEW_OBJECT:
 				int sourceClientId = message.getId();
+				int objectId = update.getNewObject().getObjectId();
 				if (sourceClientId != client.getClientId()) {
-					int objectId = update.getNewObject().getObjectId();
 					GameObject object = new Gson().fromJson(update.getNewObject().getSchema(), GameObject.class);
 					game.objects.put(objectId, object);
+				}else{
+					game.clientObject.setId(objectId);
 				}
 				break;
 			case OBJECT_UPDATE:

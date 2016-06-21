@@ -103,7 +103,6 @@ public class ClientThread extends Thread {
 	if (exchange.hasExtension(SimpleExchange.simpleExchange)) {
 	    SimpleExchange message = exchange.getExtension(SimpleExchange.simpleExchange);
 	    System.out.println(message);
-
 	    // Responds to a ping from the server by sending a ping back
 	    if (message.hasRequest() && message.getRequest().getRequestType().equals(RequestType.CLIENT_PING)) {
 		try {
