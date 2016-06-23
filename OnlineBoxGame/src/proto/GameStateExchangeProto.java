@@ -74,6 +74,19 @@ public final class GameStateExchangeProto {
      */
     proto.GameStateExchangeProto.GameStateExchange.ObjectHistoryOrBuilder getObjectHistoryOrBuilder();
 
+    /**
+     * <code>optional .GameStateExchange.InputState input_state = 6;</code>
+     */
+    boolean hasInputState();
+    /**
+     * <code>optional .GameStateExchange.InputState input_state = 6;</code>
+     */
+    proto.GameStateExchangeProto.GameStateExchange.InputState getInputState();
+    /**
+     * <code>optional .GameStateExchange.InputState input_state = 6;</code>
+     */
+    proto.GameStateExchangeProto.GameStateExchange.InputStateOrBuilder getInputStateOrBuilder();
+
     public proto.GameStateExchangeProto.GameStateExchange.ContentCase getContentCase();
   }
   /**
@@ -185,6 +198,20 @@ public final class GameStateExchangeProto {
               contentCase_ = 5;
               break;
             }
+            case 50: {
+              proto.GameStateExchangeProto.GameStateExchange.InputState.Builder subBuilder = null;
+              if (contentCase_ == 6) {
+                subBuilder = ((proto.GameStateExchangeProto.GameStateExchange.InputState) content_).toBuilder();
+              }
+              content_ =
+                  input.readMessage(proto.GameStateExchangeProto.GameStateExchange.InputState.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((proto.GameStateExchangeProto.GameStateExchange.InputState) content_);
+                content_ = subBuilder.buildPartial();
+              }
+              contentCase_ = 6;
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -231,6 +258,10 @@ public final class GameStateExchangeProto {
        * <code>OBJECT_HISTORY = 4;</code>
        */
       OBJECT_HISTORY(3, 4),
+      /**
+       * <code>INPUT_STATE = 5;</code>
+       */
+      INPUT_STATE(4, 5),
       ;
 
       /**
@@ -249,6 +280,10 @@ public final class GameStateExchangeProto {
        * <code>OBJECT_HISTORY = 4;</code>
        */
       public static final int OBJECT_HISTORY_VALUE = 4;
+      /**
+       * <code>INPUT_STATE = 5;</code>
+       */
+      public static final int INPUT_STATE_VALUE = 5;
 
 
       public final int getNumber() {
@@ -261,6 +296,7 @@ public final class GameStateExchangeProto {
           case 2: return OBJECT_UPDATE;
           case 3: return STALE_OBJECT;
           case 4: return OBJECT_HISTORY;
+          case 5: return INPUT_STATE;
           default: return null;
         }
       }
@@ -1539,6 +1575,870 @@ public final class GameStateExchangeProto {
 
     }
 
+    public interface InputStateOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:GameStateExchange.InputState)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <code>optional int32 object_id = 7;</code>
+       */
+      boolean hasObjectId();
+      /**
+       * <code>optional int32 object_id = 7;</code>
+       */
+      int getObjectId();
+
+      /**
+       * <code>optional int32 sequence_num = 6;</code>
+       */
+      boolean hasSequenceNum();
+      /**
+       * <code>optional int32 sequence_num = 6;</code>
+       */
+      int getSequenceNum();
+
+      /**
+       * <code>optional int32 dt = 1;</code>
+       */
+      boolean hasDt();
+      /**
+       * <code>optional int32 dt = 1;</code>
+       */
+      int getDt();
+
+      /**
+       * <code>optional bool isKeyLeft = 2;</code>
+       */
+      boolean hasIsKeyLeft();
+      /**
+       * <code>optional bool isKeyLeft = 2;</code>
+       */
+      boolean getIsKeyLeft();
+
+      /**
+       * <code>optional bool isKeyRight = 3;</code>
+       */
+      boolean hasIsKeyRight();
+      /**
+       * <code>optional bool isKeyRight = 3;</code>
+       */
+      boolean getIsKeyRight();
+
+      /**
+       * <code>optional bool isKeyUp = 4;</code>
+       */
+      boolean hasIsKeyUp();
+      /**
+       * <code>optional bool isKeyUp = 4;</code>
+       */
+      boolean getIsKeyUp();
+
+      /**
+       * <code>optional bool isKeyDown = 5;</code>
+       */
+      boolean hasIsKeyDown();
+      /**
+       * <code>optional bool isKeyDown = 5;</code>
+       */
+      boolean getIsKeyDown();
+    }
+    /**
+     * Protobuf type {@code GameStateExchange.InputState}
+     */
+    public  static final class InputState extends
+        com.google.protobuf.GeneratedMessage implements
+        // @@protoc_insertion_point(message_implements:GameStateExchange.InputState)
+        InputStateOrBuilder {
+      // Use InputState.newBuilder() to construct.
+      private InputState(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+        super(builder);
+      }
+      private InputState() {
+        objectId_ = 0;
+        sequenceNum_ = 0;
+        dt_ = 0;
+        isKeyLeft_ = false;
+        isKeyRight_ = false;
+        isKeyUp_ = false;
+        isKeyDown_ = false;
+      }
+
+      @java.lang.Override
+      public final com.google.protobuf.UnknownFieldSet
+      getUnknownFields() {
+        return this.unknownFields;
+      }
+      private InputState(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry) {
+        this();
+        int mutable_bitField0_ = 0;
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+            com.google.protobuf.UnknownFieldSet.newBuilder();
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!parseUnknownField(input, unknownFields,
+                                       extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
+              case 8: {
+                bitField0_ |= 0x00000004;
+                dt_ = input.readInt32();
+                break;
+              }
+              case 16: {
+                bitField0_ |= 0x00000008;
+                isKeyLeft_ = input.readBool();
+                break;
+              }
+              case 24: {
+                bitField0_ |= 0x00000010;
+                isKeyRight_ = input.readBool();
+                break;
+              }
+              case 32: {
+                bitField0_ |= 0x00000020;
+                isKeyUp_ = input.readBool();
+                break;
+              }
+              case 40: {
+                bitField0_ |= 0x00000040;
+                isKeyDown_ = input.readBool();
+                break;
+              }
+              case 48: {
+                bitField0_ |= 0x00000002;
+                sequenceNum_ = input.readInt32();
+                break;
+              }
+              case 56: {
+                bitField0_ |= 0x00000001;
+                objectId_ = input.readInt32();
+                break;
+              }
+            }
+          }
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw new RuntimeException(e.setUnfinishedMessage(this));
+        } catch (java.io.IOException e) {
+          throw new RuntimeException(
+              new com.google.protobuf.InvalidProtocolBufferException(
+                  e.getMessage()).setUnfinishedMessage(this));
+        } finally {
+          this.unknownFields = unknownFields.build();
+          makeExtensionsImmutable();
+        }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return proto.GameStateExchangeProto.internal_static_GameStateExchange_InputState_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return proto.GameStateExchangeProto.internal_static_GameStateExchange_InputState_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                proto.GameStateExchangeProto.GameStateExchange.InputState.class, proto.GameStateExchangeProto.GameStateExchange.InputState.Builder.class);
+      }
+
+      private int bitField0_;
+      public static final int OBJECT_ID_FIELD_NUMBER = 7;
+      private int objectId_;
+      /**
+       * <code>optional int32 object_id = 7;</code>
+       */
+      public boolean hasObjectId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional int32 object_id = 7;</code>
+       */
+      public int getObjectId() {
+        return objectId_;
+      }
+
+      public static final int SEQUENCE_NUM_FIELD_NUMBER = 6;
+      private int sequenceNum_;
+      /**
+       * <code>optional int32 sequence_num = 6;</code>
+       */
+      public boolean hasSequenceNum() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional int32 sequence_num = 6;</code>
+       */
+      public int getSequenceNum() {
+        return sequenceNum_;
+      }
+
+      public static final int DT_FIELD_NUMBER = 1;
+      private int dt_;
+      /**
+       * <code>optional int32 dt = 1;</code>
+       */
+      public boolean hasDt() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional int32 dt = 1;</code>
+       */
+      public int getDt() {
+        return dt_;
+      }
+
+      public static final int ISKEYLEFT_FIELD_NUMBER = 2;
+      private boolean isKeyLeft_;
+      /**
+       * <code>optional bool isKeyLeft = 2;</code>
+       */
+      public boolean hasIsKeyLeft() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional bool isKeyLeft = 2;</code>
+       */
+      public boolean getIsKeyLeft() {
+        return isKeyLeft_;
+      }
+
+      public static final int ISKEYRIGHT_FIELD_NUMBER = 3;
+      private boolean isKeyRight_;
+      /**
+       * <code>optional bool isKeyRight = 3;</code>
+       */
+      public boolean hasIsKeyRight() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional bool isKeyRight = 3;</code>
+       */
+      public boolean getIsKeyRight() {
+        return isKeyRight_;
+      }
+
+      public static final int ISKEYUP_FIELD_NUMBER = 4;
+      private boolean isKeyUp_;
+      /**
+       * <code>optional bool isKeyUp = 4;</code>
+       */
+      public boolean hasIsKeyUp() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional bool isKeyUp = 4;</code>
+       */
+      public boolean getIsKeyUp() {
+        return isKeyUp_;
+      }
+
+      public static final int ISKEYDOWN_FIELD_NUMBER = 5;
+      private boolean isKeyDown_;
+      /**
+       * <code>optional bool isKeyDown = 5;</code>
+       */
+      public boolean hasIsKeyDown() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>optional bool isKeyDown = 5;</code>
+       */
+      public boolean getIsKeyDown() {
+        return isKeyDown_;
+      }
+
+      private byte memoizedIsInitialized = -1;
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          output.writeInt32(1, dt_);
+        }
+        if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          output.writeBool(2, isKeyLeft_);
+        }
+        if (((bitField0_ & 0x00000010) == 0x00000010)) {
+          output.writeBool(3, isKeyRight_);
+        }
+        if (((bitField0_ & 0x00000020) == 0x00000020)) {
+          output.writeBool(4, isKeyUp_);
+        }
+        if (((bitField0_ & 0x00000040) == 0x00000040)) {
+          output.writeBool(5, isKeyDown_);
+        }
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          output.writeInt32(6, sequenceNum_);
+        }
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          output.writeInt32(7, objectId_);
+        }
+        unknownFields.writeTo(output);
+      }
+
+      public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeInt32Size(1, dt_);
+        }
+        if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeBoolSize(2, isKeyLeft_);
+        }
+        if (((bitField0_ & 0x00000010) == 0x00000010)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeBoolSize(3, isKeyRight_);
+        }
+        if (((bitField0_ & 0x00000020) == 0x00000020)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeBoolSize(4, isKeyUp_);
+        }
+        if (((bitField0_ & 0x00000040) == 0x00000040)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeBoolSize(5, isKeyDown_);
+        }
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeInt32Size(6, sequenceNum_);
+        }
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeInt32Size(7, objectId_);
+        }
+        size += unknownFields.getSerializedSize();
+        memoizedSize = size;
+        return size;
+      }
+
+      private static final long serialVersionUID = 0L;
+      public static proto.GameStateExchangeProto.GameStateExchange.InputState parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static proto.GameStateExchangeProto.GameStateExchange.InputState parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static proto.GameStateExchangeProto.GameStateExchange.InputState parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static proto.GameStateExchangeProto.GameStateExchange.InputState parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static proto.GameStateExchangeProto.GameStateExchange.InputState parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input);
+      }
+      public static proto.GameStateExchangeProto.GameStateExchange.InputState parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input, extensionRegistry);
+      }
+      public static proto.GameStateExchangeProto.GameStateExchange.InputState parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return PARSER.parseDelimitedFrom(input);
+      }
+      public static proto.GameStateExchangeProto.GameStateExchange.InputState parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      }
+      public static proto.GameStateExchangeProto.GameStateExchange.InputState parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input);
+      }
+      public static proto.GameStateExchangeProto.GameStateExchange.InputState parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input, extensionRegistry);
+      }
+
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(proto.GameStateExchangeProto.GameStateExchange.InputState prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * Protobuf type {@code GameStateExchange.InputState}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:GameStateExchange.InputState)
+          proto.GameStateExchangeProto.GameStateExchange.InputStateOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return proto.GameStateExchangeProto.internal_static_GameStateExchange_InputState_descriptor;
+        }
+
+        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return proto.GameStateExchangeProto.internal_static_GameStateExchange_InputState_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  proto.GameStateExchangeProto.GameStateExchange.InputState.class, proto.GameStateExchangeProto.GameStateExchange.InputState.Builder.class);
+        }
+
+        // Construct using proto.GameStateExchangeProto.GameStateExchange.InputState.newBuilder()
+        private Builder() {
+          maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          super(parent);
+          maybeForceBuilderInitialization();
+        }
+        private void maybeForceBuilderInitialization() {
+          if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          }
+        }
+        public Builder clear() {
+          super.clear();
+          objectId_ = 0;
+          bitField0_ = (bitField0_ & ~0x00000001);
+          sequenceNum_ = 0;
+          bitField0_ = (bitField0_ & ~0x00000002);
+          dt_ = 0;
+          bitField0_ = (bitField0_ & ~0x00000004);
+          isKeyLeft_ = false;
+          bitField0_ = (bitField0_ & ~0x00000008);
+          isKeyRight_ = false;
+          bitField0_ = (bitField0_ & ~0x00000010);
+          isKeyUp_ = false;
+          bitField0_ = (bitField0_ & ~0x00000020);
+          isKeyDown_ = false;
+          bitField0_ = (bitField0_ & ~0x00000040);
+          return this;
+        }
+
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return proto.GameStateExchangeProto.internal_static_GameStateExchange_InputState_descriptor;
+        }
+
+        public proto.GameStateExchangeProto.GameStateExchange.InputState getDefaultInstanceForType() {
+          return proto.GameStateExchangeProto.GameStateExchange.InputState.getDefaultInstance();
+        }
+
+        public proto.GameStateExchangeProto.GameStateExchange.InputState build() {
+          proto.GameStateExchangeProto.GameStateExchange.InputState result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        public proto.GameStateExchangeProto.GameStateExchange.InputState buildPartial() {
+          proto.GameStateExchangeProto.GameStateExchange.InputState result = new proto.GameStateExchangeProto.GameStateExchange.InputState(this);
+          int from_bitField0_ = bitField0_;
+          int to_bitField0_ = 0;
+          if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+            to_bitField0_ |= 0x00000001;
+          }
+          result.objectId_ = objectId_;
+          if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+            to_bitField0_ |= 0x00000002;
+          }
+          result.sequenceNum_ = sequenceNum_;
+          if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+            to_bitField0_ |= 0x00000004;
+          }
+          result.dt_ = dt_;
+          if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+            to_bitField0_ |= 0x00000008;
+          }
+          result.isKeyLeft_ = isKeyLeft_;
+          if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+            to_bitField0_ |= 0x00000010;
+          }
+          result.isKeyRight_ = isKeyRight_;
+          if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+            to_bitField0_ |= 0x00000020;
+          }
+          result.isKeyUp_ = isKeyUp_;
+          if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+            to_bitField0_ |= 0x00000040;
+          }
+          result.isKeyDown_ = isKeyDown_;
+          result.bitField0_ = to_bitField0_;
+          onBuilt();
+          return result;
+        }
+
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof proto.GameStateExchangeProto.GameStateExchange.InputState) {
+            return mergeFrom((proto.GameStateExchangeProto.GameStateExchange.InputState)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(proto.GameStateExchangeProto.GameStateExchange.InputState other) {
+          if (other == proto.GameStateExchangeProto.GameStateExchange.InputState.getDefaultInstance()) return this;
+          if (other.hasObjectId()) {
+            setObjectId(other.getObjectId());
+          }
+          if (other.hasSequenceNum()) {
+            setSequenceNum(other.getSequenceNum());
+          }
+          if (other.hasDt()) {
+            setDt(other.getDt());
+          }
+          if (other.hasIsKeyLeft()) {
+            setIsKeyLeft(other.getIsKeyLeft());
+          }
+          if (other.hasIsKeyRight()) {
+            setIsKeyRight(other.getIsKeyRight());
+          }
+          if (other.hasIsKeyUp()) {
+            setIsKeyUp(other.getIsKeyUp());
+          }
+          if (other.hasIsKeyDown()) {
+            setIsKeyDown(other.getIsKeyDown());
+          }
+          this.mergeUnknownFields(other.unknownFields);
+          onChanged();
+          return this;
+        }
+
+        public final boolean isInitialized() {
+          return true;
+        }
+
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          proto.GameStateExchangeProto.GameStateExchange.InputState parsedMessage = null;
+          try {
+            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            parsedMessage = (proto.GameStateExchangeProto.GameStateExchange.InputState) e.getUnfinishedMessage();
+            throw e;
+          } finally {
+            if (parsedMessage != null) {
+              mergeFrom(parsedMessage);
+            }
+          }
+          return this;
+        }
+        private int bitField0_;
+
+        private int objectId_ ;
+        /**
+         * <code>optional int32 object_id = 7;</code>
+         */
+        public boolean hasObjectId() {
+          return ((bitField0_ & 0x00000001) == 0x00000001);
+        }
+        /**
+         * <code>optional int32 object_id = 7;</code>
+         */
+        public int getObjectId() {
+          return objectId_;
+        }
+        /**
+         * <code>optional int32 object_id = 7;</code>
+         */
+        public Builder setObjectId(int value) {
+          bitField0_ |= 0x00000001;
+          objectId_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional int32 object_id = 7;</code>
+         */
+        public Builder clearObjectId() {
+          bitField0_ = (bitField0_ & ~0x00000001);
+          objectId_ = 0;
+          onChanged();
+          return this;
+        }
+
+        private int sequenceNum_ ;
+        /**
+         * <code>optional int32 sequence_num = 6;</code>
+         */
+        public boolean hasSequenceNum() {
+          return ((bitField0_ & 0x00000002) == 0x00000002);
+        }
+        /**
+         * <code>optional int32 sequence_num = 6;</code>
+         */
+        public int getSequenceNum() {
+          return sequenceNum_;
+        }
+        /**
+         * <code>optional int32 sequence_num = 6;</code>
+         */
+        public Builder setSequenceNum(int value) {
+          bitField0_ |= 0x00000002;
+          sequenceNum_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional int32 sequence_num = 6;</code>
+         */
+        public Builder clearSequenceNum() {
+          bitField0_ = (bitField0_ & ~0x00000002);
+          sequenceNum_ = 0;
+          onChanged();
+          return this;
+        }
+
+        private int dt_ ;
+        /**
+         * <code>optional int32 dt = 1;</code>
+         */
+        public boolean hasDt() {
+          return ((bitField0_ & 0x00000004) == 0x00000004);
+        }
+        /**
+         * <code>optional int32 dt = 1;</code>
+         */
+        public int getDt() {
+          return dt_;
+        }
+        /**
+         * <code>optional int32 dt = 1;</code>
+         */
+        public Builder setDt(int value) {
+          bitField0_ |= 0x00000004;
+          dt_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional int32 dt = 1;</code>
+         */
+        public Builder clearDt() {
+          bitField0_ = (bitField0_ & ~0x00000004);
+          dt_ = 0;
+          onChanged();
+          return this;
+        }
+
+        private boolean isKeyLeft_ ;
+        /**
+         * <code>optional bool isKeyLeft = 2;</code>
+         */
+        public boolean hasIsKeyLeft() {
+          return ((bitField0_ & 0x00000008) == 0x00000008);
+        }
+        /**
+         * <code>optional bool isKeyLeft = 2;</code>
+         */
+        public boolean getIsKeyLeft() {
+          return isKeyLeft_;
+        }
+        /**
+         * <code>optional bool isKeyLeft = 2;</code>
+         */
+        public Builder setIsKeyLeft(boolean value) {
+          bitField0_ |= 0x00000008;
+          isKeyLeft_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional bool isKeyLeft = 2;</code>
+         */
+        public Builder clearIsKeyLeft() {
+          bitField0_ = (bitField0_ & ~0x00000008);
+          isKeyLeft_ = false;
+          onChanged();
+          return this;
+        }
+
+        private boolean isKeyRight_ ;
+        /**
+         * <code>optional bool isKeyRight = 3;</code>
+         */
+        public boolean hasIsKeyRight() {
+          return ((bitField0_ & 0x00000010) == 0x00000010);
+        }
+        /**
+         * <code>optional bool isKeyRight = 3;</code>
+         */
+        public boolean getIsKeyRight() {
+          return isKeyRight_;
+        }
+        /**
+         * <code>optional bool isKeyRight = 3;</code>
+         */
+        public Builder setIsKeyRight(boolean value) {
+          bitField0_ |= 0x00000010;
+          isKeyRight_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional bool isKeyRight = 3;</code>
+         */
+        public Builder clearIsKeyRight() {
+          bitField0_ = (bitField0_ & ~0x00000010);
+          isKeyRight_ = false;
+          onChanged();
+          return this;
+        }
+
+        private boolean isKeyUp_ ;
+        /**
+         * <code>optional bool isKeyUp = 4;</code>
+         */
+        public boolean hasIsKeyUp() {
+          return ((bitField0_ & 0x00000020) == 0x00000020);
+        }
+        /**
+         * <code>optional bool isKeyUp = 4;</code>
+         */
+        public boolean getIsKeyUp() {
+          return isKeyUp_;
+        }
+        /**
+         * <code>optional bool isKeyUp = 4;</code>
+         */
+        public Builder setIsKeyUp(boolean value) {
+          bitField0_ |= 0x00000020;
+          isKeyUp_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional bool isKeyUp = 4;</code>
+         */
+        public Builder clearIsKeyUp() {
+          bitField0_ = (bitField0_ & ~0x00000020);
+          isKeyUp_ = false;
+          onChanged();
+          return this;
+        }
+
+        private boolean isKeyDown_ ;
+        /**
+         * <code>optional bool isKeyDown = 5;</code>
+         */
+        public boolean hasIsKeyDown() {
+          return ((bitField0_ & 0x00000040) == 0x00000040);
+        }
+        /**
+         * <code>optional bool isKeyDown = 5;</code>
+         */
+        public boolean getIsKeyDown() {
+          return isKeyDown_;
+        }
+        /**
+         * <code>optional bool isKeyDown = 5;</code>
+         */
+        public Builder setIsKeyDown(boolean value) {
+          bitField0_ |= 0x00000040;
+          isKeyDown_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional bool isKeyDown = 5;</code>
+         */
+        public Builder clearIsKeyDown() {
+          bitField0_ = (bitField0_ & ~0x00000040);
+          isKeyDown_ = false;
+          onChanged();
+          return this;
+        }
+
+        // @@protoc_insertion_point(builder_scope:GameStateExchange.InputState)
+      }
+
+      // @@protoc_insertion_point(class_scope:GameStateExchange.InputState)
+      private static final proto.GameStateExchangeProto.GameStateExchange.InputState DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new proto.GameStateExchangeProto.GameStateExchange.InputState();
+      }
+
+      public static proto.GameStateExchangeProto.GameStateExchange.InputState getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      @java.lang.Deprecated public static final com.google.protobuf.Parser<InputState>
+          PARSER = new com.google.protobuf.AbstractParser<InputState>() {
+        public InputState parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          try {
+            return new InputState(input, extensionRegistry);
+          } catch (RuntimeException e) {
+            if (e.getCause() instanceof
+                com.google.protobuf.InvalidProtocolBufferException) {
+              throw (com.google.protobuf.InvalidProtocolBufferException)
+                  e.getCause();
+            }
+            throw e;
+          }
+        }
+      };
+
+      public static com.google.protobuf.Parser<InputState> parser() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<InputState> getParserForType() {
+        return PARSER;
+      }
+
+      public proto.GameStateExchangeProto.GameStateExchange.InputState getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
+    }
+
     public interface GroupObjectUpdateOrBuilder extends
         // @@protoc_insertion_point(interface_extends:GameStateExchange.GroupObjectUpdate)
         com.google.protobuf.MessageOrBuilder {
@@ -1684,6 +2584,42 @@ public final class GameStateExchangeProto {
          * <code>optional int32 pos_y = 2;</code>
          */
         int getPosY();
+
+        /**
+         * <code>optional float vel_x = 5;</code>
+         */
+        boolean hasVelX();
+        /**
+         * <code>optional float vel_x = 5;</code>
+         */
+        float getVelX();
+
+        /**
+         * <code>optional float vel_y = 6;</code>
+         */
+        boolean hasVelY();
+        /**
+         * <code>optional float vel_y = 6;</code>
+         */
+        float getVelY();
+
+        /**
+         * <code>optional float force_x = 7;</code>
+         */
+        boolean hasForceX();
+        /**
+         * <code>optional float force_x = 7;</code>
+         */
+        float getForceX();
+
+        /**
+         * <code>optional float force_y = 8;</code>
+         */
+        boolean hasForceY();
+        /**
+         * <code>optional float force_y = 8;</code>
+         */
+        float getForceY();
       }
       /**
        * Protobuf type {@code GameStateExchange.GroupObjectUpdate.ObjectUpdate}
@@ -1701,6 +2637,10 @@ public final class GameStateExchangeProto {
           objectId_ = 0;
           posX_ = 0;
           posY_ = 0;
+          velX_ = 0F;
+          velY_ = 0F;
+          forceX_ = 0F;
+          forceY_ = 0F;
         }
 
         @java.lang.Override
@@ -1748,6 +2688,26 @@ public final class GameStateExchangeProto {
                 case 32: {
                   bitField0_ |= 0x00000001;
                   sequenceNum_ = input.readInt32();
+                  break;
+                }
+                case 45: {
+                  bitField0_ |= 0x00000010;
+                  velX_ = input.readFloat();
+                  break;
+                }
+                case 53: {
+                  bitField0_ |= 0x00000020;
+                  velY_ = input.readFloat();
+                  break;
+                }
+                case 61: {
+                  bitField0_ |= 0x00000040;
+                  forceX_ = input.readFloat();
+                  break;
+                }
+                case 69: {
+                  bitField0_ |= 0x00000080;
+                  forceY_ = input.readFloat();
                   break;
                 }
               }
@@ -1836,6 +2796,66 @@ public final class GameStateExchangeProto {
           return posY_;
         }
 
+        public static final int VEL_X_FIELD_NUMBER = 5;
+        private float velX_;
+        /**
+         * <code>optional float vel_x = 5;</code>
+         */
+        public boolean hasVelX() {
+          return ((bitField0_ & 0x00000010) == 0x00000010);
+        }
+        /**
+         * <code>optional float vel_x = 5;</code>
+         */
+        public float getVelX() {
+          return velX_;
+        }
+
+        public static final int VEL_Y_FIELD_NUMBER = 6;
+        private float velY_;
+        /**
+         * <code>optional float vel_y = 6;</code>
+         */
+        public boolean hasVelY() {
+          return ((bitField0_ & 0x00000020) == 0x00000020);
+        }
+        /**
+         * <code>optional float vel_y = 6;</code>
+         */
+        public float getVelY() {
+          return velY_;
+        }
+
+        public static final int FORCE_X_FIELD_NUMBER = 7;
+        private float forceX_;
+        /**
+         * <code>optional float force_x = 7;</code>
+         */
+        public boolean hasForceX() {
+          return ((bitField0_ & 0x00000040) == 0x00000040);
+        }
+        /**
+         * <code>optional float force_x = 7;</code>
+         */
+        public float getForceX() {
+          return forceX_;
+        }
+
+        public static final int FORCE_Y_FIELD_NUMBER = 8;
+        private float forceY_;
+        /**
+         * <code>optional float force_y = 8;</code>
+         */
+        public boolean hasForceY() {
+          return ((bitField0_ & 0x00000080) == 0x00000080);
+        }
+        /**
+         * <code>optional float force_y = 8;</code>
+         */
+        public float getForceY() {
+          return forceY_;
+        }
+
         private byte memoizedIsInitialized = -1;
         public final boolean isInitialized() {
           byte isInitialized = memoizedIsInitialized;
@@ -1860,6 +2880,18 @@ public final class GameStateExchangeProto {
           if (((bitField0_ & 0x00000001) == 0x00000001)) {
             output.writeInt32(4, sequenceNum_);
           }
+          if (((bitField0_ & 0x00000010) == 0x00000010)) {
+            output.writeFloat(5, velX_);
+          }
+          if (((bitField0_ & 0x00000020) == 0x00000020)) {
+            output.writeFloat(6, velY_);
+          }
+          if (((bitField0_ & 0x00000040) == 0x00000040)) {
+            output.writeFloat(7, forceX_);
+          }
+          if (((bitField0_ & 0x00000080) == 0x00000080)) {
+            output.writeFloat(8, forceY_);
+          }
           unknownFields.writeTo(output);
         }
 
@@ -1883,6 +2915,22 @@ public final class GameStateExchangeProto {
           if (((bitField0_ & 0x00000001) == 0x00000001)) {
             size += com.google.protobuf.CodedOutputStream
               .computeInt32Size(4, sequenceNum_);
+          }
+          if (((bitField0_ & 0x00000010) == 0x00000010)) {
+            size += com.google.protobuf.CodedOutputStream
+              .computeFloatSize(5, velX_);
+          }
+          if (((bitField0_ & 0x00000020) == 0x00000020)) {
+            size += com.google.protobuf.CodedOutputStream
+              .computeFloatSize(6, velY_);
+          }
+          if (((bitField0_ & 0x00000040) == 0x00000040)) {
+            size += com.google.protobuf.CodedOutputStream
+              .computeFloatSize(7, forceX_);
+          }
+          if (((bitField0_ & 0x00000080) == 0x00000080)) {
+            size += com.google.protobuf.CodedOutputStream
+              .computeFloatSize(8, forceY_);
           }
           size += unknownFields.getSerializedSize();
           memoizedSize = size;
@@ -2004,6 +3052,14 @@ public final class GameStateExchangeProto {
             bitField0_ = (bitField0_ & ~0x00000004);
             posY_ = 0;
             bitField0_ = (bitField0_ & ~0x00000008);
+            velX_ = 0F;
+            bitField0_ = (bitField0_ & ~0x00000010);
+            velY_ = 0F;
+            bitField0_ = (bitField0_ & ~0x00000020);
+            forceX_ = 0F;
+            bitField0_ = (bitField0_ & ~0x00000040);
+            forceY_ = 0F;
+            bitField0_ = (bitField0_ & ~0x00000080);
             return this;
           }
 
@@ -2044,6 +3100,22 @@ public final class GameStateExchangeProto {
               to_bitField0_ |= 0x00000008;
             }
             result.posY_ = posY_;
+            if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+              to_bitField0_ |= 0x00000010;
+            }
+            result.velX_ = velX_;
+            if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+              to_bitField0_ |= 0x00000020;
+            }
+            result.velY_ = velY_;
+            if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+              to_bitField0_ |= 0x00000040;
+            }
+            result.forceX_ = forceX_;
+            if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+              to_bitField0_ |= 0x00000080;
+            }
+            result.forceY_ = forceY_;
             result.bitField0_ = to_bitField0_;
             onBuilt();
             return result;
@@ -2071,6 +3143,18 @@ public final class GameStateExchangeProto {
             }
             if (other.hasPosY()) {
               setPosY(other.getPosY());
+            }
+            if (other.hasVelX()) {
+              setVelX(other.getVelX());
+            }
+            if (other.hasVelY()) {
+              setVelY(other.getVelY());
+            }
+            if (other.hasForceX()) {
+              setForceX(other.getForceX());
+            }
+            if (other.hasForceY()) {
+              setForceY(other.getForceY());
             }
             this.mergeUnknownFields(other.unknownFields);
             onChanged();
@@ -2224,6 +3308,134 @@ public final class GameStateExchangeProto {
           public Builder clearPosY() {
             bitField0_ = (bitField0_ & ~0x00000008);
             posY_ = 0;
+            onChanged();
+            return this;
+          }
+
+          private float velX_ ;
+          /**
+           * <code>optional float vel_x = 5;</code>
+           */
+          public boolean hasVelX() {
+            return ((bitField0_ & 0x00000010) == 0x00000010);
+          }
+          /**
+           * <code>optional float vel_x = 5;</code>
+           */
+          public float getVelX() {
+            return velX_;
+          }
+          /**
+           * <code>optional float vel_x = 5;</code>
+           */
+          public Builder setVelX(float value) {
+            bitField0_ |= 0x00000010;
+            velX_ = value;
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>optional float vel_x = 5;</code>
+           */
+          public Builder clearVelX() {
+            bitField0_ = (bitField0_ & ~0x00000010);
+            velX_ = 0F;
+            onChanged();
+            return this;
+          }
+
+          private float velY_ ;
+          /**
+           * <code>optional float vel_y = 6;</code>
+           */
+          public boolean hasVelY() {
+            return ((bitField0_ & 0x00000020) == 0x00000020);
+          }
+          /**
+           * <code>optional float vel_y = 6;</code>
+           */
+          public float getVelY() {
+            return velY_;
+          }
+          /**
+           * <code>optional float vel_y = 6;</code>
+           */
+          public Builder setVelY(float value) {
+            bitField0_ |= 0x00000020;
+            velY_ = value;
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>optional float vel_y = 6;</code>
+           */
+          public Builder clearVelY() {
+            bitField0_ = (bitField0_ & ~0x00000020);
+            velY_ = 0F;
+            onChanged();
+            return this;
+          }
+
+          private float forceX_ ;
+          /**
+           * <code>optional float force_x = 7;</code>
+           */
+          public boolean hasForceX() {
+            return ((bitField0_ & 0x00000040) == 0x00000040);
+          }
+          /**
+           * <code>optional float force_x = 7;</code>
+           */
+          public float getForceX() {
+            return forceX_;
+          }
+          /**
+           * <code>optional float force_x = 7;</code>
+           */
+          public Builder setForceX(float value) {
+            bitField0_ |= 0x00000040;
+            forceX_ = value;
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>optional float force_x = 7;</code>
+           */
+          public Builder clearForceX() {
+            bitField0_ = (bitField0_ & ~0x00000040);
+            forceX_ = 0F;
+            onChanged();
+            return this;
+          }
+
+          private float forceY_ ;
+          /**
+           * <code>optional float force_y = 8;</code>
+           */
+          public boolean hasForceY() {
+            return ((bitField0_ & 0x00000080) == 0x00000080);
+          }
+          /**
+           * <code>optional float force_y = 8;</code>
+           */
+          public float getForceY() {
+            return forceY_;
+          }
+          /**
+           * <code>optional float force_y = 8;</code>
+           */
+          public Builder setForceY(float value) {
+            bitField0_ |= 0x00000080;
+            forceY_ = value;
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>optional float force_y = 8;</code>
+           */
+          public Builder clearForceY() {
+            bitField0_ = (bitField0_ & ~0x00000080);
+            forceY_ = 0F;
             onChanged();
             return this;
           }
@@ -3249,6 +4461,7 @@ public final class GameStateExchangeProto {
       UPDATED_OBJECT_GROUP(3),
       STALE_OBJECT(4),
       OBJECT_HISTORY(5),
+      INPUT_STATE(6),
       CONTENT_NOT_SET(0);
       private int value = 0;
       private ContentCase(int value) {
@@ -3260,6 +4473,7 @@ public final class GameStateExchangeProto {
           case 3: return UPDATED_OBJECT_GROUP;
           case 4: return STALE_OBJECT;
           case 5: return OBJECT_HISTORY;
+          case 6: return INPUT_STATE;
           case 0: return CONTENT_NOT_SET;
           default: throw new java.lang.IllegalArgumentException(
             "Value is undefined for this oneof enum.");
@@ -3396,6 +4610,32 @@ public final class GameStateExchangeProto {
       return proto.GameStateExchangeProto.GameStateExchange.ObjectHistory.getDefaultInstance();
     }
 
+    public static final int INPUT_STATE_FIELD_NUMBER = 6;
+    /**
+     * <code>optional .GameStateExchange.InputState input_state = 6;</code>
+     */
+    public boolean hasInputState() {
+      return contentCase_ == 6;
+    }
+    /**
+     * <code>optional .GameStateExchange.InputState input_state = 6;</code>
+     */
+    public proto.GameStateExchangeProto.GameStateExchange.InputState getInputState() {
+      if (contentCase_ == 6) {
+         return (proto.GameStateExchangeProto.GameStateExchange.InputState) content_;
+      }
+      return proto.GameStateExchangeProto.GameStateExchange.InputState.getDefaultInstance();
+    }
+    /**
+     * <code>optional .GameStateExchange.InputState input_state = 6;</code>
+     */
+    public proto.GameStateExchangeProto.GameStateExchange.InputStateOrBuilder getInputStateOrBuilder() {
+      if (contentCase_ == 6) {
+         return (proto.GameStateExchangeProto.GameStateExchange.InputState) content_;
+      }
+      return proto.GameStateExchangeProto.GameStateExchange.InputState.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -3427,6 +4667,9 @@ public final class GameStateExchangeProto {
       if (contentCase_ == 5) {
         output.writeMessage(5, (proto.GameStateExchangeProto.GameStateExchange.ObjectHistory) content_);
       }
+      if (contentCase_ == 6) {
+        output.writeMessage(6, (proto.GameStateExchangeProto.GameStateExchange.InputState) content_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -3454,6 +4697,10 @@ public final class GameStateExchangeProto {
       if (contentCase_ == 5) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(5, (proto.GameStateExchangeProto.GameStateExchange.ObjectHistory) content_);
+      }
+      if (contentCase_ == 6) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, (proto.GameStateExchangeProto.GameStateExchange.InputState) content_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -3627,6 +4874,13 @@ public final class GameStateExchangeProto {
             result.content_ = objectHistoryBuilder_.build();
           }
         }
+        if (contentCase_ == 6) {
+          if (inputStateBuilder_ == null) {
+            result.content_ = content_;
+          } else {
+            result.content_ = inputStateBuilder_.build();
+          }
+        }
         result.bitField0_ = to_bitField0_;
         result.contentCase_ = contentCase_;
         onBuilt();
@@ -3662,6 +4916,10 @@ public final class GameStateExchangeProto {
           }
           case OBJECT_HISTORY: {
             mergeObjectHistory(other.getObjectHistory());
+            break;
+          }
+          case INPUT_STATE: {
+            mergeInputState(other.getInputState());
             break;
           }
           case CONTENT_NOT_SET: {
@@ -4294,6 +5552,142 @@ public final class GameStateExchangeProto {
         return objectHistoryBuilder_;
       }
 
+      private com.google.protobuf.SingleFieldBuilder<
+          proto.GameStateExchangeProto.GameStateExchange.InputState, proto.GameStateExchangeProto.GameStateExchange.InputState.Builder, proto.GameStateExchangeProto.GameStateExchange.InputStateOrBuilder> inputStateBuilder_;
+      /**
+       * <code>optional .GameStateExchange.InputState input_state = 6;</code>
+       */
+      public boolean hasInputState() {
+        return contentCase_ == 6;
+      }
+      /**
+       * <code>optional .GameStateExchange.InputState input_state = 6;</code>
+       */
+      public proto.GameStateExchangeProto.GameStateExchange.InputState getInputState() {
+        if (inputStateBuilder_ == null) {
+          if (contentCase_ == 6) {
+            return (proto.GameStateExchangeProto.GameStateExchange.InputState) content_;
+          }
+          return proto.GameStateExchangeProto.GameStateExchange.InputState.getDefaultInstance();
+        } else {
+          if (contentCase_ == 6) {
+            return inputStateBuilder_.getMessage();
+          }
+          return proto.GameStateExchangeProto.GameStateExchange.InputState.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .GameStateExchange.InputState input_state = 6;</code>
+       */
+      public Builder setInputState(proto.GameStateExchangeProto.GameStateExchange.InputState value) {
+        if (inputStateBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          content_ = value;
+          onChanged();
+        } else {
+          inputStateBuilder_.setMessage(value);
+        }
+        contentCase_ = 6;
+        return this;
+      }
+      /**
+       * <code>optional .GameStateExchange.InputState input_state = 6;</code>
+       */
+      public Builder setInputState(
+          proto.GameStateExchangeProto.GameStateExchange.InputState.Builder builderForValue) {
+        if (inputStateBuilder_ == null) {
+          content_ = builderForValue.build();
+          onChanged();
+        } else {
+          inputStateBuilder_.setMessage(builderForValue.build());
+        }
+        contentCase_ = 6;
+        return this;
+      }
+      /**
+       * <code>optional .GameStateExchange.InputState input_state = 6;</code>
+       */
+      public Builder mergeInputState(proto.GameStateExchangeProto.GameStateExchange.InputState value) {
+        if (inputStateBuilder_ == null) {
+          if (contentCase_ == 6 &&
+              content_ != proto.GameStateExchangeProto.GameStateExchange.InputState.getDefaultInstance()) {
+            content_ = proto.GameStateExchangeProto.GameStateExchange.InputState.newBuilder((proto.GameStateExchangeProto.GameStateExchange.InputState) content_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            content_ = value;
+          }
+          onChanged();
+        } else {
+          if (contentCase_ == 6) {
+            inputStateBuilder_.mergeFrom(value);
+          }
+          inputStateBuilder_.setMessage(value);
+        }
+        contentCase_ = 6;
+        return this;
+      }
+      /**
+       * <code>optional .GameStateExchange.InputState input_state = 6;</code>
+       */
+      public Builder clearInputState() {
+        if (inputStateBuilder_ == null) {
+          if (contentCase_ == 6) {
+            contentCase_ = 0;
+            content_ = null;
+            onChanged();
+          }
+        } else {
+          if (contentCase_ == 6) {
+            contentCase_ = 0;
+            content_ = null;
+          }
+          inputStateBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>optional .GameStateExchange.InputState input_state = 6;</code>
+       */
+      public proto.GameStateExchangeProto.GameStateExchange.InputState.Builder getInputStateBuilder() {
+        return getInputStateFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .GameStateExchange.InputState input_state = 6;</code>
+       */
+      public proto.GameStateExchangeProto.GameStateExchange.InputStateOrBuilder getInputStateOrBuilder() {
+        if ((contentCase_ == 6) && (inputStateBuilder_ != null)) {
+          return inputStateBuilder_.getMessageOrBuilder();
+        } else {
+          if (contentCase_ == 6) {
+            return (proto.GameStateExchangeProto.GameStateExchange.InputState) content_;
+          }
+          return proto.GameStateExchangeProto.GameStateExchange.InputState.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .GameStateExchange.InputState input_state = 6;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          proto.GameStateExchangeProto.GameStateExchange.InputState, proto.GameStateExchangeProto.GameStateExchange.InputState.Builder, proto.GameStateExchangeProto.GameStateExchange.InputStateOrBuilder> 
+          getInputStateFieldBuilder() {
+        if (inputStateBuilder_ == null) {
+          if (!(contentCase_ == 6)) {
+            content_ = proto.GameStateExchangeProto.GameStateExchange.InputState.getDefaultInstance();
+          }
+          inputStateBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              proto.GameStateExchangeProto.GameStateExchange.InputState, proto.GameStateExchangeProto.GameStateExchange.InputState.Builder, proto.GameStateExchangeProto.GameStateExchange.InputStateOrBuilder>(
+                  (proto.GameStateExchangeProto.GameStateExchange.InputState) content_,
+                  getParentForChildren(),
+                  isClean());
+          content_ = null;
+        }
+        contentCase_ = 6;
+        onChanged();;
+        return inputStateBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:GameStateExchange)
     }
 
@@ -4370,6 +5764,11 @@ public final class GameStateExchangeProto {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_GameStateExchange_ObjectHistory_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_GameStateExchange_InputState_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_GameStateExchange_InputState_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_GameStateExchange_GroupObjectUpdate_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -4394,7 +5793,7 @@ public final class GameStateExchangeProto {
   static {
     java.lang.String[] descriptorData = {
       "\n&proto/onlineBoxGame/GameExchange.proto" +
-      "\032\024proto/Exchange.proto\"\305\006\n\021GameStateExch" +
+      "\032\024proto/Exchange.proto\"\334\010\n\021GameStateExch" +
       "ange\0225\n\007purpose\030\001 \002(\0162$.GameStateExchang" +
       "e.StateExchangeType\022<\n\nnew_object\030\002 \001(\0132" +
       "&.GameStateExchange.ObjectCreatedNoticeH" +
@@ -4402,21 +5801,28 @@ public final class GameStateExchangeProto {
       "ateExchange.GroupObjectUpdateH\000\022>\n\014stale" +
       "_object\030\004 \001(\0132&.GameStateExchange.Object" +
       "RemovedNoticeH\000\022:\n\016object_history\030\005 \001(\0132" +
-      " .GameStateExchange.ObjectHistoryH\000\0328\n\023O",
-      "bjectCreatedNotice\022\016\n\006schema\030\001 \001(\t\022\021\n\tob" +
-      "ject_id\030\002 \001(\005\032H\n\rObjectHistory\0227\n\007object" +
-      "s\030\001 \003(\0132&.GameStateExchange.ObjectCreate" +
-      "dNotice\032\255\001\n\021GroupObjectUpdate\022B\n\007objects" +
-      "\030\002 \003(\01321.GameStateExchange.GroupObjectUp" +
-      "date.ObjectUpdate\032T\n\014ObjectUpdate\022\023\n\013seq" +
-      "uenceNum\030\004 \001(\005\022\021\n\tobject_id\030\003 \001(\005\022\r\n\005pos" +
-      "_x\030\001 \001(\005\022\r\n\005pos_y\030\002 \001(\005\032(\n\023ObjectRemoved" +
-      "Notice\022\021\n\tobject_id\030\001 \001(\005\"\\\n\021StateExchan" +
-      "geType\022\016\n\nNEW_OBJECT\020\001\022\021\n\rOBJECT_UPDATE\020",
-      "\002\022\020\n\014STALE_OBJECT\020\003\022\022\n\016OBJECT_HISTORY\020\0042" +
-      "2\n\013game_update\022\t.Exchange\030\005 \001(\0132\022.GameSt" +
-      "ateExchangeB\t\n\007contentB\037\n\005protoB\026GameSta" +
-      "teExchangeProto"
+      " .GameStateExchange.ObjectHistoryH\000\0224\n\013i",
+      "nput_state\030\006 \001(\0132\035.GameStateExchange.Inp" +
+      "utStateH\000\0328\n\023ObjectCreatedNotice\022\016\n\006sche" +
+      "ma\030\001 \001(\t\022\021\n\tobject_id\030\002 \001(\005\032H\n\rObjectHis" +
+      "tory\0227\n\007objects\030\001 \003(\0132&.GameStateExchang" +
+      "e.ObjectCreatedNotice\032\214\001\n\nInputState\022\021\n\t" +
+      "object_id\030\007 \001(\005\022\024\n\014sequence_num\030\006 \001(\005\022\n\n" +
+      "\002dt\030\001 \001(\005\022\021\n\tisKeyLeft\030\002 \001(\010\022\022\n\nisKeyRig" +
+      "ht\030\003 \001(\010\022\017\n\007isKeyUp\030\004 \001(\010\022\021\n\tisKeyDown\030\005" +
+      " \001(\010\032\356\001\n\021GroupObjectUpdate\022B\n\007objects\030\002 " +
+      "\003(\01321.GameStateExchange.GroupObjectUpdat",
+      "e.ObjectUpdate\032\224\001\n\014ObjectUpdate\022\023\n\013seque" +
+      "nceNum\030\004 \001(\005\022\021\n\tobject_id\030\003 \001(\005\022\r\n\005pos_x" +
+      "\030\001 \001(\005\022\r\n\005pos_y\030\002 \001(\005\022\r\n\005vel_x\030\005 \001(\002\022\r\n\005" +
+      "vel_y\030\006 \001(\002\022\017\n\007force_x\030\007 \001(\002\022\017\n\007force_y\030" +
+      "\010 \001(\002\032(\n\023ObjectRemovedNotice\022\021\n\tobject_i" +
+      "d\030\001 \001(\005\"m\n\021StateExchangeType\022\016\n\nNEW_OBJE" +
+      "CT\020\001\022\021\n\rOBJECT_UPDATE\020\002\022\020\n\014STALE_OBJECT\020" +
+      "\003\022\022\n\016OBJECT_HISTORY\020\004\022\017\n\013INPUT_STATE\020\00522" +
+      "\n\013game_update\022\t.Exchange\030\005 \001(\0132\022.GameSta" +
+      "teExchangeB\t\n\007contentB\037\n\005protoB\026GameStat",
+      "eExchangeProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -4436,7 +5842,7 @@ public final class GameStateExchangeProto {
     internal_static_GameStateExchange_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_GameStateExchange_descriptor,
-        new java.lang.String[] { "Purpose", "NewObject", "UpdatedObjectGroup", "StaleObject", "ObjectHistory", "Content", });
+        new java.lang.String[] { "Purpose", "NewObject", "UpdatedObjectGroup", "StaleObject", "ObjectHistory", "InputState", "Content", });
     internal_static_GameStateExchange_ObjectCreatedNotice_descriptor =
       internal_static_GameStateExchange_descriptor.getNestedTypes().get(0);
     internal_static_GameStateExchange_ObjectCreatedNotice_fieldAccessorTable = new
@@ -4449,8 +5855,14 @@ public final class GameStateExchangeProto {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_GameStateExchange_ObjectHistory_descriptor,
         new java.lang.String[] { "Objects", });
-    internal_static_GameStateExchange_GroupObjectUpdate_descriptor =
+    internal_static_GameStateExchange_InputState_descriptor =
       internal_static_GameStateExchange_descriptor.getNestedTypes().get(2);
+    internal_static_GameStateExchange_InputState_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_GameStateExchange_InputState_descriptor,
+        new java.lang.String[] { "ObjectId", "SequenceNum", "Dt", "IsKeyLeft", "IsKeyRight", "IsKeyUp", "IsKeyDown", });
+    internal_static_GameStateExchange_GroupObjectUpdate_descriptor =
+      internal_static_GameStateExchange_descriptor.getNestedTypes().get(3);
     internal_static_GameStateExchange_GroupObjectUpdate_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_GameStateExchange_GroupObjectUpdate_descriptor,
@@ -4460,9 +5872,9 @@ public final class GameStateExchangeProto {
     internal_static_GameStateExchange_GroupObjectUpdate_ObjectUpdate_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_GameStateExchange_GroupObjectUpdate_ObjectUpdate_descriptor,
-        new java.lang.String[] { "SequenceNum", "ObjectId", "PosX", "PosY", });
+        new java.lang.String[] { "SequenceNum", "ObjectId", "PosX", "PosY", "VelX", "VelY", "ForceX", "ForceY", });
     internal_static_GameStateExchange_ObjectRemovedNotice_descriptor =
-      internal_static_GameStateExchange_descriptor.getNestedTypes().get(3);
+      internal_static_GameStateExchange_descriptor.getNestedTypes().get(4);
     internal_static_GameStateExchange_ObjectRemovedNotice_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_GameStateExchange_ObjectRemovedNotice_descriptor,

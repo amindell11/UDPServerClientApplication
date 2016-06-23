@@ -8,13 +8,13 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
-import game_object.GameObject;
+import game_object.Box;
 
 /**
  * @author Ari
  */
 public class GameManager extends BasicGame {
-	Map<Integer,GameObject> objects;
+	Map<Integer,Box> objects;
 
 	public GameManager() {
 		super("Box game");
@@ -27,17 +27,12 @@ public class GameManager extends BasicGame {
 
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
-		synchronized (objects) {
-			for (GameObject object : objects.values()) {
-				object.update(container, delta);
-			}
-		}
 
 	}
 
 	public void render(GameContainer container, Graphics g) throws SlickException {
 		synchronized (objects) {
-			for (GameObject object : objects.values()) {
+			for (Box object : objects.values()) {
 				object.render(container, g);
 			}
 		}

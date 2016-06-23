@@ -12,6 +12,7 @@ message GameStateExchange {
 		OBJECT_UPDATE = 2;
 		STALE_OBJECT = 3;
 		OBJECT_HISTORY = 4;
+		INPUT_STATE = 5;
 	}
 
 	required StateExchangeType purpose = 1;
@@ -20,6 +21,7 @@ message GameStateExchange {
 		GroupObjectUpdate updated_object_group = 3;
 		ObjectRemovedNotice stale_object = 4;
 		ObjectHistory object_history = 5;
+		InputState input_state =6;
 	}
 	message ObjectCreatedNotice {
 		optional string schema = 1;
@@ -30,6 +32,16 @@ message GameStateExchange {
 		repeated ObjectCreatedNotice objects = 1;
 	}
 
+	message InputState {
+		optional int32 object_id = 7;
+		optional int32 sequence_num=6;
+		optional int32 dt = 1;
+		optional bool isKeyLeft = 2;
+		optional bool isKeyRight = 3;
+		optional bool isKeyUp = 4;
+		optional bool isKeyDown = 5;
+	}
+
 	message GroupObjectUpdate {
 		repeated ObjectUpdate objects = 2;
 		message ObjectUpdate {
@@ -37,10 +49,10 @@ message GameStateExchange {
 			optional int32 object_id = 3;
 			optional int32 pos_x = 1;
 			optional int32 pos_y = 2;
-			optional float vel_x =5;
-			optional float vel_y=6;
+			optional float vel_x = 5;
+			optional float vel_y = 6;
 			optional float force_x = 7;
-			optional float force_y=8;
+			optional float force_y = 8;
 		}
 
 	}

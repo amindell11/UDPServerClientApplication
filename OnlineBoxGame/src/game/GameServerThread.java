@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.google.gson.Gson;
 
-import game_object.GameObject;
+import game_object.Box;
 import hooks.UnhandledMessageHook;
 import net.GameConnectionUtil;
 import net.proto.ExchangeProto.Exchange;
@@ -44,7 +44,7 @@ public class GameServerThread extends Thread implements UnhandledMessageHook {
 	public void update() {
 		List<ObjectUpdate> updatedObjectList = new ArrayList<>();
 		for (int id : game.objects.keySet()) {
-			GameObject gameObject = game.objects.get(id);
+			Box gameObject = game.objects.get(id);
 			updatedObjectList.add(ObjectUpdate.newBuilder().setObjectId(id).setPosX(gameObject.getX())
 					.setPosY(gameObject.getY()).setSequenceNum(gameObject.lastSentUpdate).build());
 		}
@@ -83,7 +83,7 @@ public class GameServerThread extends Thread implements UnhandledMessageHook {
 			switch (update.getPurpose()) {
 			case NEW_OBJECT:
 				int objectId = assignObjectId();
-				GameObject object = new Gson().fromJson(update.getNewObject().getSchema(), GameObject.class);
+				Box object = new Gson().fromJson(update.getNewObject().getSchema(), Box.class);
 				game.objects.put(objectId, object);
 				try {
 					server.announceToClients(GameConnectionUtil.buildNewObjectNotice(sourceClientId, objectId,
@@ -98,7 +98,7 @@ public class GameServerThread extends Thread implements UnhandledMessageHook {
 					System.out.println(updatedObject.getObjectId());
 					if (game.objects.containsKey(updatedObject.getObjectId())) {
 						game.objects.get(updatedObject.getObjectId()).applyObjectUpdate(updatedObject);
-						game.objects.get(updatedObject.getObjectId()).lastSentUpdate=updatedObject.getSequenceNum();
+						game.objects.get(updatedObject.getObjectId()).lastSentUpdate = updatedObject.getSequenceNum();
 					}
 				}
 				break;
@@ -122,6 +122,11 @@ public class GameServerThread extends Thread implements UnhandledMessageHook {
 					e.printStackTrace();
 				}
 				break;
+			case INPUT_STATE:
+				if (game.objects.containsKey(update.getInputState().getObjectId())) {
+					game.objects.get(update.getInputState().getObjectId()).applyInput(update.getInputState());
+					System.out.println(game.objects.get(update.getInputState().getObjectId()).getX());
+				}
 			default:
 				break;
 			}
