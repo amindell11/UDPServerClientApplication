@@ -14,7 +14,7 @@ import game_object.Box;
  * @author Ari
  */
 public class GameManager extends BasicGame {
-	Map<Integer,Box> objects;
+	Map<Integer, Box> objects;
 
 	public GameManager() {
 		super("Box game");
@@ -27,7 +27,11 @@ public class GameManager extends BasicGame {
 
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
-
+		synchronized (objects) {
+			for (Box object : objects.values()) {
+				object.update(container, delta);
+			}
+		}
 	}
 
 	public void render(GameContainer container, Graphics g) throws SlickException {

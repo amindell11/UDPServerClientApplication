@@ -17,6 +17,8 @@ public class Box {
 	private float height;
 	private int x;
 	private int y;
+	private int realx;
+	private int realy;
 	private float vel;
 
 	public Box(float width, float height, float vel) {
@@ -44,9 +46,18 @@ public class Box {
 	}
 
 	public void render(GameContainer gc, Graphics g) {
-		g.drawRect(x, y, width, height);
-	}
+	//	g.drawRect(x, y, width, height);
+		g.drawRect(realx, realy, width, height);
 
+	}
+	public void update(GameContainer gc,int delta){
+		if(realx!=x){
+			realx+=(float)(x-realx)/20;
+		}
+		if(realy!=y){
+			realy+=(float)(y-realy)/20;
+		}
+	}
 	public void applyObjectUpdate(ObjectUpdate update) {
 		this.x = update.getPosX();
 		this.y = update.getPosY();

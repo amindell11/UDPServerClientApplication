@@ -15,11 +15,12 @@ public class PlayerGameManager extends GameManager {
 	public PlayerGameManager() {
 		super();
 		this.username = "";
-		clientObject = new Box(50, 50, 1f);
+		clientObject = new Box(50, 50, 2f);
 		currentInputState=collectInputState(0,clientObject.getId());
 	}
 
 	public void update(GameContainer gc, int delta) throws SlickException {
+		clientObject.update(gc, delta);
 		currentInputState=collectInputState(delta,clientObject.getId());
 	}
 
