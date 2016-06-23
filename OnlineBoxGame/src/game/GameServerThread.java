@@ -28,7 +28,7 @@ import proto.GameStateExchangeProto.GameStateExchange.StateExchangeType;
 public class GameServerThread extends Thread implements UnhandledMessageHook {
 	static List<Integer> usedIds;
 	private ServerThread server;
-	static int serverSendRate = 20;
+	static int serverSendRate = 5;
 	GameManager game;
 
 	/**
@@ -125,7 +125,7 @@ public class GameServerThread extends Thread implements UnhandledMessageHook {
 			case INPUT_STATE:
 				if (game.objects.containsKey(update.getInputState().getObjectId())) {
 					game.objects.get(update.getInputState().getObjectId()).applyInput(update.getInputState());
-					System.out.println(game.objects.get(update.getInputState().getObjectId()).getX());
+					game.objects.get(update.getInputState().getObjectId()).lastSentUpdate=update.getInputState().getSequenceNum();
 				}
 			default:
 				break;

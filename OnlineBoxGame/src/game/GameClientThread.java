@@ -63,6 +63,7 @@ public class GameClientThread extends Thread implements UnhandledMessageHook {
 		InputState.Builder collectInputState = game.currentInputState;
 		collectInputState.setSequenceNum(game.clientObject.lastSentUpdate);
 		InputState state=collectInputState.build();
+		game.clientObject.applyInput(state);
 		game.clientObject.pendingInputs.add(state);
 		Exchange message = Exchange.newBuilder()
 				.setExtension(GameStateExchange.gameUpdate,
@@ -83,7 +84,6 @@ public class GameClientThread extends Thread implements UnhandledMessageHook {
 
 	@Override
 	public void handleMessage(Exchange message) {
-		System.out.println(message);
 		if (message.hasExtension(GameStateExchange.gameUpdate)) {
 			GameStateExchange update = message.getExtension(GameStateExchange.gameUpdate);
 			switch (update.getPurpose()) {
@@ -95,7 +95,6 @@ public class GameClientThread extends Thread implements UnhandledMessageHook {
 					Box object = new Gson().fromJson(update.getNewObject().getSchema(), Box.class);
 					game.objects.put(objectId, object);
 				} else {
-					System.out.println("mine " + objectId);
 					game.clientObject.setId(objectId);
 				}
 				break;

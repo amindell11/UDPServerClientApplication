@@ -69,9 +69,11 @@ public class Box {
 	}
 
 	public void reconcile(int sequenceNum) {
+		System.out.println(pendingInputs.size());
 		Iterator<InputState> it = pendingInputs.listIterator();
 		while (it.hasNext()) {
 			InputState update = it.next();
+
 			if (update.getSequenceNum() > sequenceNum) {
 				applyInput(update);
 			} else {
