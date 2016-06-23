@@ -33,6 +33,7 @@ message GameStateExchange {
 	message GroupObjectUpdate {
 		repeated ObjectUpdate objects = 2;
 		message ObjectUpdate {
+			optional int32 sequenceNum = 4;
 			optional int32 object_id = 3;
 			optional int32 pos_x = 1;
 			optional int32 pos_y = 2;

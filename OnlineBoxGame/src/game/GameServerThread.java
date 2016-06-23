@@ -46,7 +46,7 @@ public class GameServerThread extends Thread implements UnhandledMessageHook {
 		for (int id : game.objects.keySet()) {
 			GameObject gameObject = game.objects.get(id);
 			updatedObjectList.add(ObjectUpdate.newBuilder().setObjectId(id).setPosX(gameObject.getX())
-					.setPosY(gameObject.getY()).build());
+					.setPosY(gameObject.getY()).setSequenceNum(gameObject.lastSentUpdate).build());
 		}
 		GroupObjectUpdate myUpdate = GroupObjectUpdate.newBuilder().addAllObjects(updatedObjectList).build();
 
@@ -97,8 +97,8 @@ public class GameServerThread extends Thread implements UnhandledMessageHook {
 				for (ObjectUpdate updatedObject : updatedObjects) {
 					System.out.println(updatedObject.getObjectId());
 					if (game.objects.containsKey(updatedObject.getObjectId())) {
-						game.objects.get(updatedObject.getObjectId()).recievePositionUpdate(updatedObject.getPosX(),
-								updatedObject.getPosY());
+						game.objects.get(updatedObject.getObjectId()).applyObjectUpdate(updatedObject);
+						game.objects.get(updatedObject.getObjectId()).lastSentUpdate=updatedObject.getSequenceNum();
 					}
 				}
 				break;

@@ -59,17 +59,17 @@ public class GameClientThread extends Thread implements UnhandledMessageHook {
 	}
 
 	public void update() {
-		System.out.println(game.clientObject.getId());
+		game.clientObject.lastSentUpdate++;
 		GroupObjectUpdate myUpdate = GroupObjectUpdate.newBuilder()
 				.addObjects(ObjectUpdate.newBuilder().setObjectId(game.clientObject.getId())
-						.setPosX(game.clientObject.getX()).setPosY(game.clientObject.getY()).build())
+						.setPosX(game.clientObject.getX()).setPosY(game.clientObject.getY())
+						.setSequenceNum(game.clientObject.lastSentUpdate).build())
 				.build();
 		Exchange message = Exchange.newBuilder()
 				.setExtension(GameStateExchange.gameUpdate,
 						GameStateExchange.newBuilder().setUpdatedObjectGroup(myUpdate)
 								.setPurpose(StateExchangeType.OBJECT_UPDATE).build())
 				.setId(client.getClientId()).build();
-		System.out.println(message);
 		try {
 			client.sendMessage(message);
 		} catch (IOException e) {
@@ -94,7 +94,7 @@ public class GameClientThread extends Thread implements UnhandledMessageHook {
 					GameObject object = new Gson().fromJson(update.getNewObject().getSchema(), GameObject.class);
 					game.objects.put(objectId, object);
 				} else {
-					System.out.println("mine "+objectId);
+					System.out.println("mine " + objectId);
 					game.clientObject.setId(objectId);
 				}
 				break;
@@ -102,8 +102,10 @@ public class GameClientThread extends Thread implements UnhandledMessageHook {
 				List<ObjectUpdate> updatedObjects = update.getUpdatedObjectGroup().getObjectsList();
 				for (ObjectUpdate object : updatedObjects) {
 					if (game.objects.containsKey(object.getObjectId())) {
-						game.objects.get(object.getObjectId()).recievePositionUpdate(object.getPosX(),
-								object.getPosY());
+						game.objects.get(object.getObjectId()).applyObjectUpdate(object);
+					} else if (game.clientObject.getId() == object.getObjectId()) {
+						game.clientObject.applyObjectUpdate(object);
+						game.clientObject.reconcile(object.getSequenceNum());
 					}
 				}
 				break;

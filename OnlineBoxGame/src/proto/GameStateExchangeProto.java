@@ -2,7 +2,7 @@
 // source: proto/onlineBoxGame/GameExchange.proto
 
 package proto;
-@SuppressWarnings(value = { "all" }) 
+
 public final class GameStateExchangeProto {
   private GameStateExchangeProto() {}
   public static void registerAllExtensions(
@@ -1650,6 +1650,15 @@ public final class GameStateExchangeProto {
           com.google.protobuf.MessageOrBuilder {
 
         /**
+         * <code>optional int32 sequenceNum = 4;</code>
+         */
+        boolean hasSequenceNum();
+        /**
+         * <code>optional int32 sequenceNum = 4;</code>
+         */
+        int getSequenceNum();
+
+        /**
          * <code>optional int32 object_id = 3;</code>
          */
         boolean hasObjectId();
@@ -1688,6 +1697,7 @@ public final class GameStateExchangeProto {
           super(builder);
         }
         private ObjectUpdate() {
+          sequenceNum_ = 0;
           objectId_ = 0;
           posX_ = 0;
           posY_ = 0;
@@ -1721,18 +1731,23 @@ public final class GameStateExchangeProto {
                   break;
                 }
                 case 8: {
-                  bitField0_ |= 0x00000002;
+                  bitField0_ |= 0x00000004;
                   posX_ = input.readInt32();
                   break;
                 }
                 case 16: {
-                  bitField0_ |= 0x00000004;
+                  bitField0_ |= 0x00000008;
                   posY_ = input.readInt32();
                   break;
                 }
                 case 24: {
-                  bitField0_ |= 0x00000001;
+                  bitField0_ |= 0x00000002;
                   objectId_ = input.readInt32();
+                  break;
+                }
+                case 32: {
+                  bitField0_ |= 0x00000001;
+                  sequenceNum_ = input.readInt32();
                   break;
                 }
               }
@@ -1761,13 +1776,28 @@ public final class GameStateExchangeProto {
         }
 
         private int bitField0_;
+        public static final int SEQUENCENUM_FIELD_NUMBER = 4;
+        private int sequenceNum_;
+        /**
+         * <code>optional int32 sequenceNum = 4;</code>
+         */
+        public boolean hasSequenceNum() {
+          return ((bitField0_ & 0x00000001) == 0x00000001);
+        }
+        /**
+         * <code>optional int32 sequenceNum = 4;</code>
+         */
+        public int getSequenceNum() {
+          return sequenceNum_;
+        }
+
         public static final int OBJECT_ID_FIELD_NUMBER = 3;
         private int objectId_;
         /**
          * <code>optional int32 object_id = 3;</code>
          */
         public boolean hasObjectId() {
-          return ((bitField0_ & 0x00000001) == 0x00000001);
+          return ((bitField0_ & 0x00000002) == 0x00000002);
         }
         /**
          * <code>optional int32 object_id = 3;</code>
@@ -1782,7 +1812,7 @@ public final class GameStateExchangeProto {
          * <code>optional int32 pos_x = 1;</code>
          */
         public boolean hasPosX() {
-          return ((bitField0_ & 0x00000002) == 0x00000002);
+          return ((bitField0_ & 0x00000004) == 0x00000004);
         }
         /**
          * <code>optional int32 pos_x = 1;</code>
@@ -1797,7 +1827,7 @@ public final class GameStateExchangeProto {
          * <code>optional int32 pos_y = 2;</code>
          */
         public boolean hasPosY() {
-          return ((bitField0_ & 0x00000004) == 0x00000004);
+          return ((bitField0_ & 0x00000008) == 0x00000008);
         }
         /**
          * <code>optional int32 pos_y = 2;</code>
@@ -1818,14 +1848,17 @@ public final class GameStateExchangeProto {
 
         public void writeTo(com.google.protobuf.CodedOutputStream output)
                             throws java.io.IOException {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
             output.writeInt32(1, posX_);
           }
-          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          if (((bitField0_ & 0x00000008) == 0x00000008)) {
             output.writeInt32(2, posY_);
           }
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
             output.writeInt32(3, objectId_);
+          }
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            output.writeInt32(4, sequenceNum_);
           }
           unknownFields.writeTo(output);
         }
@@ -1835,17 +1868,21 @@ public final class GameStateExchangeProto {
           if (size != -1) return size;
 
           size = 0;
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
             size += com.google.protobuf.CodedOutputStream
               .computeInt32Size(1, posX_);
           }
-          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          if (((bitField0_ & 0x00000008) == 0x00000008)) {
             size += com.google.protobuf.CodedOutputStream
               .computeInt32Size(2, posY_);
           }
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
             size += com.google.protobuf.CodedOutputStream
               .computeInt32Size(3, objectId_);
+          }
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            size += com.google.protobuf.CodedOutputStream
+              .computeInt32Size(4, sequenceNum_);
           }
           size += unknownFields.getSerializedSize();
           memoizedSize = size;
@@ -1959,12 +1996,14 @@ public final class GameStateExchangeProto {
           }
           public Builder clear() {
             super.clear();
-            objectId_ = 0;
+            sequenceNum_ = 0;
             bitField0_ = (bitField0_ & ~0x00000001);
-            posX_ = 0;
+            objectId_ = 0;
             bitField0_ = (bitField0_ & ~0x00000002);
-            posY_ = 0;
+            posX_ = 0;
             bitField0_ = (bitField0_ & ~0x00000004);
+            posY_ = 0;
+            bitField0_ = (bitField0_ & ~0x00000008);
             return this;
           }
 
@@ -1992,13 +2031,17 @@ public final class GameStateExchangeProto {
             if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
               to_bitField0_ |= 0x00000001;
             }
-            result.objectId_ = objectId_;
+            result.sequenceNum_ = sequenceNum_;
             if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
               to_bitField0_ |= 0x00000002;
             }
-            result.posX_ = posX_;
+            result.objectId_ = objectId_;
             if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
               to_bitField0_ |= 0x00000004;
+            }
+            result.posX_ = posX_;
+            if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+              to_bitField0_ |= 0x00000008;
             }
             result.posY_ = posY_;
             result.bitField0_ = to_bitField0_;
@@ -2017,6 +2060,9 @@ public final class GameStateExchangeProto {
 
           public Builder mergeFrom(proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate other) {
             if (other == proto.GameStateExchangeProto.GameStateExchange.GroupObjectUpdate.ObjectUpdate.getDefaultInstance()) return this;
+            if (other.hasSequenceNum()) {
+              setSequenceNum(other.getSequenceNum());
+            }
             if (other.hasObjectId()) {
               setObjectId(other.getObjectId());
             }
@@ -2054,12 +2100,44 @@ public final class GameStateExchangeProto {
           }
           private int bitField0_;
 
+          private int sequenceNum_ ;
+          /**
+           * <code>optional int32 sequenceNum = 4;</code>
+           */
+          public boolean hasSequenceNum() {
+            return ((bitField0_ & 0x00000001) == 0x00000001);
+          }
+          /**
+           * <code>optional int32 sequenceNum = 4;</code>
+           */
+          public int getSequenceNum() {
+            return sequenceNum_;
+          }
+          /**
+           * <code>optional int32 sequenceNum = 4;</code>
+           */
+          public Builder setSequenceNum(int value) {
+            bitField0_ |= 0x00000001;
+            sequenceNum_ = value;
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>optional int32 sequenceNum = 4;</code>
+           */
+          public Builder clearSequenceNum() {
+            bitField0_ = (bitField0_ & ~0x00000001);
+            sequenceNum_ = 0;
+            onChanged();
+            return this;
+          }
+
           private int objectId_ ;
           /**
            * <code>optional int32 object_id = 3;</code>
            */
           public boolean hasObjectId() {
-            return ((bitField0_ & 0x00000001) == 0x00000001);
+            return ((bitField0_ & 0x00000002) == 0x00000002);
           }
           /**
            * <code>optional int32 object_id = 3;</code>
@@ -2071,7 +2149,7 @@ public final class GameStateExchangeProto {
            * <code>optional int32 object_id = 3;</code>
            */
           public Builder setObjectId(int value) {
-            bitField0_ |= 0x00000001;
+            bitField0_ |= 0x00000002;
             objectId_ = value;
             onChanged();
             return this;
@@ -2080,7 +2158,7 @@ public final class GameStateExchangeProto {
            * <code>optional int32 object_id = 3;</code>
            */
           public Builder clearObjectId() {
-            bitField0_ = (bitField0_ & ~0x00000001);
+            bitField0_ = (bitField0_ & ~0x00000002);
             objectId_ = 0;
             onChanged();
             return this;
@@ -2091,7 +2169,7 @@ public final class GameStateExchangeProto {
            * <code>optional int32 pos_x = 1;</code>
            */
           public boolean hasPosX() {
-            return ((bitField0_ & 0x00000002) == 0x00000002);
+            return ((bitField0_ & 0x00000004) == 0x00000004);
           }
           /**
            * <code>optional int32 pos_x = 1;</code>
@@ -2103,7 +2181,7 @@ public final class GameStateExchangeProto {
            * <code>optional int32 pos_x = 1;</code>
            */
           public Builder setPosX(int value) {
-            bitField0_ |= 0x00000002;
+            bitField0_ |= 0x00000004;
             posX_ = value;
             onChanged();
             return this;
@@ -2112,7 +2190,7 @@ public final class GameStateExchangeProto {
            * <code>optional int32 pos_x = 1;</code>
            */
           public Builder clearPosX() {
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000004);
             posX_ = 0;
             onChanged();
             return this;
@@ -2123,7 +2201,7 @@ public final class GameStateExchangeProto {
            * <code>optional int32 pos_y = 2;</code>
            */
           public boolean hasPosY() {
-            return ((bitField0_ & 0x00000004) == 0x00000004);
+            return ((bitField0_ & 0x00000008) == 0x00000008);
           }
           /**
            * <code>optional int32 pos_y = 2;</code>
@@ -2135,7 +2213,7 @@ public final class GameStateExchangeProto {
            * <code>optional int32 pos_y = 2;</code>
            */
           public Builder setPosY(int value) {
-            bitField0_ |= 0x00000004;
+            bitField0_ |= 0x00000008;
             posY_ = value;
             onChanged();
             return this;
@@ -2144,7 +2222,7 @@ public final class GameStateExchangeProto {
            * <code>optional int32 pos_y = 2;</code>
            */
           public Builder clearPosY() {
-            bitField0_ = (bitField0_ & ~0x00000004);
+            bitField0_ = (bitField0_ & ~0x00000008);
             posY_ = 0;
             onChanged();
             return this;
@@ -4316,7 +4394,7 @@ public final class GameStateExchangeProto {
   static {
     java.lang.String[] descriptorData = {
       "\n&proto/onlineBoxGame/GameExchange.proto" +
-      "\032\024proto/Exchange.proto\"\260\006\n\021GameStateExch" +
+      "\032\024proto/Exchange.proto\"\305\006\n\021GameStateExch" +
       "ange\0225\n\007purpose\030\001 \002(\0162$.GameStateExchang" +
       "e.StateExchangeType\022<\n\nnew_object\030\002 \001(\0132" +
       "&.GameStateExchange.ObjectCreatedNoticeH" +
@@ -4328,16 +4406,17 @@ public final class GameStateExchangeProto {
       "bjectCreatedNotice\022\016\n\006schema\030\001 \001(\t\022\021\n\tob" +
       "ject_id\030\002 \001(\005\032H\n\rObjectHistory\0227\n\007object" +
       "s\030\001 \003(\0132&.GameStateExchange.ObjectCreate" +
-      "dNotice\032\230\001\n\021GroupObjectUpdate\022B\n\007objects" +
+      "dNotice\032\255\001\n\021GroupObjectUpdate\022B\n\007objects" +
       "\030\002 \003(\01321.GameStateExchange.GroupObjectUp" +
-      "date.ObjectUpdate\032?\n\014ObjectUpdate\022\021\n\tobj" +
-      "ect_id\030\003 \001(\005\022\r\n\005pos_x\030\001 \001(\005\022\r\n\005pos_y\030\002 \001" +
-      "(\005\032(\n\023ObjectRemovedNotice\022\021\n\tobject_id\030\001" +
-      " \001(\005\"\\\n\021StateExchangeType\022\016\n\nNEW_OBJECT\020" +
-      "\001\022\021\n\rOBJECT_UPDATE\020\002\022\020\n\014STALE_OBJECT\020\003\022\022",
-      "\n\016OBJECT_HISTORY\020\00422\n\013game_update\022\t.Exch" +
-      "ange\030\005 \001(\0132\022.GameStateExchangeB\t\n\007conten" +
-      "tB\037\n\005protoB\026GameStateExchangeProto"
+      "date.ObjectUpdate\032T\n\014ObjectUpdate\022\023\n\013seq" +
+      "uenceNum\030\004 \001(\005\022\021\n\tobject_id\030\003 \001(\005\022\r\n\005pos" +
+      "_x\030\001 \001(\005\022\r\n\005pos_y\030\002 \001(\005\032(\n\023ObjectRemoved" +
+      "Notice\022\021\n\tobject_id\030\001 \001(\005\"\\\n\021StateExchan" +
+      "geType\022\016\n\nNEW_OBJECT\020\001\022\021\n\rOBJECT_UPDATE\020",
+      "\002\022\020\n\014STALE_OBJECT\020\003\022\022\n\016OBJECT_HISTORY\020\0042" +
+      "2\n\013game_update\022\t.Exchange\030\005 \001(\0132\022.GameSt" +
+      "ateExchangeB\t\n\007contentB\037\n\005protoB\026GameSta" +
+      "teExchangeProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -4381,7 +4460,7 @@ public final class GameStateExchangeProto {
     internal_static_GameStateExchange_GroupObjectUpdate_ObjectUpdate_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_GameStateExchange_GroupObjectUpdate_ObjectUpdate_descriptor,
-        new java.lang.String[] { "ObjectId", "PosX", "PosY", });
+        new java.lang.String[] { "SequenceNum", "ObjectId", "PosX", "PosY", });
     internal_static_GameStateExchange_ObjectRemovedNotice_descriptor =
       internal_static_GameStateExchange_descriptor.getNestedTypes().get(3);
     internal_static_GameStateExchange_ObjectRemovedNotice_fieldAccessorTable = new
