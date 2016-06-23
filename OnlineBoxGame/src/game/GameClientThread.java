@@ -18,7 +18,7 @@ import proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice;
 
 public class GameClientThread extends Thread implements UnhandledMessageHook {
 	PlayerGameManager game;
-	static int clientSendRate = 50;
+	static int clientSendRate = 20;
 	ClientThread client;
 
 	public PlayerGameManager getGame() {
@@ -60,11 +60,11 @@ public class GameClientThread extends Thread implements UnhandledMessageHook {
 
 	public void update() {
 		game.clientObject.lastSentUpdate++;
-		GroupObjectUpdate myUpdate = GroupObjectUpdate.newBuilder()
-				.addObjects(ObjectUpdate.newBuilder().setObjectId(game.clientObject.getId())
-						.setPosX(game.clientObject.getX()).setPosY(game.clientObject.getY())
-						.setSequenceNum(game.clientObject.lastSentUpdate).build())
-				.build();
+		ObjectUpdate object = ObjectUpdate.newBuilder().setObjectId(game.clientObject.getId())
+				.setPosX(game.clientObject.getX()).setPosY(game.clientObject.getY())
+				.setSequenceNum(game.clientObject.lastSentUpdate).build();
+		GroupObjectUpdate myUpdate = GroupObjectUpdate.newBuilder().addObjects(object).build();
+		game.clientObject.sentUpdates.add(object);
 		Exchange message = Exchange.newBuilder()
 				.setExtension(GameStateExchange.gameUpdate,
 						GameStateExchange.newBuilder().setUpdatedObjectGroup(myUpdate)
@@ -77,9 +77,10 @@ public class GameClientThread extends Thread implements UnhandledMessageHook {
 		}
 	}
 
-	public static void main(String[] args) {
-		new GameClientThread(new ClientThread(null, null)).start();
-	}
+	/*
+	 * public static void main(String[] args) { new GameClientThread(new
+	 * ClientThread(null, null)).start(); }
+	 */
 
 	@Override
 	public void handleMessage(Exchange message) {

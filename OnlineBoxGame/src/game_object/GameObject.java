@@ -30,6 +30,8 @@ public class GameObject {
 		this.pos = pos.copy();
 		vel = new Vector2f(0, 0);
 		force = new Vector2f(0, 0);
+		sentUpdates = new ArrayList<ObjectUpdate>();
+		applyForce(new Vector2f(.005f, 0));
 		this.mass = mass;
 	}
 
@@ -42,10 +44,12 @@ public class GameObject {
 		Vector2f initialVelocity = vel.copy(); // initial velocity
 
 		// Friction
-		double angle = vel.getTheta();
-		Vector2f frictionForce = new Vector2f(angle);
-		frictionForce.scale(friction);
-		force.sub(frictionForce);
+		if (vel.length() > .001) {
+			double angle = vel.getTheta();
+			Vector2f frictionForce = new Vector2f(angle);
+			frictionForce.scale(friction);
+			force.sub(frictionForce);
+		}
 
 		Vector2f acceleration = force.copy().scale(1 / mass);
 		vel.add(acceleration.copy().scale(delta)); // final velocity
@@ -81,6 +85,7 @@ public class GameObject {
 	}
 
 	public void reconcile(int sequenceNum) {
+		System.out.println("Non-acknowledged inputs "+(lastSentUpdate-sequenceNum));
 		Iterator<ObjectUpdate> it = sentUpdates.listIterator();
 		while (it.hasNext()) {
 			ObjectUpdate update = it.next();
@@ -90,6 +95,11 @@ public class GameObject {
 				it.remove();
 			}
 		}
+	/*	if(sequenceNum<lastSentUpdate){
+			System.out.println(sequenceNum);
+			System.out.println(lastSentUpdate);
+			applyObjectUpdate(sentUpdates.get(sentUpdates.size()-1));
+		}*/
 	}
 
 	public void zero(Vector2f v) {

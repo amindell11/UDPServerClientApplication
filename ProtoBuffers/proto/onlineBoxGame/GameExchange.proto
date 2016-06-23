@@ -37,6 +37,10 @@ message GameStateExchange {
 			optional int32 object_id = 3;
 			optional int32 pos_x = 1;
 			optional int32 pos_y = 2;
+			optional float vel_x =5;
+			optional float vel_y=6;
+			optional float force_x = 7;
+			optional float force_y=8;
 		}
 
 	}

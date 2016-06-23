@@ -28,7 +28,7 @@ import proto.GameStateExchangeProto.GameStateExchange.StateExchangeType;
 public class GameServerThread extends Thread implements UnhandledMessageHook {
 	static List<Integer> usedIds;
 	private ServerThread server;
-	static int serverSendRate = 50;
+	static int serverSendRate = 20;
 	GameManager game;
 
 	/**
