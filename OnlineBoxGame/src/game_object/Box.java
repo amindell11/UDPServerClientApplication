@@ -83,6 +83,7 @@ public class Box {
 		System.out.println(pendingInputs.size());
 		Iterator<InputState> it = pendingInputs.listIterator();
 		while (it.hasNext()) {
+		    	//ConcurrentModification error happens here
 			InputState update = it.next();
 
 			if (update.getSequenceNum() > sequenceNum) {

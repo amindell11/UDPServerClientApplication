@@ -26,123 +26,129 @@ import proto.GameStateExchangeProto.GameStateExchange.StateExchangeType;
  *
  */
 public class GameServerThread extends Thread implements UnhandledMessageHook {
-	static List<Integer> usedIds;
-	private ServerThread server;
-	static int serverSendRate = 1;
-	GameManager game;
+    static List<Integer> usedIds;
+    private ServerThread server;
+    static int serverSendRate = 1;
+    GameManager game;
 
-	/**
-	 * @param server
-	 *            The object running the server thread
-	 */
-	GameServerThread(ServerThread server) {
-		this.server = server;
-		server.getHookManager().addHook(this);
-		game = new SpectatorGameManager();
+    /**
+     * @param server
+     *            The object running the server thread
+     */
+    GameServerThread(ServerThread server) {
+	this.server = server;
+	server.getHookManager().addHook(this);
+	game = new SpectatorGameManager();
+    }
+
+    public void update() {
+	List<ObjectUpdate> updatedObjectList = new ArrayList<>();
+	for (int id : game.objects.keySet()) {
+	    Box gameObject = game.objects.get(id);
+	    updatedObjectList.add(ObjectUpdate.newBuilder().setObjectId(id).setPosX(gameObject.getX())
+		    .setPosY(gameObject.getY()).setSequenceNum(gameObject.lastSentUpdate).build());
+	}
+	GroupObjectUpdate myUpdate = GroupObjectUpdate.newBuilder().addAllObjects(updatedObjectList).build();
+
+	Exchange message = Exchange.newBuilder()
+		.setExtension(GameStateExchange.gameUpdate, GameStateExchange.newBuilder()
+			.setUpdatedObjectGroup(myUpdate).setPurpose(StateExchangeType.OBJECT_UPDATE).build())
+		.setId(0).build();
+	try {
+	    server.announceToClients(message);
+	} catch (IOException e) {
+	    e.printStackTrace();
 	}
 
-	public void update() {
-		List<ObjectUpdate> updatedObjectList = new ArrayList<>();
-		for (int id : game.objects.keySet()) {
-			Box gameObject = game.objects.get(id);
-			updatedObjectList.add(ObjectUpdate.newBuilder().setObjectId(id).setPosX(gameObject.getX())
-					.setPosY(gameObject.getY()).setSequenceNum(gameObject.lastSentUpdate).build());
-		}
-		GroupObjectUpdate myUpdate = GroupObjectUpdate.newBuilder().addAllObjects(updatedObjectList).build();
+    }
 
-		Exchange message = Exchange.newBuilder()
-				.setExtension(GameStateExchange.gameUpdate, GameStateExchange.newBuilder()
-						.setUpdatedObjectGroup(myUpdate).setPurpose(StateExchangeType.OBJECT_UPDATE).build())
-				.setId(0).build();
+    public void run() {
+	while (server.isOpen()) {
+	    long mimimumUpdateTime = 1000 / serverSendRate;
+	    long oldTime = System.currentTimeMillis();
+	    update();
+	    long timeElapsed = System.currentTimeMillis() - oldTime;
+	    if (timeElapsed < mimimumUpdateTime) {
 		try {
-			server.announceToClients(message);
+		    Thread.sleep(mimimumUpdateTime - timeElapsed);
+		} catch (InterruptedException e) {
+		    e.printStackTrace();
+		}
+	    }
+
+	}
+
+    }
+
+    @Override
+    public void handleMessage(Exchange message) {
+	if (message.hasExtension(GameStateExchange.gameUpdate)) {
+	    int sourceClientId = message.getId();
+	    GameStateExchange update = message.getExtension(GameStateExchange.gameUpdate);
+	    switch (update.getPurpose()) {
+	    case NEW_OBJECT:
+		int objectId = assignObjectId();
+		Box object = new Gson().fromJson(update.getNewObject().getSchema(), Box.class);
+		game.objects.put(objectId, object);
+		try {
+		    server.announceToClients(GameConnectionUtil.buildNewObjectNotice(sourceClientId, objectId,
+			    update.getNewObject().getSchema()));
 		} catch (IOException e) {
-			e.printStackTrace();
+		    e.printStackTrace();
 		}
-
+		break;
+	    case OBJECT_UPDATE:
+		List<ObjectUpdate> updatedObjects = update.getUpdatedObjectGroup().getObjectsList();
+		for (ObjectUpdate updatedObject : updatedObjects) {
+		    System.out.println(updatedObject.getObjectId());
+		    if (game.objects.containsKey(updatedObject.getObjectId())) {
+			game.objects.get(updatedObject.getObjectId()).applyObjectUpdate(updatedObject);
+			game.objects.get(updatedObject.getObjectId()).lastSentUpdate = updatedObject.getSequenceNum();
+		    }
+		}
+		break;
+	    case STALE_OBJECT:
+		break;
+	    case OBJECT_HISTORY:
+		List<ObjectCreatedNotice> newObjects = new ArrayList<>();
+		for (int id : game.objects.keySet()) {
+		    String schema = new Gson().toJson(game.objects.get(id));
+		    newObjects.add(ObjectCreatedNotice.newBuilder().setObjectId(id).setSchema(schema).build());
+		}
+		Exchange response = Exchange.newBuilder()
+			.setExtension(GameStateExchange.gameUpdate,
+				GameStateExchange.newBuilder()
+					.setObjectHistory(ObjectHistory.newBuilder().addAllObjects(newObjects).build())
+					.setPurpose(StateExchangeType.OBJECT_HISTORY).build())
+			.setId(0).build();
+		try {
+		    server.sendMessage(response, message.getId());
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
+		break;
+	    case INPUT_STATE:
+		if (game.objects.containsKey(update.getInputState().getObjectId())) {
+		    game.objects.get(update.getInputState().getObjectId()).applyInput(update.getInputState());
+		    game.objects.get(update.getInputState().getObjectId()).lastSentUpdate = update.getInputState()
+			    .getSequenceNum();
+		}
+	    default:
+		break;
+	    }
 	}
+    }
 
-	public void run() {
-		long startTime = System.currentTimeMillis();
-		while (server.isOpen()) {
-			long currentTime = System.currentTimeMillis();
-			if (currentTime - startTime > 1000 / serverSendRate) {
-				startTime = currentTime;
-				update();
-			}
-
-		}
-
+    public int assignObjectId() {
+	if (usedIds == null) {
+	    usedIds = new ArrayList<>();
 	}
-
-	@Override
-	public void handleMessage(Exchange message) {
-		if (message.hasExtension(GameStateExchange.gameUpdate)) {
-			int sourceClientId = message.getId();
-			GameStateExchange update = message.getExtension(GameStateExchange.gameUpdate);
-			switch (update.getPurpose()) {
-			case NEW_OBJECT:
-				int objectId = assignObjectId();
-				Box object = new Gson().fromJson(update.getNewObject().getSchema(), Box.class);
-				game.objects.put(objectId, object);
-				try {
-					server.announceToClients(GameConnectionUtil.buildNewObjectNotice(sourceClientId, objectId,
-							update.getNewObject().getSchema()));
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				break;
-			case OBJECT_UPDATE:
-				List<ObjectUpdate> updatedObjects = update.getUpdatedObjectGroup().getObjectsList();
-				for (ObjectUpdate updatedObject : updatedObjects) {
-					System.out.println(updatedObject.getObjectId());
-					if (game.objects.containsKey(updatedObject.getObjectId())) {
-						game.objects.get(updatedObject.getObjectId()).applyObjectUpdate(updatedObject);
-						game.objects.get(updatedObject.getObjectId()).lastSentUpdate = updatedObject.getSequenceNum();
-					}
-				}
-				break;
-			case STALE_OBJECT:
-				break;
-			case OBJECT_HISTORY:
-				List<ObjectCreatedNotice> newObjects = new ArrayList<>();
-				for (int id : game.objects.keySet()) {
-					String schema = new Gson().toJson(game.objects.get(id));
-					newObjects.add(ObjectCreatedNotice.newBuilder().setObjectId(id).setSchema(schema).build());
-				}
-				Exchange response = Exchange.newBuilder()
-						.setExtension(GameStateExchange.gameUpdate,
-								GameStateExchange.newBuilder()
-										.setObjectHistory(ObjectHistory.newBuilder().addAllObjects(newObjects).build())
-										.setPurpose(StateExchangeType.OBJECT_HISTORY).build())
-						.setId(0).build();
-				try {
-					server.sendMessage(response, message.getId());
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				break;
-			case INPUT_STATE:
-				if (game.objects.containsKey(update.getInputState().getObjectId())) {
-					game.objects.get(update.getInputState().getObjectId()).applyInput(update.getInputState());
-					game.objects.get(update.getInputState().getObjectId()).lastSentUpdate=update.getInputState().getSequenceNum();
-				}
-			default:
-				break;
-			}
-		}
+	int generatedId = 1;
+	while (usedIds.contains(generatedId)) {
+	    generatedId++;
 	}
+	usedIds.add(generatedId);
+	return generatedId;
 
-	public int assignObjectId() {
-		if (usedIds == null) {
-			usedIds = new ArrayList<>();
-		}
-		int generatedId = 1;
-		while (usedIds.contains(generatedId)) {
-			generatedId++;
-		}
-		usedIds.add(generatedId);
-		return generatedId;
-
-	}
+    }
 }

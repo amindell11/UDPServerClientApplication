@@ -47,13 +47,25 @@ public class GameClientThread extends Thread implements UnhandledMessageHook {
 
 		long startTime = System.currentTimeMillis();
 		while (client.isActiveMember()) {
-			long currentTime = System.currentTimeMillis();
-			if (currentTime - startTime > 1000 / clientSendRate) {
-				startTime = currentTime;
-				synchronized (game.objects) {
-					update((int) (currentTime - startTime));
-				}
+		    	long currentTime = System.currentTimeMillis();
+			long timeSinceLastUpdate = currentTime - startTime;
+			long mimimumUpdateTime = 1000 / clientSendRate;
+			
+			if(timeSinceLastUpdate < mimimumUpdateTime){
+			    try {
+				Thread.sleep(mimimumUpdateTime - timeSinceLastUpdate);
+			    } catch (InterruptedException e) {
+				e.printStackTrace();
+			    }
 			}
+				
+			currentTime = System.currentTimeMillis();
+			synchronized (game.objects) {
+				update((int) (currentTime - startTime));
+			}
+			
+			startTime = currentTime;
+			
 
 		}
 	}
