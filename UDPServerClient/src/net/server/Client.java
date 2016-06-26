@@ -98,8 +98,23 @@ public class Client extends Thread {
      */
     @Override
     public void run() {
-	while (parent.isOpen() && open) {
+	long timeSinceLastComm = 0;
+	while (parent.isOpen() && open) {   
+	   
+	    System.out.println(timeSinceLastComm);
+	    do{ 
+		try {
+		    Thread.sleep(Config.PingSettings.CLIENT_MAX_DEAD_TIME - timeSinceLastComm);
+		} catch (InterruptedException e) {
+		    e.printStackTrace();
+		}
+		timeSinceLastComm = System.currentTimeMillis() - lastCommTimestamp;
+	    }
+	    while(timeSinceLastComm < Config.PingSettings.CLIENT_MAX_DEAD_TIME);
+	    
 	    open = isClientStillActive();
+	    timeSinceLastComm = System.currentTimeMillis() - lastCommTimestamp;
+
 	}
 	if (parent.isOpen()) {
 	    parent.killClient(id);
@@ -108,41 +123,38 @@ public class Client extends Thread {
 	    System.out.println("client closed with server");
 	}
     }
+    
+    
 
     /**
      * Sends messages to the client represented by this object to check if it is
      * still connected to the server.
      * 
-     * @return False if the client has timed out, True if the client has not yet
-     *         timed out. Note a true value can be returned even if the client
-     *         has disconnected.
-     */
+     * @return False if the client has timed out, True if the client is still on
+     **/
     private boolean isClientStillActive() {
-	long currentTime = System.currentTimeMillis();
-	long timeSinceLastComm = currentTime - lastCommTimestamp;
-
-	// If this is true, kill the thread by returning false
-	// The thread has been unresponsive for more than 20 seconds
-	if (timeSinceLastComm > Config.PingSettings.TOTAL_WAIT) {
-	    return false;
-	}
-
-	// Ping the client if the time since last communication is more than 10
-	// seconds
-	// Also don't ping again if we already sent a ping less than a second
-	// ago
-	else if (timeSinceLastComm > Config.PingSettings.CLIENT_MAX_DEAD_TIME && currentTime - lastSentPingTimestamp > Config.PingSettings.TIME_BETWEEN_PINGS) {
-	    lastSentPingTimestamp = currentTime;
+	long pingStart = System.currentTimeMillis();
+	for(int i = 0; i < Config.PingSettings.NUMBER_OF_PINGS; i++){
 	    try {
-		if (parent.isOpen()) {
-		    ConnectionUtil.sendRequest(RequestType.CLIENT_PING, "", 0, parent.socket, address, port);
-		}
+		ConnectionUtil.sendRequest(RequestType.CLIENT_PING, "", 0, parent.socket, address, port);
 	    } catch (IOException e) {
 		e.printStackTrace();
 	    }
+	    try {
+		Thread.sleep(Config.PingSettings.TIME_BETWEEN_PINGS);
+	    } catch (InterruptedException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
 	}
-	return true;
+	try {
+	    Thread.sleep(Config.DEFAULT_TIMEOUT);
+	} catch (InterruptedException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
 
+	return lastCommTimestamp > pingStart;
     }
 
     /**
