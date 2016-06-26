@@ -21,7 +21,7 @@ public class PlayerGameManager extends GameManager {
 
 	public void update(GameContainer gc, int delta) throws SlickException {
 		super.update(gc, delta);
-		clientObject.update(gc, delta);
+		clientObject.update(gc, delta, objects);
 		currentInputState=collectInputState(delta,clientObject.getId());
 	}
 

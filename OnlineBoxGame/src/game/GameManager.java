@@ -29,7 +29,7 @@ public class GameManager extends BasicGame {
 	public void update(GameContainer container, int delta) throws SlickException {
 		synchronized (objects) {
 			for (Box object : objects.values()) {
-				object.update(container, delta);
+				object.update(container, delta, objects);
 			}
 		}
 	}
