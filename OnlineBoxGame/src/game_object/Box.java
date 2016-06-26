@@ -17,7 +17,7 @@ public class Box {
 	private float height;
 	private int x;
 	private int y;
-	private int realx;
+	public int realx;
 	private int realy;
 	private float vel;
 
@@ -46,18 +46,19 @@ public class Box {
 	}
 
 	public void render(GameContainer gc, Graphics g) {
-	//	g.drawRect(x, y, width, height);
 		g.drawRect(realx, realy, width, height);
 
 	}
-	public void update(GameContainer gc,int delta){
-		if(realx!=x){
-			realx+=(float)(x-realx)/20;
+
+	public void update(GameContainer gc, int delta) {
+		if (realx != x) {
+			realx += (float) (x - realx) / 20;
 		}
-		if(realy!=y){
-			realy+=(float)(y-realy)/20;
+		if (realy != y) {
+			realy += (float) (y - realy) / 20;
 		}
 	}
+
 	public void applyObjectUpdate(ObjectUpdate update) {
 		this.x = update.getPosX();
 		this.y = update.getPosY();
@@ -80,16 +81,17 @@ public class Box {
 	}
 
 	public void reconcile(int sequenceNum) {
-		System.out.println(pendingInputs.size());
-		Iterator<InputState> it = pendingInputs.listIterator();
-		while (it.hasNext()) {
-		    	//ConcurrentModification error happens here
-			InputState update = it.next();
+		synchronized (pendingInputs) {
+			Iterator<InputState> it = pendingInputs.listIterator();
+			while (it.hasNext()) {
+				// ConcurrentModification error happens here
+				InputState update = it.next();
 
-			if (update.getSequenceNum() > sequenceNum) {
-				applyInput(update);
-			} else {
-				it.remove();
+				if (update.getSequenceNum() > sequenceNum) {
+					applyInput(update);
+				} else {
+					it.remove();
+				}
 			}
 		}
 

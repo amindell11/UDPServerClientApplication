@@ -28,7 +28,7 @@ import proto.GameStateExchangeProto.GameStateExchange.StateExchangeType;
 public class GameServerThread extends Thread implements UnhandledMessageHook {
     static List<Integer> usedIds;
     private ServerThread server;
-    static int serverSendRate = 1;
+    static int serverSendRate = 30;
     GameManager game;
 
     /**
@@ -54,6 +54,7 @@ public class GameServerThread extends Thread implements UnhandledMessageHook {
 		.setExtension(GameStateExchange.gameUpdate, GameStateExchange.newBuilder()
 			.setUpdatedObjectGroup(myUpdate).setPurpose(StateExchangeType.OBJECT_UPDATE).build())
 		.setId(0).build();
+	this.setName("GameServerThread");
 	try {
 	    server.announceToClients(message);
 	} catch (IOException e) {
@@ -100,7 +101,6 @@ public class GameServerThread extends Thread implements UnhandledMessageHook {
 	    case OBJECT_UPDATE:
 		List<ObjectUpdate> updatedObjects = update.getUpdatedObjectGroup().getObjectsList();
 		for (ObjectUpdate updatedObject : updatedObjects) {
-		    System.out.println(updatedObject.getObjectId());
 		    if (game.objects.containsKey(updatedObject.getObjectId())) {
 			game.objects.get(updatedObject.getObjectId()).applyObjectUpdate(updatedObject);
 			game.objects.get(updatedObject.getObjectId()).lastSentUpdate = updatedObject.getSequenceNum();

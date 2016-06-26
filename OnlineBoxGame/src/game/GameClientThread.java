@@ -18,7 +18,7 @@ import proto.GameStateExchangeProto.GameStateExchange.StateExchangeType;
 
 public class GameClientThread extends Thread implements UnhandledMessageHook {
 	PlayerGameManager game;
-	static int clientSendRate = 20;
+	static int clientSendRate = 30;
 	ClientThread client;
 
 	public PlayerGameManager getGame() {
@@ -38,6 +38,7 @@ public class GameClientThread extends Thread implements UnhandledMessageHook {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		this.setName("GameClientThread");
 		this.client = client;
 	}
 
