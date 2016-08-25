@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.google.gson.Gson;
 
+import game_object.Box;
 import game_object.GameObject;
 import hooks.UnhandledMessageHook;
 import net.GameConnectionUtil;
@@ -83,11 +84,11 @@ public class GameServerThread extends Thread implements UnhandledMessageHook {
 			switch (update.getPurpose()) {
 			case NEW_OBJECT:
 				int objectId = assignObjectId();
-				GameObject object = new Gson().fromJson(update.getNewObject().getSchema(), GameObject.class);
+				GameObject object = GameConnectionUtil.decodeNewObjectNotice(update.getNewObject().getSchema(), update.getNewObject().getType());
 				game.objects.put(objectId, object);
 				try {
 					server.announceToClients(GameConnectionUtil.buildNewObjectNotice(sourceClientId, objectId,
-							update.getNewObject().getSchema()));
+							update.getNewObject().getSchema(),update.getNewObject().getType()));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -97,8 +98,8 @@ public class GameServerThread extends Thread implements UnhandledMessageHook {
 				for (ObjectUpdate updatedObject : updatedObjects) {
 					System.out.println(updatedObject.getObjectId());
 					if (game.objects.containsKey(updatedObject.getObjectId())) {
-						game.objects.get(updatedObject.getObjectId()).recievePositionUpdate(updatedObject.getPosX(),
-								updatedObject.getPosY());
+						game.objects.get(updatedObject.getObjectId()).recievePositionUpdate((float)updatedObject.getPosX(),
+								(float)updatedObject.getPosY());
 					}
 				}
 				break;

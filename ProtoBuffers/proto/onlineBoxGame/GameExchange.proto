@@ -22,8 +22,13 @@ message GameStateExchange {
 		ObjectHistory object_history = 5;
 	}
 	message ObjectCreatedNotice {
+		enum GameObjectType{
+			GAME_OBJECT=1;
+			GAME_OBJECT_CHILD=2;
+		}
 		optional string schema = 1;
 		optional int32 object_id = 2;
+		optional GameObjectType type = 3;
 	}
 
 	message ObjectHistory {
@@ -34,8 +39,8 @@ message GameStateExchange {
 		repeated ObjectUpdate objects = 2;
 		message ObjectUpdate {
 			optional int32 object_id = 3;
-			optional int32 pos_x = 1;
-			optional int32 pos_y = 2;
+			optional double pos_x = 1;
+			optional double pos_y = 2;
 		}
 
 	}

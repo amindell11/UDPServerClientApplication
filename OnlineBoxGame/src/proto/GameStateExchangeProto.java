@@ -2,7 +2,7 @@
 // source: proto/onlineBoxGame/GameExchange.proto
 
 package proto;
-@SuppressWarnings(value = { "all" }) 
+
 public final class GameStateExchangeProto {
   private GameStateExchangeProto() {}
   public static void registerAllExtensions(
@@ -338,6 +338,15 @@ public final class GameStateExchangeProto {
        * <code>optional int32 object_id = 2;</code>
        */
       int getObjectId();
+
+      /**
+       * <code>optional .GameStateExchange.ObjectCreatedNotice.GameObjectType type = 3;</code>
+       */
+      boolean hasType();
+      /**
+       * <code>optional .GameStateExchange.ObjectCreatedNotice.GameObjectType type = 3;</code>
+       */
+      proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice.GameObjectType getType();
     }
     /**
      * Protobuf type {@code GameStateExchange.ObjectCreatedNotice}
@@ -353,6 +362,7 @@ public final class GameStateExchangeProto {
       private ObjectCreatedNotice() {
         schema_ = "";
         objectId_ = 0;
+        type_ = 1;
       }
 
       @java.lang.Override
@@ -393,6 +403,17 @@ public final class GameStateExchangeProto {
                 objectId_ = input.readInt32();
                 break;
               }
+              case 24: {
+                int rawValue = input.readEnum();
+                proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice.GameObjectType value = proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice.GameObjectType.valueOf(rawValue);
+                if (value == null) {
+                  unknownFields.mergeVarintField(3, rawValue);
+                } else {
+                  bitField0_ |= 0x00000004;
+                  type_ = rawValue;
+                }
+                break;
+              }
             }
           }
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -416,6 +437,90 @@ public final class GameStateExchangeProto {
         return proto.GameStateExchangeProto.internal_static_GameStateExchange_ObjectCreatedNotice_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice.class, proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice.Builder.class);
+      }
+
+      /**
+       * Protobuf enum {@code GameStateExchange.ObjectCreatedNotice.GameObjectType}
+       */
+      public enum GameObjectType
+          implements com.google.protobuf.ProtocolMessageEnum {
+        /**
+         * <code>GAME_OBJECT = 1;</code>
+         */
+        GAME_OBJECT(0, 1),
+        /**
+         * <code>GAME_OBJECT_CHILD = 2;</code>
+         */
+        GAME_OBJECT_CHILD(1, 2),
+        ;
+
+        /**
+         * <code>GAME_OBJECT = 1;</code>
+         */
+        public static final int GAME_OBJECT_VALUE = 1;
+        /**
+         * <code>GAME_OBJECT_CHILD = 2;</code>
+         */
+        public static final int GAME_OBJECT_CHILD_VALUE = 2;
+
+
+        public final int getNumber() {
+          return value;
+        }
+
+        public static GameObjectType valueOf(int value) {
+          switch (value) {
+            case 1: return GAME_OBJECT;
+            case 2: return GAME_OBJECT_CHILD;
+            default: return null;
+          }
+        }
+
+        public static com.google.protobuf.Internal.EnumLiteMap<GameObjectType>
+            internalGetValueMap() {
+          return internalValueMap;
+        }
+        private static final com.google.protobuf.Internal.EnumLiteMap<
+            GameObjectType> internalValueMap =
+              new com.google.protobuf.Internal.EnumLiteMap<GameObjectType>() {
+                public GameObjectType findValueByNumber(int number) {
+                  return GameObjectType.valueOf(number);
+                }
+              };
+
+        public final com.google.protobuf.Descriptors.EnumValueDescriptor
+            getValueDescriptor() {
+          return getDescriptor().getValues().get(index);
+        }
+        public final com.google.protobuf.Descriptors.EnumDescriptor
+            getDescriptorForType() {
+          return getDescriptor();
+        }
+        public static final com.google.protobuf.Descriptors.EnumDescriptor
+            getDescriptor() {
+          return proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice.getDescriptor().getEnumTypes().get(0);
+        }
+
+        private static final GameObjectType[] VALUES = values();
+
+        public static GameObjectType valueOf(
+            com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+          if (desc.getType() != getDescriptor()) {
+            throw new java.lang.IllegalArgumentException(
+              "EnumValueDescriptor is not for this type.");
+          }
+          return VALUES[desc.getIndex()];
+        }
+
+        private final int index;
+        private final int value;
+
+        private GameObjectType(int index, int value) {
+          this.index = index;
+          this.value = value;
+        }
+
+        // @@protoc_insertion_point(enum_scope:GameStateExchange.ObjectCreatedNotice.GameObjectType)
       }
 
       private int bitField0_;
@@ -476,6 +581,22 @@ public final class GameStateExchangeProto {
         return objectId_;
       }
 
+      public static final int TYPE_FIELD_NUMBER = 3;
+      private int type_;
+      /**
+       * <code>optional .GameStateExchange.ObjectCreatedNotice.GameObjectType type = 3;</code>
+       */
+      public boolean hasType() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional .GameStateExchange.ObjectCreatedNotice.GameObjectType type = 3;</code>
+       */
+      public proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice.GameObjectType getType() {
+        proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice.GameObjectType result = proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice.GameObjectType.valueOf(type_);
+        return result == null ? proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice.GameObjectType.GAME_OBJECT : result;
+      }
+
       private byte memoizedIsInitialized = -1;
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
@@ -494,6 +615,9 @@ public final class GameStateExchangeProto {
         if (((bitField0_ & 0x00000002) == 0x00000002)) {
           output.writeInt32(2, objectId_);
         }
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          output.writeEnum(3, type_);
+        }
         unknownFields.writeTo(output);
       }
 
@@ -508,6 +632,10 @@ public final class GameStateExchangeProto {
         if (((bitField0_ & 0x00000002) == 0x00000002)) {
           size += com.google.protobuf.CodedOutputStream
             .computeInt32Size(2, objectId_);
+        }
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeEnumSize(3, type_);
         }
         size += unknownFields.getSerializedSize();
         memoizedSize = size;
@@ -625,6 +753,8 @@ public final class GameStateExchangeProto {
           bitField0_ = (bitField0_ & ~0x00000001);
           objectId_ = 0;
           bitField0_ = (bitField0_ & ~0x00000002);
+          type_ = 1;
+          bitField0_ = (bitField0_ & ~0x00000004);
           return this;
         }
 
@@ -657,6 +787,10 @@ public final class GameStateExchangeProto {
             to_bitField0_ |= 0x00000002;
           }
           result.objectId_ = objectId_;
+          if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+            to_bitField0_ |= 0x00000004;
+          }
+          result.type_ = type_;
           result.bitField0_ = to_bitField0_;
           onBuilt();
           return result;
@@ -680,6 +814,9 @@ public final class GameStateExchangeProto {
           }
           if (other.hasObjectId()) {
             setObjectId(other.getObjectId());
+          }
+          if (other.hasType()) {
+            setType(other.getType());
           }
           this.mergeUnknownFields(other.unknownFields);
           onChanged();
@@ -813,6 +950,42 @@ public final class GameStateExchangeProto {
         public Builder clearObjectId() {
           bitField0_ = (bitField0_ & ~0x00000002);
           objectId_ = 0;
+          onChanged();
+          return this;
+        }
+
+        private int type_ = 1;
+        /**
+         * <code>optional .GameStateExchange.ObjectCreatedNotice.GameObjectType type = 3;</code>
+         */
+        public boolean hasType() {
+          return ((bitField0_ & 0x00000004) == 0x00000004);
+        }
+        /**
+         * <code>optional .GameStateExchange.ObjectCreatedNotice.GameObjectType type = 3;</code>
+         */
+        public proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice.GameObjectType getType() {
+          proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice.GameObjectType result = proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice.GameObjectType.valueOf(type_);
+          return result == null ? proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice.GameObjectType.GAME_OBJECT : result;
+        }
+        /**
+         * <code>optional .GameStateExchange.ObjectCreatedNotice.GameObjectType type = 3;</code>
+         */
+        public Builder setType(proto.GameStateExchangeProto.GameStateExchange.ObjectCreatedNotice.GameObjectType value) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          bitField0_ |= 0x00000004;
+          type_ = value.getNumber();
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional .GameStateExchange.ObjectCreatedNotice.GameObjectType type = 3;</code>
+         */
+        public Builder clearType() {
+          bitField0_ = (bitField0_ & ~0x00000004);
+          type_ = 1;
           onChanged();
           return this;
         }
@@ -1659,22 +1832,22 @@ public final class GameStateExchangeProto {
         int getObjectId();
 
         /**
-         * <code>optional int32 pos_x = 1;</code>
+         * <code>optional double pos_x = 1;</code>
          */
         boolean hasPosX();
         /**
-         * <code>optional int32 pos_x = 1;</code>
+         * <code>optional double pos_x = 1;</code>
          */
-        int getPosX();
+        double getPosX();
 
         /**
-         * <code>optional int32 pos_y = 2;</code>
+         * <code>optional double pos_y = 2;</code>
          */
         boolean hasPosY();
         /**
-         * <code>optional int32 pos_y = 2;</code>
+         * <code>optional double pos_y = 2;</code>
          */
-        int getPosY();
+        double getPosY();
       }
       /**
        * Protobuf type {@code GameStateExchange.GroupObjectUpdate.ObjectUpdate}
@@ -1689,8 +1862,8 @@ public final class GameStateExchangeProto {
         }
         private ObjectUpdate() {
           objectId_ = 0;
-          posX_ = 0;
-          posY_ = 0;
+          posX_ = 0D;
+          posY_ = 0D;
         }
 
         @java.lang.Override
@@ -1720,14 +1893,14 @@ public final class GameStateExchangeProto {
                   }
                   break;
                 }
-                case 8: {
+                case 9: {
                   bitField0_ |= 0x00000002;
-                  posX_ = input.readInt32();
+                  posX_ = input.readDouble();
                   break;
                 }
-                case 16: {
+                case 17: {
                   bitField0_ |= 0x00000004;
-                  posY_ = input.readInt32();
+                  posY_ = input.readDouble();
                   break;
                 }
                 case 24: {
@@ -1777,32 +1950,32 @@ public final class GameStateExchangeProto {
         }
 
         public static final int POS_X_FIELD_NUMBER = 1;
-        private int posX_;
+        private double posX_;
         /**
-         * <code>optional int32 pos_x = 1;</code>
+         * <code>optional double pos_x = 1;</code>
          */
         public boolean hasPosX() {
           return ((bitField0_ & 0x00000002) == 0x00000002);
         }
         /**
-         * <code>optional int32 pos_x = 1;</code>
+         * <code>optional double pos_x = 1;</code>
          */
-        public int getPosX() {
+        public double getPosX() {
           return posX_;
         }
 
         public static final int POS_Y_FIELD_NUMBER = 2;
-        private int posY_;
+        private double posY_;
         /**
-         * <code>optional int32 pos_y = 2;</code>
+         * <code>optional double pos_y = 2;</code>
          */
         public boolean hasPosY() {
           return ((bitField0_ & 0x00000004) == 0x00000004);
         }
         /**
-         * <code>optional int32 pos_y = 2;</code>
+         * <code>optional double pos_y = 2;</code>
          */
-        public int getPosY() {
+        public double getPosY() {
           return posY_;
         }
 
@@ -1819,10 +1992,10 @@ public final class GameStateExchangeProto {
         public void writeTo(com.google.protobuf.CodedOutputStream output)
                             throws java.io.IOException {
           if (((bitField0_ & 0x00000002) == 0x00000002)) {
-            output.writeInt32(1, posX_);
+            output.writeDouble(1, posX_);
           }
           if (((bitField0_ & 0x00000004) == 0x00000004)) {
-            output.writeInt32(2, posY_);
+            output.writeDouble(2, posY_);
           }
           if (((bitField0_ & 0x00000001) == 0x00000001)) {
             output.writeInt32(3, objectId_);
@@ -1837,11 +2010,11 @@ public final class GameStateExchangeProto {
           size = 0;
           if (((bitField0_ & 0x00000002) == 0x00000002)) {
             size += com.google.protobuf.CodedOutputStream
-              .computeInt32Size(1, posX_);
+              .computeDoubleSize(1, posX_);
           }
           if (((bitField0_ & 0x00000004) == 0x00000004)) {
             size += com.google.protobuf.CodedOutputStream
-              .computeInt32Size(2, posY_);
+              .computeDoubleSize(2, posY_);
           }
           if (((bitField0_ & 0x00000001) == 0x00000001)) {
             size += com.google.protobuf.CodedOutputStream
@@ -1961,9 +2134,9 @@ public final class GameStateExchangeProto {
             super.clear();
             objectId_ = 0;
             bitField0_ = (bitField0_ & ~0x00000001);
-            posX_ = 0;
+            posX_ = 0D;
             bitField0_ = (bitField0_ & ~0x00000002);
-            posY_ = 0;
+            posY_ = 0D;
             bitField0_ = (bitField0_ & ~0x00000004);
             return this;
           }
@@ -2086,66 +2259,66 @@ public final class GameStateExchangeProto {
             return this;
           }
 
-          private int posX_ ;
+          private double posX_ ;
           /**
-           * <code>optional int32 pos_x = 1;</code>
+           * <code>optional double pos_x = 1;</code>
            */
           public boolean hasPosX() {
             return ((bitField0_ & 0x00000002) == 0x00000002);
           }
           /**
-           * <code>optional int32 pos_x = 1;</code>
+           * <code>optional double pos_x = 1;</code>
            */
-          public int getPosX() {
+          public double getPosX() {
             return posX_;
           }
           /**
-           * <code>optional int32 pos_x = 1;</code>
+           * <code>optional double pos_x = 1;</code>
            */
-          public Builder setPosX(int value) {
+          public Builder setPosX(double value) {
             bitField0_ |= 0x00000002;
             posX_ = value;
             onChanged();
             return this;
           }
           /**
-           * <code>optional int32 pos_x = 1;</code>
+           * <code>optional double pos_x = 1;</code>
            */
           public Builder clearPosX() {
             bitField0_ = (bitField0_ & ~0x00000002);
-            posX_ = 0;
+            posX_ = 0D;
             onChanged();
             return this;
           }
 
-          private int posY_ ;
+          private double posY_ ;
           /**
-           * <code>optional int32 pos_y = 2;</code>
+           * <code>optional double pos_y = 2;</code>
            */
           public boolean hasPosY() {
             return ((bitField0_ & 0x00000004) == 0x00000004);
           }
           /**
-           * <code>optional int32 pos_y = 2;</code>
+           * <code>optional double pos_y = 2;</code>
            */
-          public int getPosY() {
+          public double getPosY() {
             return posY_;
           }
           /**
-           * <code>optional int32 pos_y = 2;</code>
+           * <code>optional double pos_y = 2;</code>
            */
-          public Builder setPosY(int value) {
+          public Builder setPosY(double value) {
             bitField0_ |= 0x00000004;
             posY_ = value;
             onChanged();
             return this;
           }
           /**
-           * <code>optional int32 pos_y = 2;</code>
+           * <code>optional double pos_y = 2;</code>
            */
           public Builder clearPosY() {
             bitField0_ = (bitField0_ & ~0x00000004);
-            posY_ = 0;
+            posY_ = 0D;
             onChanged();
             return this;
           }
@@ -4316,7 +4489,7 @@ public final class GameStateExchangeProto {
   static {
     java.lang.String[] descriptorData = {
       "\n&proto/onlineBoxGame/GameExchange.proto" +
-      "\032\024proto/Exchange.proto\"\260\006\n\021GameStateExch" +
+      "\032\024proto/Exchange.proto\"\260\007\n\021GameStateExch" +
       "ange\0225\n\007purpose\030\001 \002(\0162$.GameStateExchang" +
       "e.StateExchangeType\022<\n\nnew_object\030\002 \001(\0132" +
       "&.GameStateExchange.ObjectCreatedNoticeH" +
@@ -4324,20 +4497,24 @@ public final class GameStateExchangeProto {
       "ateExchange.GroupObjectUpdateH\000\022>\n\014stale" +
       "_object\030\004 \001(\0132&.GameStateExchange.Object" +
       "RemovedNoticeH\000\022:\n\016object_history\030\005 \001(\0132" +
-      " .GameStateExchange.ObjectHistoryH\000\0328\n\023O",
-      "bjectCreatedNotice\022\016\n\006schema\030\001 \001(\t\022\021\n\tob" +
-      "ject_id\030\002 \001(\005\032H\n\rObjectHistory\0227\n\007object" +
-      "s\030\001 \003(\0132&.GameStateExchange.ObjectCreate" +
-      "dNotice\032\230\001\n\021GroupObjectUpdate\022B\n\007objects" +
-      "\030\002 \003(\01321.GameStateExchange.GroupObjectUp" +
-      "date.ObjectUpdate\032?\n\014ObjectUpdate\022\021\n\tobj" +
-      "ect_id\030\003 \001(\005\022\r\n\005pos_x\030\001 \001(\005\022\r\n\005pos_y\030\002 \001" +
-      "(\005\032(\n\023ObjectRemovedNotice\022\021\n\tobject_id\030\001" +
-      " \001(\005\"\\\n\021StateExchangeType\022\016\n\nNEW_OBJECT\020" +
-      "\001\022\021\n\rOBJECT_UPDATE\020\002\022\020\n\014STALE_OBJECT\020\003\022\022",
-      "\n\016OBJECT_HISTORY\020\00422\n\013game_update\022\t.Exch" +
-      "ange\030\005 \001(\0132\022.GameStateExchangeB\t\n\007conten" +
-      "tB\037\n\005protoB\026GameStateExchangeProto"
+      " .GameStateExchange.ObjectHistoryH\000\032\267\001\n\023",
+      "ObjectCreatedNotice\022\016\n\006schema\030\001 \001(\t\022\021\n\to" +
+      "bject_id\030\002 \001(\005\022C\n\004type\030\003 \001(\01625.GameState" +
+      "Exchange.ObjectCreatedNotice.GameObjectT" +
+      "ype\"8\n\016GameObjectType\022\017\n\013GAME_OBJECT\020\001\022\025" +
+      "\n\021GAME_OBJECT_CHILD\020\002\032H\n\rObjectHistory\0227" +
+      "\n\007objects\030\001 \003(\0132&.GameStateExchange.Obje" +
+      "ctCreatedNotice\032\230\001\n\021GroupObjectUpdate\022B\n" +
+      "\007objects\030\002 \003(\01321.GameStateExchange.Group" +
+      "ObjectUpdate.ObjectUpdate\032?\n\014ObjectUpdat" +
+      "e\022\021\n\tobject_id\030\003 \001(\005\022\r\n\005pos_x\030\001 \001(\001\022\r\n\005p",
+      "os_y\030\002 \001(\001\032(\n\023ObjectRemovedNotice\022\021\n\tobj" +
+      "ect_id\030\001 \001(\005\"\\\n\021StateExchangeType\022\016\n\nNEW" +
+      "_OBJECT\020\001\022\021\n\rOBJECT_UPDATE\020\002\022\020\n\014STALE_OB" +
+      "JECT\020\003\022\022\n\016OBJECT_HISTORY\020\00422\n\013game_updat" +
+      "e\022\t.Exchange\030\005 \001(\0132\022.GameStateExchangeB\t" +
+      "\n\007contentB\037\n\005protoB\026GameStateExchangePro" +
+      "to"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -4363,7 +4540,7 @@ public final class GameStateExchangeProto {
     internal_static_GameStateExchange_ObjectCreatedNotice_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_GameStateExchange_ObjectCreatedNotice_descriptor,
-        new java.lang.String[] { "Schema", "ObjectId", });
+        new java.lang.String[] { "Schema", "ObjectId", "Type", });
     internal_static_GameStateExchange_ObjectHistory_descriptor =
       internal_static_GameStateExchange_descriptor.getNestedTypes().get(1);
     internal_static_GameStateExchange_ObjectHistory_fieldAccessorTable = new

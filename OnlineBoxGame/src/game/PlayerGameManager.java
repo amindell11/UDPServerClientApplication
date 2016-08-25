@@ -6,32 +6,33 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 
-import game_object.GameObject;
+import game_object.Box;
+import game_object.GameObjectChild;
 
 public class PlayerGameManager extends GameManager {
-	GameObject clientObject;
+	Box clientObject;
 	String username;
 
 	public PlayerGameManager() {
 		super();
 		this.username = "";
-		clientObject = new GameObject(new Vector2f(10, 10), 50, 50);
+		clientObject = new GameObjectChild(new Vector2f(10, 10), 50, 50);
 	}
 
 	public void update(GameContainer gc, int delta) throws SlickException {
 		super.update(gc, delta);
 		Input input = new Input(0);
 		if (input.isKeyDown(Input.KEY_LEFT)) {
-			clientObject.applyForce(new Vector2f(-.001f, 0));
+			clientObject.applyForce(new Vector2f(-1f, 0));
 		}
 		if (input.isKeyDown(Input.KEY_RIGHT)) {
-			clientObject.applyForce(new Vector2f(.001f, 0));
+			clientObject.applyForce(new Vector2f(1f, 0));
 		}
 		if (input.isKeyDown(Input.KEY_DOWN)) {
-			clientObject.applyForce(new Vector2f(0, .001f));
+			clientObject.applyForce(new Vector2f(0, 1f));
 		}
 		if (input.isKeyDown(Input.KEY_UP)) {
-			clientObject.applyForce(new Vector2f(0, -.001f));
+			clientObject.applyForce(new Vector2f(0, -1f));
 		}
 
 		clientObject.update(gc, delta);

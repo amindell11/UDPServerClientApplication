@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.gson.Gson;
 
+import game_object.Box;
 import game_object.GameObject;
 import hooks.UnhandledMessageHook;
 import net.GameConnectionUtil;
@@ -34,7 +35,7 @@ public class GameClientThread extends Thread implements UnhandledMessageHook {
 					.setExtension(GameStateExchange.gameUpdate,
 							GameStateExchange.newBuilder().setPurpose(StateExchangeType.OBJECT_HISTORY).build())
 					.setId(client.getClientId()).build());
-			client.sendMessage(GameConnectionUtil.buildNewObjectNotice(client.getClientId(), schema));
+			client.sendMessage(GameConnectionUtil.buildNewObjectNotice(client.getClientId(), schema,game.clientObject.getType()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -87,11 +88,10 @@ public class GameClientThread extends Thread implements UnhandledMessageHook {
 			GameStateExchange update = message.getExtension(GameStateExchange.gameUpdate);
 			switch (update.getPurpose()) {
 			case NEW_OBJECT:
-				System.out.println(message);
 				int sourceClientId = message.getId();
 				int objectId = update.getNewObject().getObjectId();
 				if (sourceClientId != client.getClientId()) {
-					GameObject object = new Gson().fromJson(update.getNewObject().getSchema(), GameObject.class);
+					GameObject object = GameConnectionUtil.decodeNewObjectNotice(update.getNewObject().getSchema(), update.getNewObject().getType());
 					game.objects.put(objectId, object);
 				} else {
 					System.out.println("mine "+objectId);
@@ -102,8 +102,9 @@ public class GameClientThread extends Thread implements UnhandledMessageHook {
 				List<ObjectUpdate> updatedObjects = update.getUpdatedObjectGroup().getObjectsList();
 				for (ObjectUpdate object : updatedObjects) {
 					if (game.objects.containsKey(object.getObjectId())) {
-						game.objects.get(object.getObjectId()).recievePositionUpdate(object.getPosX(),
-								object.getPosY());
+						game.objects.get(object.getObjectId()).sing();
+						game.objects.get(object.getObjectId()).recievePositionUpdate((float)object.getPosX(),
+								(float)object.getPosY());
 					}
 				}
 				break;
@@ -113,7 +114,7 @@ public class GameClientThread extends Thread implements UnhandledMessageHook {
 				List<ObjectCreatedNotice> newObjects = update.getObjectHistory().getObjectsList();
 				for (ObjectCreatedNotice object : newObjects) {
 					int id = object.getObjectId();
-					GameObject newOb = new Gson().fromJson(object.getSchema(), GameObject.class);
+					GameObject newOb = GameConnectionUtil.decodeNewObjectNotice(update.getNewObject().getSchema(), update.getNewObject().getType());
 					game.objects.put(id, newOb);
 				}
 				break;
