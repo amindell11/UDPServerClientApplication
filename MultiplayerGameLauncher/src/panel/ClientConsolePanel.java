@@ -10,6 +10,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import multiplayergamelauncher.AppState;
+import multiplayergamelauncher.ApplicationManager;
 import multiplayergamelauncher.ProgressListener;
 import net.client.ClientThread;
 
@@ -159,10 +160,13 @@ public class ClientConsolePanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-    public void onEnter(ClientThread client){
-    	CustomOutputStream.reallocatePrint(jTextArea1);
-    	this.client=client;
-    }
+
+	public void onEnter(ClientThread client) {
+		if (ApplicationManager.useAppConsole) {
+			CustomOutputStream.reallocatePrint(jTextArea1);
+		}
+		this.client = client;
+	}
     private void SendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SendButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_SendButtonActionPerformed
