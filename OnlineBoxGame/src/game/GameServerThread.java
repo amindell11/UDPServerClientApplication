@@ -90,13 +90,13 @@ public class GameServerThread extends Thread implements UnhandledMessageHook {
 					server.announceToClients(GameConnectionUtil.buildNewObjectNotice(sourceClientId, objectId,
 							update.getNewObject().getSchema(),update.getNewObject().getType()));
 				} catch (IOException e) {
+					
 					e.printStackTrace();
 				}
 				break;
 			case OBJECT_UPDATE:
 				List<ObjectUpdate> updatedObjects = update.getUpdatedObjectGroup().getObjectsList();
 				for (ObjectUpdate updatedObject : updatedObjects) {
-					System.out.println(updatedObject.getObjectId());
 					if (game.objects.containsKey(updatedObject.getObjectId())) {
 						game.objects.get(updatedObject.getObjectId()).recievePositionUpdate((float)updatedObject.getPosX(),
 								(float)updatedObject.getPosY());
@@ -109,7 +109,8 @@ public class GameServerThread extends Thread implements UnhandledMessageHook {
 				List<ObjectCreatedNotice> newObjects = new ArrayList<>();
 				for (int id : game.objects.keySet()) {
 					String schema = new Gson().toJson(game.objects.get(id));
-					newObjects.add(ObjectCreatedNotice.newBuilder().setObjectId(id).setSchema(schema).build());
+					System.out.println(game.objects.get(id).getType());
+					newObjects.add(ObjectCreatedNotice.newBuilder().setObjectId(id).setSchema(schema).setType(game.objects.get(id).getType()).build());
 				}
 				Exchange response = Exchange.newBuilder()
 						.setExtension(GameStateExchange.gameUpdate,

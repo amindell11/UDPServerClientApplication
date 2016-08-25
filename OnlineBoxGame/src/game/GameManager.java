@@ -12,7 +12,7 @@ import game_object.Box;
 import game_object.GameObject;
 
 /**
- * @author Ari
+ * @author Ari7
  */
 public class GameManager extends BasicGame {
 	Map<Integer,GameObject> objects;

@@ -60,7 +60,6 @@ public class GameClientThread extends Thread implements UnhandledMessageHook {
 	}
 
 	public void update() {
-		System.out.println(game.clientObject.getId());
 		GroupObjectUpdate myUpdate = GroupObjectUpdate.newBuilder()
 				.addObjects(ObjectUpdate.newBuilder().setObjectId(game.clientObject.getId())
 						.setPosX(game.clientObject.getX()).setPosY(game.clientObject.getY()).build())
@@ -70,7 +69,6 @@ public class GameClientThread extends Thread implements UnhandledMessageHook {
 						GameStateExchange.newBuilder().setUpdatedObjectGroup(myUpdate)
 								.setPurpose(StateExchangeType.OBJECT_UPDATE).build())
 				.setId(client.getClientId()).build();
-		System.out.println(message);
 		try {
 			client.sendMessage(message);
 		} catch (IOException e) {
@@ -94,7 +92,6 @@ public class GameClientThread extends Thread implements UnhandledMessageHook {
 					GameObject object = GameConnectionUtil.decodeNewObjectNotice(update.getNewObject().getSchema(), update.getNewObject().getType());
 					game.objects.put(objectId, object);
 				} else {
-					System.out.println("mine "+objectId);
 					game.clientObject.setId(objectId);
 				}
 				break;
@@ -102,7 +99,6 @@ public class GameClientThread extends Thread implements UnhandledMessageHook {
 				List<ObjectUpdate> updatedObjects = update.getUpdatedObjectGroup().getObjectsList();
 				for (ObjectUpdate object : updatedObjects) {
 					if (game.objects.containsKey(object.getObjectId())) {
-						game.objects.get(object.getObjectId()).sing();
 						game.objects.get(object.getObjectId()).recievePositionUpdate((float)object.getPosX(),
 								(float)object.getPosY());
 					}
@@ -112,11 +108,13 @@ public class GameClientThread extends Thread implements UnhandledMessageHook {
 				break;
 			case OBJECT_HISTORY:
 				List<ObjectCreatedNotice> newObjects = update.getObjectHistory().getObjectsList();
+				System.out.println(update);
 				for (ObjectCreatedNotice object : newObjects) {
 					int id = object.getObjectId();
-					GameObject newOb = GameConnectionUtil.decodeNewObjectNotice(update.getNewObject().getSchema(), update.getNewObject().getType());
+					GameObject newOb = GameConnectionUtil.decodeNewObjectNotice(object.getSchema(), object.getType());
 					game.objects.put(id, newOb);
 				}
+				System.out.println("history updated");
 				break;
 			default:
 				break;
