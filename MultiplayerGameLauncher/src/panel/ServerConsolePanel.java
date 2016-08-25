@@ -7,6 +7,7 @@
 package panel;
 
 import multiplayergamelauncher.AppState;
+import multiplayergamelauncher.ApplicationManager;
 import multiplayergamelauncher.ProgressListener;
 import net.client.ClientThread;
 import net.server.ServerThread;
@@ -174,7 +175,9 @@ public class ServerConsolePanel extends javax.swing.JPanel {
 		this.server = server;
 		jTextArea1.setText("");
 		ipLabel.setText(server.getInfo().getAddress());
-		CustomOutputStream.reallocatePrint(jTextArea1);
+		if (ApplicationManager.useAppConsole) {
+			CustomOutputStream.reallocatePrint(jTextArea1);
+		}
 	}
 
 	public void onEnter(ServerThread server, ClientThread client) {

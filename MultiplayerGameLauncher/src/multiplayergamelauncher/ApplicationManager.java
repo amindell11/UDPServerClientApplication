@@ -21,6 +21,7 @@ import profile.User;
 public class ApplicationManager implements Runnable, ProgressListener {
 	// instance variables
 	AppState state;
+	public static final boolean useAppConsole =false;
 	private JFrame frame;
 	HomePanel homePanel;
 	User loggedInUser;
