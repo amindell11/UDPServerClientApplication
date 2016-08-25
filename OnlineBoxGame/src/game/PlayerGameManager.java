@@ -1,5 +1,7 @@
 package game;
 
+import java.awt.event.ActionListener;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -12,13 +14,19 @@ import game_object.GameObjectChild;
 public class PlayerGameManager extends GameManager {
 	Box clientObject;
 	String username;
-
+	ActionListener onInit;
 	public PlayerGameManager() {
 		super();
 		this.username = "";
-		clientObject = new GameObjectChild(new Vector2f(10, 10), 50, 50);
 	}
-
+	@Override
+	public void init(GameContainer gc){
+		clientObject = new GameObjectChild(new Vector2f(10, 10), 50, 50);
+		onInit.actionPerformed(null);
+	}
+	public void setInitListener(ActionListener a){
+		onInit=a;
+	}
 	public void update(GameContainer gc, int delta) throws SlickException {
 		super.update(gc, delta);
 		Input input = new Input(0);

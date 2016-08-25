@@ -26,6 +26,7 @@ public class Box extends GameObject{
     }
 
     public void update(GameContainer container, int delta) {
+    super.update(container, delta);
 	Vector2f initialForce = force.copy();
 	Vector2f initialVelocity = vel.copy(); //initial velocity
 

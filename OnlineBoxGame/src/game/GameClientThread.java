@@ -26,8 +26,8 @@ public class GameClientThread extends Thread implements UnhandledMessageHook {
 		return game;
 	}
 
-	public GameClientThread(ClientThread client) {
-		game = new PlayerGameManager();
+	public GameClientThread(ClientThread client, PlayerGameManager game) {
+		this.game=game;
 		client.getHookManager().addHook(this);
 		String schema = new Gson().toJson(game.clientObject);
 		try {
@@ -44,7 +44,6 @@ public class GameClientThread extends Thread implements UnhandledMessageHook {
 
 	@Override
 	public void run() {
-		new GameDisplayThread(game).start();
 
 		long startTime = System.currentTimeMillis();
 		while (client.isActiveMember()) {
@@ -75,11 +74,6 @@ public class GameClientThread extends Thread implements UnhandledMessageHook {
 			e.printStackTrace();
 		}
 	}
-
-	public static void main(String[] args) {
-		new GameClientThread(new ClientThread(null, null)).start();
-	}
-
 	@Override
 	public void handleMessage(Exchange message) {
 		if (message.hasExtension(GameStateExchange.gameUpdate)) {
