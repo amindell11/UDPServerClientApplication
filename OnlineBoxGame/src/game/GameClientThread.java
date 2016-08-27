@@ -102,13 +102,11 @@ public class GameClientThread extends Thread implements UnhandledMessageHook {
 				break;
 			case OBJECT_HISTORY:
 				List<ObjectCreatedNotice> newObjects = update.getObjectHistory().getObjectsList();
-				System.out.println(update);
 				for (ObjectCreatedNotice object : newObjects) {
 					int id = object.getObjectId();
 					GameObject newOb = GameConnectionUtil.decodeNewObjectNotice(object.getSchema(), object.getType());
 					game.objects.put(id, newOb);
 				}
-				System.out.println("history updated");
 				break;
 			default:
 				break;

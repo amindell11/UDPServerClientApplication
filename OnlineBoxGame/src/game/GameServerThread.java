@@ -2,11 +2,11 @@ package game;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.google.gson.Gson;
 
-import game_object.Box;
 import game_object.GameObject;
 import hooks.UnhandledMessageHook;
 import net.GameConnectionUtil;
@@ -43,18 +43,25 @@ public class GameServerThread extends Thread implements UnhandledMessageHook {
 	}
 
 	public void update() {
+		for (Iterator<GameObject> iter = game.objects.values().iterator(); iter.hasNext();) {
+			GameObject i = iter.next();
+			for (Iterator<GameObject> iter2 = game.objects.values().iterator(); iter2.hasNext();) {
+				GameObject i2 = iter2.next();
+				if(i2!=i&&i.isCollidingWith(i2)){
+					System.out.println(true);
+				}
+			}
+
+		}
+
 		List<ObjectUpdate> updatedObjectList = new ArrayList<>();
 		for (int id : game.objects.keySet()) {
 			GameObject gameObject = game.objects.get(id);
-			updatedObjectList.add(ObjectUpdate.newBuilder().setObjectId(id).setPosX(gameObject.getX())
-					.setPosY(gameObject.getY()).build());
+			updatedObjectList.add(ObjectUpdate.newBuilder().setObjectId(id).setPosX(gameObject.getX()).setPosY(gameObject.getY()).build());
 		}
 		GroupObjectUpdate myUpdate = GroupObjectUpdate.newBuilder().addAllObjects(updatedObjectList).build();
 
-		Exchange message = Exchange.newBuilder()
-				.setExtension(GameStateExchange.gameUpdate, GameStateExchange.newBuilder()
-						.setUpdatedObjectGroup(myUpdate).setPurpose(StateExchangeType.OBJECT_UPDATE).build())
-				.setId(0).build();
+		Exchange message = Exchange.newBuilder().setExtension(GameStateExchange.gameUpdate, GameStateExchange.newBuilder().setUpdatedObjectGroup(myUpdate).setPurpose(StateExchangeType.OBJECT_UPDATE).build()).setId(0).build();
 		try {
 			server.announceToClients(message);
 		} catch (IOException e) {
@@ -87,10 +94,9 @@ public class GameServerThread extends Thread implements UnhandledMessageHook {
 				GameObject object = GameConnectionUtil.decodeNewObjectNotice(update.getNewObject().getSchema(), update.getNewObject().getType());
 				game.objects.put(objectId, object);
 				try {
-					server.announceToClients(GameConnectionUtil.buildNewObjectNotice(sourceClientId, objectId,
-							update.getNewObject().getSchema(),update.getNewObject().getType()));
+					server.announceToClients(GameConnectionUtil.buildNewObjectNotice(sourceClientId, objectId, update.getNewObject().getSchema(), update.getNewObject().getType()));
 				} catch (IOException e) {
-					
+
 					e.printStackTrace();
 				}
 				break;
@@ -98,8 +104,7 @@ public class GameServerThread extends Thread implements UnhandledMessageHook {
 				List<ObjectUpdate> updatedObjects = update.getUpdatedObjectGroup().getObjectsList();
 				for (ObjectUpdate updatedObject : updatedObjects) {
 					if (game.objects.containsKey(updatedObject.getObjectId())) {
-						game.objects.get(updatedObject.getObjectId()).recievePositionUpdate((float)updatedObject.getPosX(),
-								(float)updatedObject.getPosY());
+						game.objects.get(updatedObject.getObjectId()).recievePositionUpdate((float) updatedObject.getPosX(), (float) updatedObject.getPosY());
 					}
 				}
 				break;
@@ -109,15 +114,9 @@ public class GameServerThread extends Thread implements UnhandledMessageHook {
 				List<ObjectCreatedNotice> newObjects = new ArrayList<>();
 				for (int id : game.objects.keySet()) {
 					String schema = new Gson().toJson(game.objects.get(id));
-					System.out.println(game.objects.get(id).getType());
 					newObjects.add(ObjectCreatedNotice.newBuilder().setObjectId(id).setSchema(schema).setType(game.objects.get(id).getType()).build());
 				}
-				Exchange response = Exchange.newBuilder()
-						.setExtension(GameStateExchange.gameUpdate,
-								GameStateExchange.newBuilder()
-										.setObjectHistory(ObjectHistory.newBuilder().addAllObjects(newObjects).build())
-										.setPurpose(StateExchangeType.OBJECT_HISTORY).build())
-						.setId(0).build();
+				Exchange response = Exchange.newBuilder().setExtension(GameStateExchange.gameUpdate, GameStateExchange.newBuilder().setObjectHistory(ObjectHistory.newBuilder().addAllObjects(newObjects).build()).setPurpose(StateExchangeType.OBJECT_HISTORY).build()).setId(0).build();
 				try {
 					server.sendMessage(response, message.getId());
 				} catch (IOException e) {

@@ -21,7 +21,7 @@ public class PlayerGameManager extends GameManager {
 	}
 	@Override
 	public void init(GameContainer gc){
-		clientObject = new GameObjectChild(new Vector2f(10, 10), 50, 50);
+		clientObject = new Box(new Vector2f(10, 10), 50, 50);
 		onInit.actionPerformed(null);
 	}
 	public void setInitListener(ActionListener a){
