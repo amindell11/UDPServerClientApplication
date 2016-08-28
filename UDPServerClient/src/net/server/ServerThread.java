@@ -106,18 +106,14 @@ public class ServerThread extends Thread {
 	} catch (IOException e) {
 	    e.printStackTrace();
 	}
-	System.out.println("packet recived");
 	Exchange exchange = ConnectionUtil.convertMessage(packet.getData(), knownMessageTypes);
 	System.out.println(exchange);
 	// Handles simpleExchanges, otherwise sends it to UnhandledMessageHook
 	if (exchange.hasExtension(SimpleExchange.simpleExchange)) {
-	    SimpleExchange msg = exchange.getExtension(SimpleExchange.simpleExchange);
-	    // Packet received
-	    System.out.println(msg);
 
 	    if (exchange.hasId() && exchange.getId() != 0) {
 		System.out.println(exchange.getId());
-		System.out.println("message intended for client " + exchange.getId() + ": forwarding packet to client handle method");
+		System.out.println("message from client " + exchange.getId() + ": forwarding packet to my client handling method");
 		clients.get(exchange.getId()).handleMessage(exchange);
 	    } else {
 		System.out.println("asking secretary to handle it");
