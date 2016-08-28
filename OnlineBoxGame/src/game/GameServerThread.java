@@ -29,7 +29,8 @@ import proto.GameStateExchangeProto.GameStateExchange.StateExchangeType;
 public class GameServerThread extends Thread implements UnhandledMessageHook {
 	static List<Integer> usedIds;
 	private ServerThread server;
-	static int serverSendRate = 50;
+	static final int serverSendRate = 50;
+	static final long updateTime = ((long) 1000) / serverSendRate;
 	GameManager game;
 
 	/**
@@ -47,7 +48,7 @@ public class GameServerThread extends Thread implements UnhandledMessageHook {
 			GameObject i = iter.next();
 			for (Iterator<GameObject> iter2 = game.objects.values().iterator(); iter2.hasNext();) {
 				GameObject i2 = iter2.next();
-				if(i2!=i&&i.isCollidingWith(i2)){
+				if (i2 != i && i.isCollidingWith(i2)) {
 					System.out.println(true);
 				}
 			}
@@ -71,16 +72,21 @@ public class GameServerThread extends Thread implements UnhandledMessageHook {
 	}
 
 	public void run() {
-		long startTime = System.currentTimeMillis();
+		long lastUpdateTimestamp = System.currentTimeMillis();
 		while (server.isOpen()) {
-			long currentTime = System.currentTimeMillis();
-			if (currentTime - startTime > 1000 / serverSendRate) {
-				startTime = currentTime;
+			long timeSinceLastUpdate = System.currentTimeMillis() - lastUpdateTimestamp;
+			if (timeSinceLastUpdate < updateTime) {
+				try {
+					Thread.sleep(updateTime - timeSinceLastUpdate);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			lastUpdateTimestamp = System.currentTimeMillis();
+			synchronized (game.objects) {
 				update();
 			}
-
 		}
-
 	}
 
 	@Override
