@@ -60,12 +60,11 @@ public abstract class GameObject {
 	public abstract boolean collidesWith(GameObject obj);
 	
 	public boolean isCollidingWith(GameObject obj) {
-		return false;
-		//System.out.println("obj "+this+"col"+" checking for collision with "+obj+"collision model "+obj.collisionModel);
-		/*if (collisionModel.intersects(obj.collisionModel)&&this.collidesWith(obj))
+		System.out.println("obj "+this+"col"+" checking for collision with "+obj+"collision model "+obj.collisionModel);
+		if (collisionModel.intersects(obj.collisionModel)&&this.collidesWith(obj))
 			return true;
 		else
-			return false;*/
+			return false;
 	}
 
 	public GameObject isCollidingWith(ArrayList<GameObject> CollisionList) {
