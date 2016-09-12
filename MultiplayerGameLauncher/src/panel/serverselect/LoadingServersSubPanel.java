@@ -35,7 +35,7 @@ public class LoadingServersSubPanel extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
 
         jLabel1.setFont(new java.awt.Font("BankGothic Md BT", 0, 18)); // NOI18N
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("res/loadingScaled.gif"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon("res/loadingScaled.gif")); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("BankGothic Lt BT", 0, 18)); // NOI18N
         jLabel2.setText("Loading Servers...");
