@@ -48,6 +48,7 @@ public class GameServerThread extends Thread implements UnhandledMessageHook {
 			GameObject i = iter.next();
 			for (Iterator<GameObject> iter2 = game.objects.values().iterator(); iter2.hasNext();) {
 				GameObject i2 = iter2.next();
+				System.out.print("o");
 				if (i2 != i && i.isCollidingWith(i2)) {
 					System.out.println(true);
 				}
