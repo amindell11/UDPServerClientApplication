@@ -143,14 +143,12 @@ public class Client extends Thread {
 	    try {
 		Thread.sleep(Config.PingSettings.TIME_BETWEEN_PINGS);
 	    } catch (InterruptedException e) {
-		// TODO Auto-generated catch block
 		e.printStackTrace();
 	    }
 	}
 	try {
 	    Thread.sleep(Config.DEFAULT_TIMEOUT);
 	} catch (InterruptedException e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
 

@@ -19,6 +19,7 @@ import net.proto.ExchangeProto.Exchange;
 import net.proto.SimpleExchangeProto.SimpleExchange;
 
 public class ServerThread extends Thread {
+    static final String LOCALHOST = "0.0.0.0";
     private HookManager hookManager;
     private ExtensionRegistry knownMessageTypes;
 
@@ -75,7 +76,7 @@ public class ServerThread extends Thread {
 
     public void init() {
 	try {
-	    socket = new DatagramSocket(info.port, InetAddress.getByName("0.0.0.0"));
+	    socket = new DatagramSocket(info.port, InetAddress.getByName(LOCALHOST));
 	    socket.setBroadcast(true);
 	    clients = new HashMap<Integer, Client>();
 	    System.out.println("server running at " + InetAddress.getLocalHost() + " port " + info.port);
@@ -101,7 +102,7 @@ public class ServerThread extends Thread {
 	DatagramPacket packet = null;
 	try {
 	    packet = ConnectionUtil.receivePacket(socket);
-	} catch( SocketException e){
+	} catch (SocketException e) {
 	    return;
 	} catch (IOException e) {
 	    e.printStackTrace();
@@ -109,13 +110,11 @@ public class ServerThread extends Thread {
 	Exchange exchange = ConnectionUtil.convertMessage(packet.getData(), knownMessageTypes);
 	// Handles simpleExchanges, otherwise sends it to UnhandledMessageHook
 	if (exchange.hasExtension(SimpleExchange.simpleExchange)) {
-
 	    if (exchange.hasId() && exchange.getId() != 0) {
-		System.out.println(exchange.getId());
-		System.out.println("message from client " + exchange.getId() + ": forwarding packet to my client handling method");
+		System.out.println("handling message from client " + exchange.getId());
 		clients.get(exchange.getId()).handleMessage(exchange);
 	    } else {
-		System.out.println("asking secretary to handle it");
+		System.out.println("message from unknown client");
 		try {
 		    secretary.handleMessage(exchange, packet);
 		} catch (IOException e) {
@@ -124,6 +123,7 @@ public class ServerThread extends Thread {
 	    }
 	    info.numClients = clients.size();
 	} else {
+	    System.out.println("forwarding message of type " + exchange.getDescriptorForType().getFullName() + " to hooks");
 	    hookManager.handleMessage(exchange);
 	}
 

@@ -181,7 +181,6 @@ public class ServerConsolePanel extends javax.swing.JPanel {
 	}
 
 	public void onEnter(ServerThread server, ClientThread client) {
-
 		onEnter(server);
 		this.client = client;
 	}
